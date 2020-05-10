@@ -3,7 +3,6 @@
            style="
             background: #EEEEEE;
            ">
-
       <v-content>
         <v-container
           class="fill-height"
@@ -23,10 +22,45 @@
 
               <v-card class="elevation-3 px-6 py-8" 
                       width="450px">
+              <v-card-text>
+                <v-form>
+                    <v-text-field 
+                      label= "E-mail address"
+                      prepend-icon= "mdi-at"
+                      :rules="[rules.required, rules.email]"                    
+                      />
+                    <v-text-field 
+
+                     :type= "showPassword ? 'text' : 'password'" 
+                      persistent-hint
+                      label= "Password"
+                      prepend-icon= "mdi-lock"
+                     :append-icon= "showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                      @click:append="showPassword = !showPassword"
+                      :rules="[rules.required]"
+                      />
+                    <div class="text-right">
+                        <router-link style="text-decoration: none;" 
+                                     to="">
+                                      Forgot Password?
+                        </router-link>
+                    </div>                     
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn depressed 
+                       width=100% 
+                       color="#0095ff" 
+                       class="white--text py-3 pb-7"                
+                       >Log In</v-btn>
+              </v-card-actions>
+
+              <div class="mx-auto text-center" >OR</div>
 
               <span></span>
-              <!-- <div class="mx-auto text-center" >OR</div> -->
+
               <v-divider></v-divider>
+
               <v-card-actions>
                 <v-btn depressed @click="loginGoogle" width=100% color="#F4511E" class="white--text py-6 pb-10">
                   <div class="pr-4 ml-n7 pl-4"><v-icon large left> mdi-google </v-icon></div>
