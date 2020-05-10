@@ -53,6 +53,7 @@
                                         hint="Password must contain at least eight characters, including at least 1 letter and 1 number."
                                         persistent-hint
                                         :append-icon= "showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                        :rules="[rules.password]"
                                         @click:append="showPassword1 = !showPassword1">
                                     </v-text-field>
 
