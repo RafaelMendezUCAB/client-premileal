@@ -31,21 +31,21 @@
                             <v-form>
                                 <form v-on:submit="createUser">
                                     <v-text-field
-                                        v-model="name"
+                                        v-model="userData.name"
                                         prepend-icon= "mdi-account"
                                         label="Name"
                                         :rules="[rules.required, rules.alphabet]">
                                     </v-text-field>
 
                                     <v-text-field
-                                        v-model="lastName"
+                                        v-model="userData.lastName"
                                         prepend-icon= "mdi-ab-testing"
                                         label="Last Name"
                                         :rules="[rules.required, rules.alphabet]">
                                     </v-text-field>
 
                                     <v-text-field
-                                        v-model="password"
+                                        v-model="userData.password"
                                         class=""
                                         prepend-icon= "mdi-lock"
                                         label="Password"
@@ -58,14 +58,14 @@
                                     </v-text-field>
 
                                     <v-text-field
-                                        v-model="email"
+                                        v-model="userData.email"
                                         prepend-icon= "mdi-at"
                                         label="E-mail"
                                         :rules="[rules.required, rules.email]">
                                     </v-text-field>
 
                                     <v-text-field
-                                        v-model="birthdate"
+                                        v-model="userData.birthdate"
                                         prepend-icon= "mdi-calendar-blank-outline"
                                         label="Birth Date"
                                         type="date">
@@ -163,7 +163,7 @@ export default class Signup extends Vue{
       fa.signInWithPopup(providerGoogle).then(result =>{
         const token = result.credential
         const user = result.user
-        console.log("datos del usuario",user);
+        console.log("USER DATA",user);
         console.log("token", token);
       }).catch(error =>{
         console.log(error);
@@ -174,19 +174,22 @@ export default class Signup extends Vue{
       fa.signInWithPopup(providerFacebook).then(result => {
         const token = result.credential
         const user = result.user
-        console.log("datos del usuario",user);
+        console.log("USER DATA",user);
         console.log("token", token);
       }).catch(error =>{
         console.log(error);
       })
     }
 
-    name = '';
-    lastName = '';
-    password ='';
-    image ='';
-    email = '';
-    birthdate = '';
+   userData =
+    {
+    name : '',
+    lastName : '',
+    password :'',
+    image : '',
+    email : '',
+    birthdate : '',
+    };
 
     async createUser(e: any){
         e.preventDefault();
@@ -194,15 +197,10 @@ export default class Signup extends Vue{
     }
     
     getUser(){
-      return {
-          name: this.name,
-          lastName: this.lastName,
-          password: this.password,
-          image: this.image,
-          email: this.email,
-          birthdate: this.birthdate,
+      
+       return this.userData
           
-      } 
+       
   }
 
 }
