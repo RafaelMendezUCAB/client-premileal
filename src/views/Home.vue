@@ -3,7 +3,9 @@
     <v-toolbar class="blue darken-2">
       <v-toolbar-title class="mx-0 white--text" v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-
+      <v-toolbar-items>
+        <v-btn class="blue -3 white--text"  @click="logoutFunction">Log Out</v-btn>
+      </v-toolbar-items>
     </v-toolbar>
     <v-content>
       <section>
@@ -92,7 +94,16 @@ export default class Logout extends Vue{
     };
   }
 
+    logoutFunction(){
+  fa.signOut().then(function() {
+    console.log('Signout successful!')
+    // Sign-out successful.
+  }).catch(function(error) {
+    console.log('Signout failed')
+    // An error happened.
+  }) ;
 
+}
 }</script>
 
 <style scoped>
