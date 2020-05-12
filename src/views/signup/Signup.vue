@@ -74,7 +74,9 @@
                                     <v-btn depressed 
                                         width=100% 
                                         color="#0095ff" 
-                                        class="white--text py-3 pb-7">
+                                        class="white--text py-3 pb-7"
+                                        @click="checkIfUserExists()"
+                                    >
                                             Sign Up
                                     </v-btn>
 
@@ -127,10 +129,16 @@
     import Component from "vue-class-component";
     // import { fb, db, fs } from '../firebase';
     // import { storage } from 'firebase';
-    import { fa, providerGoogle, providerFacebook } from '../firebase';
+    import { fa, providerGoogle, providerFacebook } from '../../firebase';
+    import placeService from '../../services/place/placeService';
+    import userService from '../../services/user/userService';
 
 @Component
 export default class Signup extends Vue{
+
+    serverResponse: any = null;
+    places: any = [];
+
     data(){
         return {
             showPassword1: false,
@@ -159,12 +167,43 @@ export default class Signup extends Vue{
         }
     }
 
+    assignGoogleCredentials(user: any){
+        this.userData.name = user.displayName;
+        this.userData.email = user.email;
+        this.userData.image = user.photoURL;
+        this.userData.type = 'Google';        
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+        In case user wants to signup, we must check if the user has already
+        logged in used one of both. If so, then the server is gonna retrieve all its information and
+        we continue to the home page. If not, then we must first register the user and then procced
+        to home page
+    ------------------------------------------------------------------------------------------------ */
+    async checkIfUserExists(){
+        if(this.userData.type === 'No Federado'){
+            this.serverResponse = await userService.login(this.userData.email, this.userData.password);
+        }
+        else {
+            this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
+        }        
+        if(this.serverResponse.data.length === 0){
+            this.serverResponse = await userService.signUp(this.userData);
+            console.log("Server response: ", this.serverResponse.data);
+        }
+        else {
+            console.log("User already registered: ", this.serverResponse.data);
+        }
+        this.$router.push({ name: 'Home'});
+    }
+    
     accessGoogle(){
       fa.signInWithPopup(providerGoogle).then(result =>{
         const token = result.credential
-        const user = result.user
-        console.log("USER DATA",user);
-        console.log("token", token);
+        const user = result.user        
+        this.assignGoogleCredentials(user);
+        console.log("Now user is: ", this.userData);
+        this.checkIfUserExists();        
       }).catch(error =>{
         console.log(error);
       })
@@ -183,25 +222,36 @@ export default class Signup extends Vue{
 
    userData =
     {
-    name : '',
-    lastName : '',
-    password :'',
-    image : '',
-    email : '',
-    birthdate : '',
+        name : '',
+        lastName : '',
+        password :'',
+        image : '',
+        email : '',
+        birthdate : '01/01/1991',
+        type: 'No Federado',
+        placeID: 389
     };
 
     async createUser(e: any){
         e.preventDefault();
         console.log(this.getUser());
     }
-    
+
     getUser(){
-      
        return this.userData
-          
-       
-  }
+    }
+
+    mounted(){
+        this.getAllPlaces();
+    }
+
+    async getAllPlaces(){
+        this.serverResponse = await placeService.getAllPlaces();
+        this.places = this.serverResponse.data;
+        console.log("places are: ", this.places);
+    }    
 
 }
 </script>
+
+<style src="./Signup.css" scoped></style>

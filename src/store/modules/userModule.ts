@@ -1,12 +1,17 @@
 import Vue from "vue";
 
-import userService from "../../services/userService";
+/* --- Services ---*/
+import userService from "../../services/user/userService";
+
+/* --- Types --- */
+import User from '../../types/user/User';
 
 export default {
   namespaced: true,
   // -----------------------------------------------------------------
   state: {    
     users: [],
+    user: {}    // Type: User
   },
   // -----------------------------------------------------------------
   getters: {
@@ -18,6 +23,10 @@ export default {
     setAllUsers(state: {}, users: []) {
       Vue.set(state, "users", users);
     },
+
+    setUser(state: {}, user: User){
+      Vue.set(state, "user", user);
+    }
   },
   // -----------------------------------------------------------------
   actions: {    
@@ -26,6 +35,10 @@ export default {
       await userService.getAllUsers().then((response: any) => {
         context.commit("setAllUsers", response.data);
       });
-    },    
+    },   
+    
+    setUserData: async (context: any, user: User) => {
+      context.commit("setUser", user);
+    }
   },
 };

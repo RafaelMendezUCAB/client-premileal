@@ -78,10 +78,20 @@
 <script lang="ts">
 import {Vue} from 'vue-property-decorator'
 import Component from "vue-class-component";
-import { fa, providerGoogle, providerFacebook } from '../firebase';
+import { fa, providerGoogle, providerFacebook } from '../../firebase';
+
+/* --- Services --- */
+import userService  from '../../services/user/userService';
+
+/* --- Types --- */
+import User from '../../types/user/User';
 
 @Component
 export default class Logout extends Vue{
+
+  allusers: any = null;
+  user: User = this.$store.state.user.user;
+
   data(){
     return {
       title: "Premileal",
@@ -94,26 +104,25 @@ export default class Logout extends Vue{
     };
   }
 
-    logoutFunction(){
-  fa.signOut().then(function() {
-    console.log('Signout successful!')
-    // Sign-out successful.
-  }).catch(function(error) {
-    console.log('Signout failed')
-    // An error happened.
-  }) ;
+  logoutFunction(){
+    fa.signOut().then(function() {
+      console.log('Signout successful!')
+      // Sign-out successful.
+    }).catch(function(error) {
+      console.log('Signout failed')
+      // An error happened.
+    });
+  }
+
+  mounted(){
+    console.log("User Data in Home: ", this.user);  
+  }
+
+  /*async getAllUsers(){
+    this.allusers = await userService.getAllUsers();
+  }*/
 
 }
-}</script>
+</script>
 
-<style scoped>
-.finedTitle {
-  font-weight: 900;
-  text-shadow: 2px 2px #000000;
-}
-
-.social-icon {
-  font-size: 21px;
-  color: black;
-}
-</style>
+<style src="./Home.css" scoped></style>
