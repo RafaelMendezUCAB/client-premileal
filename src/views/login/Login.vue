@@ -55,7 +55,7 @@
                        width=100% 
                        color="#0095ff" 
                        class="white--text py-3 pb-7" 
-                       @click="checkIfUserExists()"               
+                       @click="login"               
                        >Log In</v-btn>
               </v-card-actions>
 
@@ -139,6 +139,7 @@ import Footer from '@/components/footer/Footer.vue';
 
     assignFacebookCredentials(user: any) {
       console.log("facebook");
+      this.userData.type = 'Facebook';
     }
 
     assignGoogleCredentials(user: any){
@@ -155,14 +156,15 @@ import Footer from '@/components/footer/Footer.vue';
         user and then procced to home page.
     ------------------------------------------------------------------------------------------------ */
     async login(){
+      
         console.log("before checking ", this.serverResponse);
         if(this.userData.type === 'No Federado'){
             this.serverResponse = await userService.login(this.userData.email, this.userData.password);
         }
         else {
             this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
-        }  
-        console.log("after checking: ", this.serverResponse)      ;
+        }
+        console.log("after checking: ", this.serverResponse);
         if(this.serverResponse.data.length === 0){            
             console.log("User doesn't exists: ", this.serverResponse.data);
         }

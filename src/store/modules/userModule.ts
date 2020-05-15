@@ -30,7 +30,7 @@ export default {
     },
 
     setUserSessionStatus(state: {}, status: boolean){
-      Vue.set(state, 'loggedIn', status);
+      Vue.set(state, "loggedIn", status);
     }
   },
   // -----------------------------------------------------------------

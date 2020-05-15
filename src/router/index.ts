@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Login from '../views/login/Login.vue';
-
 
 Vue.use(VueRouter)
 

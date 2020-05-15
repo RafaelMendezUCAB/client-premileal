@@ -1,6 +1,6 @@
 import api from '../API/request';
 
-export default {
+export default {  
 
   /* --------------------- API CALLS ------------------------------- */
   getAllUsers() {
