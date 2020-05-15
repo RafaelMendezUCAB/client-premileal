@@ -1,10 +1,10 @@
-import requestService from '../requests/request';
+import api from '../API/request';
 
 export default {
 
   /* ---------------------- GET METHODS -------------------------- */
   getAllPlaces() {
-      return requestService.place.getAllPlaces();
+      return api.place.getAllPlaces();
   },
 
   /* ---------------------- POST METHODS -------------------------- */
