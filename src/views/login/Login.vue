@@ -3,7 +3,7 @@
            style="
             background: #EEEEEE;
            ">
-      <v-content>
+      <v-content>        
         <v-container
           class="fill-height"
           fluid
@@ -25,6 +25,7 @@
               <v-card-text>
                 <v-form>
                     <v-text-field 
+                      color:red
                       v-model="userData.email"
                       label= "E-mail address"
                       prepend-icon= "mdi-at"
@@ -90,6 +91,7 @@
         </v-row>
       </v-container>
     </v-content>
+    <Footer></Footer>
   </v-app>
 </template>
 
@@ -99,8 +101,13 @@ import {Vue} from 'vue-property-decorator'
 import Component from "vue-class-component";
 import { fa, providerGoogle, providerFacebook } from '../../firebase';
 import userService from '../../services/user/userService';
+import Footer from '@/components/footer/Footer.vue';
 
-  @Component
+  @Component({
+    components: {
+      Footer
+    }
+  })
   export default class Login extends Vue{
 
     userData =
@@ -162,7 +169,8 @@ import userService from '../../services/user/userService';
         else {
             console.log("User exists: ", this.serverResponse.data);
             this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
-            this.$router.push({ name: 'Home'});
+            this.$store.dispatch('user/setSessionStatus', true);
+            this.$router.push({ name: 'home'});
         }
     }
 

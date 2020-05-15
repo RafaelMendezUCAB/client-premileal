@@ -11,10 +11,11 @@ export default {
   // -----------------------------------------------------------------
   state: {    
     users: [],
-    user: {}    // Type: User
+    user: {},    // Type: User
+    loggedIn: false
   },
   // -----------------------------------------------------------------
-  getters: {
+  getters: {    
     // getters and computed props
     //collection: (state: any) => state.users,
   },
@@ -26,6 +27,10 @@ export default {
 
     setUser(state: {}, user: User){
       Vue.set(state, "user", user);
+    },
+
+    setUserSessionStatus(state: {}, status: boolean){
+      Vue.set(state, 'loggedIn', status);
     }
   },
   // -----------------------------------------------------------------
@@ -39,6 +44,10 @@ export default {
     
     setUserData: async (context: any, user: User) => {
       context.commit("setUser", user);
+    },
+
+    setSessionStatus: (context: any, status: boolean) => {
+      context.commit("setUserSessionStatus", status);
     }
   },
 };

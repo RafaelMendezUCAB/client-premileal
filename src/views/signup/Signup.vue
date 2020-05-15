@@ -120,6 +120,7 @@
             </v-row>
       </v-container>
   </v-content>
+  <Footer></Footer>
   </v-app>
 </template>
 
@@ -132,8 +133,13 @@
     import { fa, providerGoogle, providerFacebook } from '../../firebase';
     import placeService from '../../services/place/placeService';
     import userService from '../../services/user/userService';
+    import Footer from '@/components/footer/Footer.vue';
 
-@Component
+@Component({
+    components:{
+        Footer
+    }
+})
 export default class Signup extends Vue{
 
     serverResponse: any = null;
@@ -194,7 +200,8 @@ export default class Signup extends Vue{
         else {
             console.log("User already registered: ", this.serverResponse.data);
         }
-        this.$router.push({ name: 'Home'});
+        this.$store.dispatch('user/setSessionStatus', true);
+        this.$router.push({ name: 'home'});
     }
     
     accessGoogle(){

@@ -1,59 +1,59 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-
-/* ----------------------------- VIEWS ----------------------------------- */
-import Home from '../views/home/Home.vue';
-import Signup from '../views/signup/Signup.vue';
 import Login from '../views/login/Login.vue';
-import UserProfile from '../views/user/profile/Profile.vue';
-import UserProfileSettings from '../views/user/profile/settings/Settings.vue';
-import UserBankAccounts from '../views/user/bankAccount/BankAccount.vue';
-import UserBankAccountSettings from '../views/user/bankAccount/settings/Settings.vue'; 
+
 
 Vue.use(VueRouter)
 
   const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'login',
-    component: Login
+    name: 'home',
+    component: () => import('../views/home/Home.vue')
   },  
 
   {
-    path: "/signup",
-    name: "Signup",
-    component: Signup
+    path: '/home',
+    name: 'home',
+    component: () => import('../views/home/Home.vue')
   },
 
   {
-    path: "/Home",
-    name: "Home",
-    component: Home
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/login/Login.vue')
   },
 
   {
-    path: "/user/profile",
-    name: "userProfile",
-    component: UserProfile
+    path: '/signup',
+    name: 'signup',
+    component: () => import('../views/signup/Signup.vue')
   },
 
   {
-    path: "user/profile/settings",
-    name: "userProfileSettings",
-    component: UserProfileSettings
+    path: '/user/profile',
+    name: 'userProfile',
+    component: () => import('../views/user/profile/Profile.vue')
   },
 
   {
-    path: "user/bankAccounts",
-    name: "userBankAccounts",
-    component: UserBankAccounts
+    path: '/user/profile/settings',
+    name: 'userProfileSettings',
+    component: () => import('../views/user/profile/settings/Settings.vue')
   },
 
   {
-    path: "user/bankAccount/settings",
-    name: "userBankAccountSettings",
-    component: UserBankAccountSettings
+    path: '/user/bankAccounts',
+    name: 'userBankAccounts',
+    component: () => import('../views/user/bankAccount/BankAccount.vue')
+  },
+
+  {
+    path: '/user/bankAccount/settings',
+    name: 'userBankAccountSettings',
+    component: () => import('../views/user/bankAccount/settings/Settings.vue')
   }
+  
 ]
 
 const router = new VueRouter({
