@@ -1,4 +1,4 @@
-import { API_URL } from "../config";  // API_URL = http://localhost:3000/premileal/api
+import { API_URL } from "../config";
 
 export default {
 
