@@ -1,0 +1,67 @@
+.imgCentered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: .5%;
+}
+
+.noMarginTop{
+    margin-top: -1%;
+}
+
+.bottomSeparation{
+    margin-bottom: 2%;
+}
+
+.noBoxShadow{
+    box-shadow: none;
+}
+
+.bottomSeparation{
+    margin-bottom: 1%;
+}
+
+.pageTitle{
+    color: #119FF5;
+}
+
+.custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+}
+
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }    
+}
