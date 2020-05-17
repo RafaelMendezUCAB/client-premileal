@@ -56,6 +56,12 @@ Vue.use(VueRouter)
     path: '/user/bankAccount/registration',
     name: 'userBankAccountRegistration',
     component: () => import('../views/user/bankAccount/registration/BankAccountRegistration.vue')
+  },
+  
+  {
+    path: '/user/bankAccount/verification',
+    name: 'userBankAccountVerification',
+    component: () => import('../views/user/bankAccount/verification/BankAccountVerification.vue')
   }
   
 ]
