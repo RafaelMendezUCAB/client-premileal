@@ -3,8 +3,11 @@
     <v-toolbar class="blue darken-2">
       <v-toolbar-title class="mx-0 white--text" v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn class="blue -3 white--text"  @click="logoutFunction">Log Out</v-btn>
+      <v-toolbar-items v-if="userLoggedIn">
+        <v-btn class="blue -3"  @click="logout" style="color: white">Log Out</v-btn>
+      </v-toolbar-items>
+      <v-toolbar-items v-if="!userLoggedIn">
+        <v-btn class="blue -3"  @click="login" style="color: lightgreen">Log In</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
@@ -72,48 +75,66 @@
       </v-footer>
 
     </v-content>
+    <Footer></Footer>
 </v-app>
 </template>
 
 <script lang="ts">
 import {Vue} from 'vue-property-decorator'
 import Component from "vue-class-component";
-import { fa, providerGoogle, providerFacebook } from '../firebase';
+import { fa, providerGoogle, providerFacebook } from '../../firebase';
+import Footer from '@/components/footer/Footer.vue';
 
-@Component
+/* --- Services --- */
+import userService  from '../../services/user/userService';
+
+/* --- Types --- */
+import User from '../../types/user/User';
+
+@Component({
+  components: {
+    Footer
+  }
+})
 export default class Logout extends Vue{
-  data(){
-    return {
-      title: "Premileal",
-      imageLink: {
-        main:
-          "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2Fb13f0434-b228-11e6-8e5d-5252025056ab_web_scale_0.4666667_0.4666667__.jpg?alt=media&token=660df23e-599e-434b-9313-ba69c973eeea",
-      },
-      email: "",
-      subscribed: false
-    };
+
+  title = "Premileal";
+  imageLink = {
+    main: "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2Fb13f0434-b228-11e6-8e5d-5252025056ab_web_scale_0.4666667_0.4666667__.jpg?alt=media&token=660df23e-599e-434b-9313-ba69c973eeea"
+  }
+  email = "";
+  subscribed = false;
+  
+  allusers: any = null;
+  user: User = this.$store.state.user.user;
+
+  userLoggedIn = this.$store.state.user.loggedIn; 
+
+  logout(){
+
+    this.$store.dispatch('user/setSessionStatus', false);
+    this.userLoggedIn = false;
+
+    fa.signOut().then(function() {
+      console.log('Signout successful!')
+    }).catch(function(error) {
+      console.log('Signout failed')
+    });
   }
 
-    logoutFunction(){
-  fa.signOut().then(function() {
-    console.log('Signout successful!')
-    // Sign-out successful.
-  }).catch(function(error) {
-    console.log('Signout failed')
-    // An error happened.
-  }) ;
+  mounted(){
+    //console.log("getter es: ", this.$store.state.user.sessionStatus);
+  }
+
+  login(){
+    this.$router.push({ name: 'login'});
+  }
+
+  /*async getAllUsers(){
+    this.allusers = await userService.getAllUsers();
+  }*/
 
 }
-}</script>
+</script>
 
-<style scoped>
-.finedTitle {
-  font-weight: 900;
-  text-shadow: 2px 2px #000000;
-}
-
-.social-icon {
-  font-size: 21px;
-  color: black;
-}
-</style>
+<style src="./Home.css" scoped></style>

@@ -3,7 +3,7 @@
            style="
             background: #EEEEEE;
            ">
-      <v-content>
+      <v-content>        
         <v-container
           class="fill-height"
           fluid
@@ -25,12 +25,15 @@
               <v-card-text>
                 <v-form>
                     <v-text-field 
+                      color:red
+                      v-model="userData.email"
                       label= "E-mail address"
                       prepend-icon= "mdi-at"
                       :rules="[rules.required, rules.email]"                    
                       />
-                    <v-text-field 
 
+                    <v-text-field 
+                      v-model="userData.password"
                      :type= "showPassword ? 'text' : 'password'" 
                       persistent-hint
                       label= "Password"
@@ -51,7 +54,8 @@
                 <v-btn depressed 
                        width=100% 
                        color="#0095ff" 
-                       class="white--text py-3 pb-7"                
+                       class="white--text py-3 pb-7" 
+                       @click="login"               
                        >Log In</v-btn>
               </v-card-actions>
 
@@ -87,6 +91,7 @@
         </v-row>
       </v-container>
     </v-content>
+    <Footer></Footer>
   </v-app>
 </template>
 
@@ -94,10 +99,30 @@
 <script lang="ts">
 import {Vue} from 'vue-property-decorator'
 import Component from "vue-class-component";
-import { fa, providerGoogle, providerFacebook } from '../firebase';
+import { fa, providerGoogle, providerFacebook } from '../../firebase';
+import userService from '../../services/user/userService';
+import Footer from '@/components/footer/Footer.vue';
 
-  @Component
+  @Component({
+    components: {
+      Footer
+    }
+  })
   export default class Login extends Vue{
+
+    userData =
+    {
+        name : '',
+        lastName : '',
+        password :'',
+        image : '',
+        email : '',
+        birthdate : '01/01/1991',
+        type: 'No Federado',
+        placeID: 389
+    };
+
+    serverResponse: any = null;
 
     data (){
       return{
@@ -112,12 +137,51 @@ import { fa, providerGoogle, providerFacebook } from '../firebase';
       }
     }
 
+    assignFacebookCredentials(user: any) {
+      console.log("facebook");
+      this.userData.type = 'Facebook';
+    }
+
+    assignGoogleCredentials(user: any){
+        this.userData.name = user.displayName;
+        this.userData.email = user.email;
+        this.userData.image = user.photoURL;
+        this.userData.type = 'Google';        
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+        In case user wants to login, we must check if the user already exists. 
+        If so, then the server is gonna retrieve all its information and
+        we continue to the home page. If not, then we must first register the 
+        user and then procced to home page.
+    ------------------------------------------------------------------------------------------------ */
+    async login(){
+      
+        console.log("before checking ", this.serverResponse);
+        if(this.userData.type === 'No Federado'){
+            this.serverResponse = await userService.login(this.userData.email, this.userData.password);
+        }
+        else {
+            this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
+        }
+        console.log("after checking: ", this.serverResponse);
+        if(this.serverResponse.data.length === 0){            
+            console.log("User doesn't exists: ", this.serverResponse.data);
+        }
+        else {
+            console.log("User exists: ", this.serverResponse.data);
+            this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
+            this.$store.dispatch('user/setSessionStatus', true);
+            this.$router.push({ name: 'home'});
+        }
+    }
+
     loginGoogle(){
       fa.signInWithPopup(providerGoogle).then(result =>{
         const token = result.credential
-        const user = result.user
-        console.log("datos del usuario",user);
-        console.log("token", token);
+        const user = result.user        
+        this.assignGoogleCredentials(user);
+        this.login();
       }).catch(error =>{
         console.log(error);
       })
@@ -129,6 +193,8 @@ import { fa, providerGoogle, providerFacebook } from '../firebase';
       const user = result.user
       console.log("datos del usuario",user);
       console.log("token", token);
+      
+      this.login();
       }).catch(error =>{
         console.log(error);
       })
@@ -137,3 +203,5 @@ import { fa, providerGoogle, providerFacebook } from '../firebase';
   }
   
 </script>
+
+<style src="./Login.css" scoped></style>
