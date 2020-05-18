@@ -23,7 +23,6 @@
                                 <h1>Bank Account Information</h1>
 
                                 <v-card                                
-                                  :loading="loading"
                                   class="mx-auto my-12"
                                   max-width="374"
                                 >
@@ -42,12 +41,54 @@
                                 </v-card>
 
                                 <v-btn
-                                      color="primary"
-                                      @click="step = 2"
+                                      color="primary"                                      
                                       style="margin-bottom:10%"
                                     >
                                       Edit Bank Account
-                                    </v-btn>
+                                </v-btn>
+
+                                <v-btn
+                                      color="red"
+                                      @click="overlay = !overlay"
+                                      style="margin-bottom:10%"
+                                    >
+                                      <v-icon style="color: white">mdi-trash-can-outline</v-icon>
+                                </v-btn>
+
+                                <v-overlay                                  
+                                  :value="overlay"
+                                >
+                                    <v-card
+                                      max-width="344"
+                                      class="mx-auto"
+                                    >
+                                      <v-list-item>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline">Are you sure?</v-list-item-title>
+                                        </v-list-item-content>
+                                      </v-list-item>                                                                          
+
+                                      <v-card-text>
+                                        By deleting a bank account, you won't be able to use it in our platform unless you register and validate it back again.
+                                      </v-card-text>
+                                      
+                                      <v-btn
+                                          color="danger"
+                                          @click="overlay = false"
+                                          style="padding: 5px"
+                                        >
+                                          No
+                                       </v-btn>
+
+                                       <v-btn
+                                          color="success"
+                                          @click="eliminateBankAccount"
+                                        >
+                                          Yes
+                                       </v-btn>
+                                    </v-card>
+                                  
+                                </v-overlay>
 
                             </v-col>
                         </v-row>
@@ -64,7 +105,7 @@
 
                                 <v-card>
                                   <v-card-title>
-                                    Nutrition
+                                    Bank
                                     <v-spacer></v-spacer>
                                     <v-text-field
                                       v-model="search"
@@ -77,8 +118,7 @@
                                   <v-data-table
                                     :headers="headers"
                                     :items="movements"
-                                    :search="search"
-                                    loading loading-text="Loading... Please wait"
+                                    :search="search"                                    
                                   >
                                     <template v-slot:item.details="{ item }">
                                       <v-icon
@@ -112,8 +152,7 @@ import Footer from '@/components/footer/Footer.vue';
 })
 export default class BankAccountStatus extends Vue{
 
-    loading = '';
-
+    overlay = false;
     search = '';
 
     headers = [
@@ -220,6 +259,10 @@ export default class BankAccountStatus extends Vue{
 
     seeDetails(){
         console.log("see details");
+    }
+
+    eliminateBankAccount(){
+        console.log("users wants to delete bank account");
     }
     
 }
