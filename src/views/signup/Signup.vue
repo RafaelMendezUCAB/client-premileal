@@ -28,7 +28,9 @@
                         width="450px">
                     
                         <v-card-text>
-                            <v-form>
+                            <v-form
+                                ref="form"
+                            >
                                 <form v-on:submit="createUser">
                                     <v-text-field
                                         v-model="userData.name"
@@ -50,7 +52,7 @@
                                         prepend-icon= "mdi-lock"
                                         label="Password"
                                         :type= "showPassword1 ? 'text' : 'password'" 
-                                        hint="Password must contain at least eight characters, including at least 1 letter and 1 number."
+                                        hint="Password must contain at least eight characters."
                                         persistent-hint
                                         :append-icon= "showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
                                         :rules="[rules.password]"
@@ -68,7 +70,8 @@
                                         v-model="userData.birthdate"
                                         prepend-icon= "mdi-calendar-blank-outline"
                                         label="Birth Date"
-                                        type="date">
+                                        type="date"
+                                        :rules="[rules.required]">                                        
                                     </v-text-field>                
 
                                     <v-autocomplete
@@ -166,12 +169,11 @@ export default class Signup extends Vue{
                         pattern.test(value) ||"Only alphabet characters allowed"
                     )
                 },
-                // counter: (value: any) => value.lenght <= 20 || 'Max 20 characters',        
                 password: (value: string) => {
-                    const pattern = /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/;
+                    const pattern = /(?=.{8,})/;
                     return (
                         pattern.test(value) ||
-                        "Password must contain at least eight characters, including at least 1 letter and 1 number.");
+                        "Password must contain at least eight characters.");
                 },
                 email: (value: string) => {
                     const pattern = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -198,24 +200,24 @@ export default class Signup extends Vue{
         if ((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.userData.type === 'No Federado' ){
           this.serverResponse = await userService.login(this.userData.email, this.userData.password);
                 
-    }}
+    }
 
-    //     else if (this.userData.type !== 'No Federado'){
+        else if (this.userData.type !== 'No Federado'){
 
-    //         this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
-    //         if(this.serverResponse.data.length === 0){
+            this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
+            if(this.serverResponse.data.length === 0){
             
-    //             this.serverResponse = await userService.signUp(this.userData);
+                this.serverResponse = await userService.signUp(this.userData);
             
-    //         }
-    //         // this.assignUserData()
-    //     }
-    // }
+            }
+            this.assignUserData()
+        }
+    }
     
-    // assignUserData(){
-    //     this.$store.dispatch('user/setSessionStatus', true);
-    //     this.$router.push({ name: 'home'});
-    // }
+    assignUserData(){
+        this.$store.dispatch('user/setSessionStatus', true);
+        this.$router.push({ name: 'home'});
+    }
 
     accessGoogle(){
       fa.signInWithPopup(providerGoogle).then(result =>{
@@ -248,7 +250,8 @@ export default class Signup extends Vue{
         password :'',
         image : '',
         email : '',
-        birthdate : '01/01/1991',
+        birthdate : '',
+        // '01/01/1991',
         type: 'No Federado',
         placeID: ''
     };
