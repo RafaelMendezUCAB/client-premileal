@@ -119,9 +119,10 @@ import Footer from '@/components/footer/Footer.vue';
         password :'',
         image : '',
         email : '',
-        birthdate : '01/01/1991',
+        birthdate : '',
+        //  '01/01/1991',
         type: 'No Federado',
-        placeID: 389
+        placeID: ''
     };
 
     serverResponse: any = null;
@@ -160,22 +161,28 @@ import Footer from '@/components/footer/Footer.vue';
     async login(){
       
         console.log("before checking ", this.serverResponse);
-        if(this.userData.type === 'No Federado'){
+        
+        if((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.userData.type === 'No Federado'){
             this.serverResponse = await userService.login(this.userData.email, this.userData.password);
         }
-        else {
+        else  if(this.userData.type !== 'No Federado'){
             this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
+
+             console.log("after checking: ", this.serverResponse);
+             if(this.serverResponse.data.length === 0){            
+                console.log("User doesn't exists: ", this.serverResponse.data);
+              }
+              else {
+                  console.log("User exists: ", this.serverResponse.data);
+                  this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
+              }
+              this.assignUserData()
         }
-        console.log("after checking: ", this.serverResponse);
-        if(this.serverResponse.data.length === 0){            
-            console.log("User doesn't exists: ", this.serverResponse.data);
-        }
-        else {
-            console.log("User exists: ", this.serverResponse.data);
-            this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
-            this.$store.dispatch('user/setSessionStatus', true);
-            this.$router.push({ name: 'home'});
-        }
+    }
+
+        assignUserData(){
+        this.$store.dispatch('user/setSessionStatus', true);
+        this.$router.push({ name: 'home'});
     }
 
     loginGoogle(){
