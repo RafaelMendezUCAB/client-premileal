@@ -191,6 +191,7 @@ import Footer from '@/components/footer/Footer.vue';
         const user = result.user        
         this.assignGoogleCredentials(user);
         this.login();
+        this.$router.push({ name: 'home'});
       }).catch(error =>{
         console.log(error);
       })
@@ -201,9 +202,9 @@ import Footer from '@/components/footer/Footer.vue';
         const token = result.credential
       const user = result.user
       console.log("datos del usuario",user);
-      console.log("token", token);
-      
+      console.log("token", token);      
       this.login();
+      this.$router.push({ name: 'home'});
       }).catch(error =>{
         console.log(error);
       })
