@@ -225,7 +225,7 @@ export default class Signup extends Vue{
         const user = result.user        
         this.assignGoogleCredentials(user);
         console.log("Now user is: ", this.userData);
-        // this.$router.push({ name: 'home'});
+        this.$router.push({ name: 'home'});
       }).catch(error =>{
         console.log(error);
       })
@@ -237,7 +237,7 @@ export default class Signup extends Vue{
         const user = result.user
         console.log("USER DATA",user);
         console.log("token", token);
-        // this.$router.push({ name: 'home'});       
+        this.$router.push({ name: 'home'});       
       }).catch(error =>{
         console.log(error);
       })
