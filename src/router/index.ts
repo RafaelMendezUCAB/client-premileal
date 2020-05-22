@@ -56,8 +56,6 @@ Vue.use(VueRouter)
     path: '/user/bankAccount/registration',
     name: 'userBankAccountRegistration',
     component: () => import('../views/user/bankAccount/registration/BankAccountRegistration.vue')
-<<<<<<< HEAD
-=======
   },
   
   {
@@ -70,7 +68,6 @@ Vue.use(VueRouter)
     path: '/user/bankAccount/status',
     name: 'userBankAccountStatus',
     component: () => import('../views/user/bankAccount/status/BankAccountStatus.vue')
->>>>>>> develop
   }
   
 ]
