@@ -40,12 +40,11 @@
                                         <v-card-title>Top 10 Australian beaches</v-card-title>
                                       </v-img>
 
-                                      <v-card-subtitle class="pb-0">Number 10</v-card-subtitle>
+                                      <v-card-subtitle class="pb-0">Premium</v-card-subtitle>
 
                                       <v-card-text class="text--primary">
-                                        <div>Whitehaven Beach</div>
-
-                                        <div>Whitsunday Island, Whitsunday Islands</div>
+                                        <div>Cost: $25</div>
+                                        <p>When you become premium, we care you won't regret about it. That's why we give you 20% more point each time you buy points. Start gaining more! become PREMIUM now!</p>
                                       </v-card-text>
 
                                     </v-card>
