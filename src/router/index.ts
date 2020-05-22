@@ -68,6 +68,12 @@ Vue.use(VueRouter)
     path: '/user/bankAccount/status',
     name: 'userBankAccountStatus',
     component: () => import('../views/user/bankAccount/status/BankAccountStatus.vue')
+  },
+
+  {
+    path: '/points/purchase',
+    name: 'pointsPurchase',
+    component: () => import('../views/points/purchase/PointsPurchase.vue')
   }
   
 ]

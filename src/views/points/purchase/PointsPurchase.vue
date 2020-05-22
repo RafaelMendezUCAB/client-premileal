@@ -130,7 +130,7 @@
                                 <h1 class="text-center subtittle" style="margin-bottom: 5%">How it works?</h1>
                                 <p>The following applies when buying products: </p>
                                 <ul>
-                                    <li>When buying products, a service commission is aggregated to the total amount.</li>
+                                    <li>When buying points, a service commission is aggregated to the total amount.</li>
                                     <li>Points won't appear instantly in your account.</li>
                                     <li>Points take from 1 to 2 days to appear in your account.</li>
                                     <li>You'll receive an email with the payments especifications.</li>
