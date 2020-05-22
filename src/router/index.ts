@@ -74,6 +74,12 @@ Vue.use(VueRouter)
     path: '/points/purchase',
     name: 'pointsPurchase',
     component: () => import('../views/points/purchase/PointsPurchase.vue')
+  },
+
+  {
+    path: '/points/withdrawal',
+    name: 'pointsWithdrawal',
+    component: () => import('../views/points/withdrawal/PointsWithdrawal.vue')
   }
   
 ]
