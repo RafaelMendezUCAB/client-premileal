@@ -1,3 +1,80 @@
 .elevated{
     box-shadow: 1px !important;
 }
+.mainTittle{
+    color:#119FF5;
+
+}
+
+.subtittle{
+    color: gray;
+}
+
+.bordered{
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 1%     
+}
+
+.marginFirstChargeForm{
+    margin-top:10%;
+}
+
+@media only screen and (max-width: 1263px) {
+    .mainTittle{
+        font-size: 35px;
+    }
+    .subtittle{
+        font-size: 33px;
+    }
+    .bottomMargin{
+        margin-bottom: -5%;
+    }
+}
+
+@media only screen and (max-width: 959px) {
+    .mainTittle{
+        font-size: 30px;
+    }
+    .subtittle{
+        font-size: 28px;
+    }
+    .bottomMargin{
+        margin-bottom: -5%;
+    }
+    .rowBottomMargin{
+        margin-bottom: -7%;
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .mainTittle{
+        font-size: 23px;
+    }
+    .subtittle{
+        font-size: 21px;
+    }
+    .bottomMargin{
+        margin-bottom: -10%;
+    }
+    .rowBottomMargin{
+        margin-bottom: -15%;
+    }
+    .marginFirstChargeForm{
+        margin-bottom: -15%;
+    }
+}
+
+@media only screen and (min-width: 1264px) {
+    .rightSeparationForGuide{
+        margin-right: 10%;
+    }
+
+    .rightSeparationForTransactionInformation{
+        margin-right: 25%;
+    }
+
+    .mainTittle{
+        margin-right: 8%;
+    }
+}
