@@ -20,10 +20,13 @@
               justify="center"
             >
 
-              <v-card class="elevation-3 px-6 py-8" 
+              <v-card class="elevation-3 px-4 py-5" 
                       width="450px">
               <v-card-text>
-                <v-form>
+                <v-form
+                  ref="form"
+                  lazy-validation
+                >
                     <v-text-field 
                       color:red
                       v-model="userData.email"
@@ -48,8 +51,6 @@
                                       Forgot Password?
                         </router-link>
                     </div>                     
-                </v-form>
-              </v-card-text>
               <v-card-actions>
                 <v-btn depressed 
                        width=100% 
@@ -78,7 +79,8 @@
                 <div class="ml-n1"> Log In with FACEBOOK</div>  
                 </v-btn>
               </v-card-actions>
-
+                </v-form>
+              </v-card-text>
             </v-card>
            <div class=" text-center pt-4">
              Don't have an account?
@@ -117,9 +119,10 @@ import Footer from '@/components/footer/Footer.vue';
         password :'',
         image : '',
         email : '',
-        birthdate : '01/01/1991',
+        birthdate : '',
+        //  '01/01/1991',
         type: 'No Federado',
-        placeID: 389
+        placeID: ''
     };
 
     serverResponse: any = null;
@@ -158,22 +161,28 @@ import Footer from '@/components/footer/Footer.vue';
     async login(){
       
         console.log("before checking ", this.serverResponse);
-        if(this.userData.type === 'No Federado'){
+        
+        if((this.$refs.form as Vue & { validate: () => boolean }).validate() && this.userData.type === 'No Federado'){
             this.serverResponse = await userService.login(this.userData.email, this.userData.password);
         }
-        else {
+        else  if(this.userData.type !== 'No Federado'){
             this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
+
+             console.log("after checking: ", this.serverResponse);
+             if(this.serverResponse.data.length === 0){            
+                console.log("User doesn't exists: ", this.serverResponse.data);
+              }
+              else {
+                  console.log("User exists: ", this.serverResponse.data);
+                  this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
+              }
+              this.assignUserData()
         }
-        console.log("after checking: ", this.serverResponse);
-        if(this.serverResponse.data.length === 0){            
-            console.log("User doesn't exists: ", this.serverResponse.data);
-        }
-        else {
-            console.log("User exists: ", this.serverResponse.data);
-            this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
-            this.$store.dispatch('user/setSessionStatus', true);
-            this.$router.push({ name: 'home'});
-        }
+    }
+
+        assignUserData(){
+        this.$store.dispatch('user/setSessionStatus', true);
+        this.$router.push({ name: 'home'});
     }
 
     loginGoogle(){
@@ -182,6 +191,7 @@ import Footer from '@/components/footer/Footer.vue';
         const user = result.user        
         this.assignGoogleCredentials(user);
         this.login();
+        this.$router.push({ name: 'home'});
       }).catch(error =>{
         console.log(error);
       })
@@ -192,9 +202,9 @@ import Footer from '@/components/footer/Footer.vue';
         const token = result.credential
       const user = result.user
       console.log("datos del usuario",user);
-      console.log("token", token);
-      
+      console.log("token", token);      
       this.login();
+      this.$router.push({ name: 'home'});
       }).catch(error =>{
         console.log(error);
       })
