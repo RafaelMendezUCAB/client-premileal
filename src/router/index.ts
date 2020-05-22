@@ -80,6 +80,12 @@ Vue.use(VueRouter)
     path: '/points/withdrawal',
     name: 'pointsWithdrawal',
     component: () => import('../views/points/withdrawal/PointsWithdrawal.vue')
+  },
+
+  {
+    path: '/suscriptions/premium/purchase',
+    name: 'premiumSuscriptionPurchase',
+    component: () => import('../views/suscriptions/premium/purchase/PremiumSuscriptionPurchase.vue')
   }
   
 ]
