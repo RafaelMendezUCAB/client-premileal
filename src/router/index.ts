@@ -86,6 +86,12 @@ Vue.use(VueRouter)
     path: '/suscriptions/premium/purchase',
     name: 'premiumSuscriptionPurchase',
     component: () => import('../views/suscriptions/premium/purchase/PremiumSuscriptionPurchase.vue')
+  },
+
+  {
+    path: '/suscriptions',
+    name: 'suscriptions',
+    component: () => import('../views/suscriptions/Suscriptions.vue')
   }
   
 ]
