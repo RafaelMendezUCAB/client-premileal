@@ -2,7 +2,7 @@
   <v-app light>
       <v-content>
         <div>
-        <!-- <Navbar></Navbar> -->
+        <Navbar></Navbar>
         </div>
         <section>
           <div>
