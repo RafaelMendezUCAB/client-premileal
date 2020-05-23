@@ -35,7 +35,7 @@
                                       <v-img
                                         class="white--text align-end"
                                         height="400px"
-                                        src="https://corkscrewerreport.com/wp-content/uploads/2017/07/Premium-Icon-600x600.png"
+                                        src="@/assets/suscriptions/premium.png"
                                       >
                                         <v-card-title>Top 10 Australian beaches</v-card-title>
                                       </v-img>
