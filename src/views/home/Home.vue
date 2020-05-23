@@ -21,9 +21,12 @@
                       Start Earn Points
                     </h2>
                   </div>
-                  <v-btn class="mt-5 white--text"  color="blue" rounded  dark x-large href="/signup">
+                  <v-btn class="mt-5 white--text"  color="blue" rounded  dark x-large href="/signup" v-if="!userLoggedIn">
                     Become a Member Now
-                  </v-btn>                      
+                  </v-btn> 
+                  <v-btn class="mt-5 white--text"  color="blue" rounded  dark x-large @click="gotoBuyPoints" v-if="userLoggedIn">
+                    Acquire points now!
+                  </v-btn>                   
                 </v-layout>
               </v-col>            
             </v-row>
@@ -130,7 +133,7 @@
                 </v-simple-table>        
               </v-card>
                 <div style="text-align:center">
-                  <v-btn class="mt-5 white--text" column align-center color="blue" rounded  dark x-large href="/signup">
+                  <v-btn class="mt-5 white--text" column align-center color="blue" rounded  dark x-large @click="gotoSuscriptions">
                     Learn More
                   </v-btn>    
                 </div>
@@ -233,21 +236,31 @@ export default class Logout extends Vue{
     this.userLoggedIn = false;
 
     fa.signOut().then(function() {
-      console.log('Signout successful!')
+      console.log('Signout successful!');
     }).catch(function(error) {
-      console.log('Signout failed')
+      console.log('Signout failed');
     });
   }
 
   mounted(){
     //console.log("getter es: ", this.$store.state.user.sessionStatus);
   }
+
   profile(){
     this.$router.push({ name: 'profile'});
   }
+
   login(){
     this.$router.push({ name: 'login'});
   }  
+
+  gotoSuscriptions(){
+    this.$router.push({ name: 'suscriptions'});
+  }
+
+  gotoBuyPoints(){
+    this.$router.push({ name: 'pointsPurchase' });
+  }
 
 }
 </script>
