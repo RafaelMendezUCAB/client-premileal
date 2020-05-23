@@ -6,7 +6,7 @@
         </div>
         <section>
           <div>
-          <v-parallax :src="imageLink2.main" height="500"> 
+          <v-parallax src="@/assets/backgrounds/home_background.jpg" height="500"> 
             <v-row align="center">
               <v-col md-6
                 cols="12">
@@ -217,15 +217,7 @@ import User from '../../types/user/User';
     Navbar
   }
 })
-export default class Logout extends Vue{
-  data() {
-    return {
-      imageLink2:{
-          main:
-          "https://source.unsplash.com/DuBNA1QMpPA",
-      },
-    };
-  }
+export default class Logout extends Vue{  
   
   email = "";
   subscribed = false;
@@ -255,11 +247,7 @@ export default class Logout extends Vue{
   }
   login(){
     this.$router.push({ name: 'login'});
-  }
-
-  /*async getAllUsers(){
-    this.allusers = await userService.getAllUsers();
-  }*/
+  }  
 
 }
 </script>
