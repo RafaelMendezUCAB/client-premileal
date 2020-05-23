@@ -16,4 +16,6 @@ export default interface User {
     roleID: number,
     roleName: string,
     type: string, 
+    stripe_id: string,
+    stripe_connect_id: string
 }

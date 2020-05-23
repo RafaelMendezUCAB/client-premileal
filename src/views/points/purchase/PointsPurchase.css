@@ -1,9 +1,5 @@
-.elevated{
-    box-shadow: 1px !important;
-}
 .mainTittle{
     color:#119FF5;
-
 }
 
 .subtittle{
@@ -16,19 +12,12 @@
     margin-top: 1%     
 }
 
-.marginFirstChargeForm{
-    margin-top:10%;
-}
-
 @media only screen and (max-width: 1263px) {
     .mainTittle{
         font-size: 35px;
     }
     .subtittle{
         font-size: 33px;
-    }
-    .bottomMargin{
-        margin-bottom: -5%;
     }
 }
 
@@ -39,29 +28,20 @@
     .subtittle{
         font-size: 28px;
     }
-    .bottomMargin{
-        margin-bottom: -5%;
-    }
-    .rowBottomMargin{
+    .formBottomMargin{
         margin-bottom: -7%;
     }
 }
 
 @media only screen and (max-width: 599px) {
     .mainTittle{
-        font-size: 23px;
+        font-size: 25px;
     }
     .subtittle{
-        font-size: 21px;
+        font-size: 23px;
     }
-    .bottomMargin{
-        margin-bottom: -10%;
-    }
-    .rowBottomMargin{
-        margin-bottom: -15%;
-    }
-    .marginFirstChargeForm{
-        margin-bottom: -15%;
+    .formBottomMargin{
+        margin-bottom: -7%;
     }
 }
 
