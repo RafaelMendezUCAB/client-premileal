@@ -36,7 +36,7 @@
               PREMILEAL
             </h1>
             </v-card>
-            <!-- <v-layout row>
+            <v-layout row>
               <v-flex xs6 order-md2 order-xs1>
                     <v-card tile flat outlined class=" mx-1" height="100%">
                       <v-card-text>
@@ -74,7 +74,7 @@
                       </v-card-text>
                     </v-card>
               </v-flex>      
-            </v-layout>       -->
+            </v-layout>      
           </div>
         </v-container>
         <v-container fluid>
