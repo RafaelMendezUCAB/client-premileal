@@ -1,4 +1,5 @@
 import bank from './bank/bankRequests';
+import bankAccount from './bankAccount/bankAccountRequests';
 import historicStatus from './historicStatus/historicStatusRequests';
 import invoice from './invoice/invoiceRequests';
 import level from './level/levelRequests';
@@ -16,6 +17,7 @@ import withdraw from './withdraw/withdrawRequests';
 
 export default {
   bank,
+  bankAccount,
   historicStatus,
   invoice,
   level,

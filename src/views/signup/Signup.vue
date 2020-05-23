@@ -143,7 +143,7 @@
                             </v-overlay>                        
 
                             <v-overlay                                  
-                              :value="emailOccupied"
+                              :value="error"
                             >
                                 <v-card
                                   max-width="500"
@@ -151,15 +151,15 @@
                                 >
                                   <v-list-item>
                                     <v-list-item-content>
-                                      <v-list-item-title class="headline">Error!</v-list-item-title>
+                                      <v-list-item-title class="headline">{{errorTittle}}</v-list-item-title>
                                     </v-list-item-content>
                                   </v-list-item>                                                                                                               
                                   <v-card-text>
-                                    <span>The email address is already registered. Please, use another or login.</span>
+                                    <span>{{errorDescription}}</span>
                                   </v-card-text>                                                                          
                                   <v-btn
                                       color="success"
-                                      @click="emailOccupied = false"
+                                      @click="error = false"
                                       style="margin-bottom: 2%"
                                     >
                                       Ok
@@ -205,10 +205,13 @@ export default class Signup extends Vue{
 
     valid = false;
     loadingUserData = false;
-    emailOccupied = false;
     
     serverResponse: any = null;
     places: any = [];
+
+    errorTittle = '';
+    errorDescription = '';
+    error = false;
 
     userData =
     {
@@ -246,12 +249,21 @@ export default class Signup extends Vue{
         }
     }
 
+    mounted(){
+        this.getAllPlaces();
+    }
+
     async signUp(){
         if(this.valid || this.userData.type !== 'No Federado'){
+            if(this.loadingUserData === false){
+                this.loadingUserData = true;
+            }
             this.serverResponse = await userService.signUp(this.userData);
             this.loadingUserData = false;
             if(this.serverResponse.data === 'User email already exists.'){
-                this.emailOccupied = true;
+                this.errorTittle = 'Error!';
+                this.errorDescription = 'The email address is already registered. Please, use another or login.';
+                this.error = true;
             }
             else {
                 this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
@@ -278,6 +290,9 @@ export default class Signup extends Vue{
         this.signUp();        
       }).catch(error =>{
         console.log(error);
+        this.errorTittle = 'Network Error!';
+        this.errorDescription = 'There was a network error. Check your network connection and try again.';
+        this.error = true;
       })
     }
 
@@ -298,6 +313,9 @@ export default class Signup extends Vue{
         this.signUp();
       }).catch(error =>{
         console.log(error);
+        this.errorTittle = 'Network Error!';
+        this.errorDescription = 'There was a network error. Check your network connection and try again.';
+        this.error = true;
       })
     }
 
@@ -312,11 +330,7 @@ export default class Signup extends Vue{
             type: 'No Federado',
             placeID: ''
         }
-    }
-           
-    mounted(){
-        this.getAllPlaces();
-    }
+    }               
 
     async getAllPlaces(){
         this.serverResponse = await placeService.getAllPlaces();
