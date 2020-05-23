@@ -1,80 +1,202 @@
 <template>
   <v-app light>
-    <v-toolbar class="blue darken-2">
-      <v-toolbar-title class="mx-0 white--text" v-text="title"></v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items v-if="userLoggedIn">
-        <v-btn class="blue -3"  @click="logout" style="color: white">Log Out</v-btn>
-      </v-toolbar-items>
-      <v-toolbar-items v-if="!userLoggedIn">
-        <v-btn class="blue -3"  @click="login" style="color: lightgreen">Log In</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
-    <v-content>
-      <section>
-        <v-parallax :src="imageLink.sub_main" height="400">
-          <v-layout column align-center justify-center class="white--text">
-            <h1 class="blue--text mb-2 display-1 text-xs-center" style="font-weight: 900; : 3px 2px #101010">The Loyalty system for epic consumers</h1>
-            <div class="blue--text subheading mb-3 text-xs-center" style="font-weight: 900; : 2px 2px #000000">Unlesh your wallet without limitations</div>
-            <v-btn class="blue -2 mt-5 white--text" dark large href="/">
-              Get Started
-            </v-btn>
-          </v-layout>
-        </v-parallax>
-      </section>
-
-      <section>
-        <v-parallax :src="imageLink.main" height="600">
-          <v-layout column align-center justify-center>
-            <div class="headline white--text mb-3 text-xs-center">Premileal is a Loyalty costumers system that allows everyone to reach a huge amount of benefits</div>
-            <em>With the power of Premileal you don't need to expense amount of cash in order to get free products and promotions!</em>
-            <v-btn class="blue lighten-2 mt-5" dark large href="/">
-              Get more info
-            </v-btn>
-          </v-layout>
-        </v-parallax>
-      </section>
-
-      <section>
-        <v-container grid-list-xl>
-          <v-layout row wrap justify-center class="my-5">
-            <v-flex xs12 sm4>
-              <v-card class="elevation-0 transparent">
-                <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">Company info</div>
-                </v-card-title>
-                <v-card-text>
-                  We are not a company. Just imagine us like the guys from the Silicon Valley series. 
-                </v-card-text>
-              </v-card>
-            </v-flex>
-            <v-flex xs12 sm4 offset-sm1>
-              <v-card class="elevation-0 transparent">
-                <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">We are looking for you</div>
-                </v-card-title>
-                <v-card-text>
-                  Are you a person? Do you like buy stuff? Come Sign up and start with Premileal!
-                </v-card-text>
-              </v-card>
-            </v-flex>
-          </v-layout>
+      <v-content>
+        <div>
+        <Navbar></Navbar>
+        </div>
+        <section>
+          <div>
+          <v-parallax src="@/assets/backgrounds/home_background.jpg" height="500"> 
+            <v-row align="center">
+              <v-col md-6
+                cols="12">
+                <v-layout mx-12 column align-center justify-center >
+                  <div class="flex display-1 font-weight-medium pb-7 pt-8 grey--text text--lighten-3">
+                    <h1>
+                      Join Premileal Rewards
+                    </h1>
+                  </div>
+                  <div class="subheading pr-12 pl-12 mx-12 text-xs-center grey--text text--lighten-3" style="font-weight: 450;">
+                    <h2>
+                      Start Earn Points
+                    </h2>
+                  </div>
+                  <v-btn class="mt-5 white--text"  color="blue" rounded  dark x-large href="/signup" v-if="!userLoggedIn">
+                    Become a Member Now
+                  </v-btn> 
+                  <v-btn class="mt-5 white--text"  color="blue" rounded  dark x-large @click="gotoBuyPoints" v-if="userLoggedIn">
+                    Acquire points now!
+                  </v-btn>                   
+                </v-layout>
+              </v-col>            
+            </v-row>
+          </v-parallax>  
+          </div>
+          <v-container fluid>
+          <div class="py12" style="text-align:center">
+            <v-card>
+            <h1 class="font-weight-bold flex display-3 font-weight-medium pt-10 pb-4 blue--text">
+              PREMILEAL
+            </h1>
+            </v-card>
+            <v-layout row>
+              <v-flex xs6 order-md2 order-xs1>
+                    <v-card tile flat outlined class=" mx-1" height="100%">
+                      <v-card-text>
+                        <p class="body-1 black--text pt-3" style="font-weight: 450;">
+                          Welcome to Premileal, an exclusive loyalty program. The journey of this rewarding program begins 
+                          post purchase of Premileal points from the our webpage Premileal. It entitles you to a lifetime of premium 
+                          privileges, benefits and services. Plus if you earn more points you can get better rewards!
+                        </p>                      
+                      </v-card-text>
+                    </v-card>
+              </v-flex>
+              <v-flex xs6 order-md2 order-xs1>
+                    <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mr-1" height="100%">
+                      <v-card-text>
+                        <h1 class=" display-2 font-italicthin white--text pt-4">JOIN OUR LOYALTY PROGRAM</h1>                  
+                      </v-card-text>
+                    </v-card>
+                  </v-flex>
+              <v-flex xs6 order-md2 order-xs1>
+                    <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mx-1" height="100%">
+                      <v-card-text>
+                        <h1 class="display-2 thin white--text pt-4">GET EXCLUSIVE REWARDS</h1>                     
+                      </v-card-text>
+                    </v-card>
+                  </v-flex>                  
+              <v-flex xs6 order-md2 order-xs1>
+                    <v-card tile flat outlined class=" mr-1" height="100%">
+                      <v-card-text>
+                        <p class="body-1 black--text pt-3" style="font-weight: 450;">
+                          The objective of our platform is for you, our dear client, to be able to benefit from the purchase 
+                          of points, special offers that you will receive only for being a member of our rewards program, and 
+                          the possibility of exchanging the points that you have obtained for other products or money among other 
+                          promotions that will arrive soon.
+                        </p>                      
+                      </v-card-text>
+                    </v-card>
+              </v-flex>      
+            </v-layout>      
+          </div>
         </v-container>
-      </section>
+        <v-container fluid>
+          <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text" style="text-align:center">
+            <h3>About our Membership Plans</h3>
+          </div>
+          <div style="max-width: 60%; margin: auto;">
+            <v-flex xs-center>
+              <v-card flat class="mt-12 mb-2">
+                <v-simple-table class=""  >
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class=" display-1 text-center wrap font-weight-medium blue--text py-4" width= "30%" >Plan Level</th>
+                        <th class="display-1 text-center wrap font-weight-medium black--text py-4"  >Description</th>
+                      </tr>            
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="display-1 font-weight-bold text-start py-3" style="color: rgb(205, 127, 50);">
+                          <v-icon left class="display-1 font-weight-bold py-3" style="color: rgb(205, 127, 50);">mdi-triangle</v-icon>
+                          Basic
+                        </td>
+                        <td class="body-1 py-3 black--text">
+                          Once your Premileal account is created, you become a Basic level user for free, at this level you can 
+                          buy the number of points you want, after registering a bank account on our platform.
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="display-1 text-start font-weight-bold grey--text text--darken-1 py-3">
+                          <v-icon left class="display-1 font-weight-bold grey--text text--darken-1 py-3">mdi-rhombus</v-icon>
+                          Premium
+                        </td>
+                        <td class="body-1 py3 black--text">
+                          When you purchase a lifetime Premium subscription to your account 
+                          for the price of $25.00, you will be able to get 20% more points every time you want to buy a new 
+                          amount of it.
+                        </td>
+                      </tr>               
+                      <tr>
+                        <td class="display-1 text-start font-weight-bold amber--text text--darken-2 py-4">
+                          <v-icon left class="display-1 font-weight-bold amber--text text--darken-2 py-4">mdi-octagram</v-icon>
+                          Gold
+                        </td>
+                        <td class="body-1 py-3 black--text">
+                          The maximun membership level that an user can reach after the purchase of a lifetime Premiun 
+                          account and being constantly participating on promotions and purchase of products. In addition, 
+                          users who reach this level will receive 2500 points as a thank you gift.
+                        </td>   
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>        
+              </v-card>
+                <div style="text-align:center">
+                  <v-btn class="mt-5 white--text" column align-center color="blue" rounded  dark x-large @click="gotoSuscriptions">
+                    Learn More
+                  </v-btn>    
+                </div>
+            </v-flex>
+          </div>
+          <div>
+            <center>
+              <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text"><h3>What are you waiting for?</h3></div>
+              <div class="text-wrap">
+                <v-layout row pb-8>
+                  <v-flex xs6 order-md2 order-xs1>
+                    <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mx-1" height="100%">
+                      <div class="mx-2"> <v-icon large left> mdi-cart </v-icon></div>
+                      <v-card-text>
+                        <h1 class="white--text ml-n2">Purchase</h1>
+                        <p class="body-1 white--text pt-3" style="font-weight: 450;">
+                          Buy points and you will be closer to becoming a premium member!
+                        </p>                      
+                      </v-card-text>
+                    </v-card>
+                  </v-flex>
+                  <v-flex xs6 order-md2 order-xs2>
+                    <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mr-1">
+                      <div class="mx-2"> <v-icon large left> mdi-barcode-scan </v-icon></div>          
+                      <v-card-text>
+                        <h1 class="white--text ml-n2" >Redeem</h1>
+                        <p class="body-1 white--text pt-3" style="font-weight: 450;">
+                          Use coupons with your next purchases and get benefits in our products
+                        </p>            
+                      </v-card-text>
+                    </v-card>
+                  </v-flex>
+                  <v-flex xs6 order-md2 order-xs2>
+                    <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mx-1 mt-1">
+                      <div class="mx-2"> <v-icon large left> mdi-chevron-triple-up </v-icon></div>          
+                      <v-card-text>
+                        <h1 class="white--text">Update</h1>
+                        <p class="body-1 white--text pt-3" style="font-weight: 450;">
+                          Become a Premiun Loyalty Member to get better prizes and earn more points
+                        </p>          
+                      </v-card-text>
+                    </v-card>
+                  </v-flex>
+                  <v-flex xs6 order-md2 order-xs2>
+                    <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mr-1 mt-1">
+                      <div class="mx-2"> <v-icon large left> mdi-wifi </v-icon></div>                    
+                      <v-card-text>
+                        <h1 class="white--text">Stay with us</h1>
+                        <p class="body-1 white--text pt-3" style="font-weight: 450;">
+                          Keep an eye on our website to discover new products, and promotions!
+                        </p>
+                      </v-card-text>
+                    </v-card>
+                  </v-flex>
+                </v-layout>
+              </div>
+            </center>
+          </div>          
+        </v-container>
 
-      <v-footer class="blue darken-2">
-        <v-layout row wrap align-center>
-          <v-flex xs12 class="text-xs-center">
-            <div class="white--text ml-3">
-              Join
-              <v-icon class="green--text">Premileal</v-icon>
-              and <a class="white--text" target="_blank"> begin the loyalty system</a>
-            </div>
-          </v-flex>
-        </v-layout>
-      </v-footer>
 
-    </v-content>
+        </section>
+      </v-content>
     <Footer></Footer>
 </v-app>
 </template>
@@ -84,6 +206,7 @@ import {Vue} from 'vue-property-decorator'
 import Component from "vue-class-component";
 import { fa, providerGoogle, providerFacebook } from '../../firebase';
 import Footer from '@/components/footer/Footer.vue';
+import Navbar from '@/components/navbar/Navbar.vue';
 
 /* --- Services --- */
 import userService  from '../../services/user/userService';
@@ -93,15 +216,12 @@ import User from '../../types/user/User';
 
 @Component({
   components: {
-    Footer
+    Footer,
+    Navbar
   }
 })
-export default class Logout extends Vue{
-
-  title = "Premileal";
-  imageLink = {
-    main: "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2Fb13f0434-b228-11e6-8e5d-5252025056ab_web_scale_0.4666667_0.4666667__.jpg?alt=media&token=660df23e-599e-434b-9313-ba69c973eeea"
-  }
+export default class Logout extends Vue{  
+  
   email = "";
   subscribed = false;
   
@@ -116,9 +236,9 @@ export default class Logout extends Vue{
     this.userLoggedIn = false;
 
     fa.signOut().then(function() {
-      console.log('Signout successful!')
+      console.log('Signout successful!');
     }).catch(function(error) {
-      console.log('Signout failed')
+      console.log('Signout failed');
     });
   }
 
@@ -126,13 +246,21 @@ export default class Logout extends Vue{
     //console.log("getter es: ", this.$store.state.user.sessionStatus);
   }
 
-  login(){
-    this.$router.push({ name: 'login'});
+  profile(){
+    this.$router.push({ name: 'profile'});
   }
 
-  /*async getAllUsers(){
-    this.allusers = await userService.getAllUsers();
-  }*/
+  login(){
+    this.$router.push({ name: 'login'});
+  }  
+
+  gotoSuscriptions(){
+    this.$router.push({ name: 'suscriptions'});
+  }
+
+  gotoBuyPoints(){
+    this.$router.push({ name: 'pointsPurchase' });
+  }
 
 }
 </script>

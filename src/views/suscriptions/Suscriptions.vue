@@ -1,6 +1,9 @@
 <template>
     <v-app>
-        <v-content>
+        <div>
+          <Navbar></Navbar>
+        </div>
+        <v-content>          
             <v-row
                 align="center"
                 justify="center"
@@ -67,7 +70,7 @@
                       <v-img
                         class="white--text align-end"
                         height="200px"
-                        src="https://corkscrewerreport.com/wp-content/uploads/2017/07/Premium-Icon-600x600.png"
+                        src="@/assets/suscriptions/premium.png"
                       >
                         
                       </v-img>
@@ -103,7 +106,7 @@
                       <v-img
                         class="white--text align-end"
                         height="200px"
-                        src="https://i2.wp.com/completecarcare.in/wp-content/uploads/2017/09/Gold-Membership.png?fit=500%2C500"
+                        src="@/assets/suscriptions/Gold.png"
                       >
                         
                       </v-img>
@@ -142,10 +145,12 @@ import {Vue, Watch} from 'vue-property-decorator'
 import Component from "vue-class-component";
 
 import Footer from '@/components/footer/Footer.vue';
+import Navbar from '@/components/navbar/Navbar.vue';
 
 @Component({
     components:{
-        Footer
+        Footer,
+        Navbar
     }
 })
 export default class Suscriptions extends Vue{
