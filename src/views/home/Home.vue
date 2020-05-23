@@ -78,18 +78,18 @@
           </div>
         </v-container>
         <v-container fluid>
-          <!-- <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text" style="text-align:center">
+          <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text" style="text-align:center">
             <h3>About our Membership Plans</h3>
-          </div> -->
+          </div>
           <div style="max-width: 60%; margin: auto;">
-            <!-- <v-flex xs-center> -->
-              <!-- <v-card flat class="mt-12 mb-2">
+            <v-flex xs-center>
+              <v-card flat class="mt-12 mb-2">
                 <v-simple-table class=""  >
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th class=" display-2 text-center wrap font-weight-medium blue--text py-4" width= "30%" >Plan Level</th>
-                        <th class="display-2 text-center wrap font-weight-medium black--text py-4"  >Description</th>
+                        <th class=" display-1 text-center wrap font-weight-medium blue--text py-4" width= "30%" >Plan Level</th>
+                        <th class="display-1 text-center wrap font-weight-medium black--text py-4"  >Description</th>
                       </tr>            
                     </thead>
                     <tbody>
@@ -108,7 +108,8 @@
                           <v-icon left class="display-1 font-weight-bold grey--text text--darken-1 py-3">mdi-rhombus</v-icon>
                           Premium
                         </td>
-                        <td class="body-1 py3 black--text">When you purchase a lifetime Premium subscription to your account 
+                        <td class="body-1 py3 black--text">
+                          When you purchase a lifetime Premium subscription to your account 
                           for the price of $25.00, you will be able to get 20% more points every time you want to buy a new 
                           amount of it.
                         </td>
@@ -118,9 +119,10 @@
                           <v-icon left class="display-1 font-weight-bold amber--text text--darken-2 py-4">mdi-octagram</v-icon>
                           Gold
                         </td>
-                        <td class="body-1 py-3 black--text">The maximun membership level that an user can reach after the 
-                          purchase of a lifetime Premiun account and being constantly participating on promotions and purchase 
-                          of products.
+                        <td class="body-1 py-3 black--text">
+                          The maximun membership level that an user can reach after the purchase of a lifetime Premiun 
+                          account and being constantly participating on promotions and purchase of products. In addition, 
+                          users who reach this level will receive 2500 points as a thank you gift.
                         </td>   
                       </tr>
                     </tbody>
@@ -131,8 +133,8 @@
                   <v-btn class="mt-5 white--text" column align-center color="blue" rounded  dark x-large href="/signup">
                     Learn More
                   </v-btn>    
-                </div> -->
-            <!-- </v-flex> -->
+                </div>
+            </v-flex>
           </div>
           <div>
             <center>
