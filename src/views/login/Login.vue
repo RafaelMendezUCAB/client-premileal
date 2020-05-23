@@ -10,7 +10,7 @@
         >
           <v-row
             align="center"
-            justify="center"
+            justify="center"            
           >
             <v-col
               cols="12"
@@ -20,65 +20,69 @@
               justify="center"
             >
 
-              <v-card class="elevation-3 px-6 py-8" 
+              <v-card class="elevation-3 px-4 py-5" 
                       width="450px">
               <v-card-text>
-                <v-form>
-                    <v-text-field 
-                      color:red
-                      v-model="userData.email"
-                      label= "E-mail address"
-                      prepend-icon= "mdi-at"
-                      :rules="[rules.required, rules.email]"                    
-                      />
-
-                    <v-text-field 
-                      v-model="userData.password"
-                     :type= "showPassword ? 'text' : 'password'" 
-                      persistent-hint
-                      label= "Password"
-                      prepend-icon= "mdi-lock"
-                     :append-icon= "showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                      @click:append="showPassword = !showPassword"
-                      :rules="[rules.required]"
-                      />
-                    <div class="text-right">
-                        <router-link style="text-decoration: none;" 
-                                     to="">
-                                      Forgot Password?
-                        </router-link>
-                    </div>                     
+                <v-form
+                  ref="form"                  
+                  v-model="valid"
+                >
+                  <v-text-field 
+                    color:red
+                    v-model="userData.email"
+                    label= "E-mail address"
+                    prepend-icon= "mdi-at"
+                    :rules="[rules.required, rules.email]"                    
+                    />
+                  <v-text-field 
+                    v-model="userData.password"
+                   :type= "showPassword ? 'text' : 'password'" 
+                    persistent-hint
+                    label= "Password"
+                    prepend-icon= "mdi-lock"
+                   :append-icon= "showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="showPassword = !showPassword"
+                    :rules="[rules.required]"
+                    />
                 </v-form>
+                  <div class="text-right">
+                      <router-link 
+                        style="text-decoration: none;" 
+                        to=""
+                      >
+                          Forgot Password?
+                      </router-link>
+                  </div>                     
+                  <v-card-actions>
+                    <v-btn depressed 
+                           width=100% 
+                           color="#0095ff" 
+                           class="white--text py-3 pb-7" 
+                           @click="login"               
+                           >Log In</v-btn>
+                  </v-card-actions>
+    
+                  <div class="mx-auto text-center" >OR</div>
+    
+                  <span></span>
+    
+                  <v-divider></v-divider>
+    
+                  <v-card-actions>
+                    <v-btn depressed @click="loginGoogle" width=100% color="#F4511E" class="white--text py-6 pb-10">
+                      <div class="pr-4 ml-n7 pl-4"><v-icon large left> mdi-google </v-icon></div>
+                      <div class=""> Log In with GOOGLE</div>
+                    </v-btn>
+                  </v-card-actions>
+    
+                  <v-card-actions>
+                    <v-btn depressed @click="loginFacebook" width=100% color="#3B5998" class="white--text py-6 pb-10">
+                    <div class="pr-4 ml-n3 pl-4"> <v-icon large left> mdi-facebook </v-icon></div>
+                    <div class="ml-n1"> Log In with FACEBOOK</div>  
+                    </v-btn>
+                  </v-card-actions>
+                
               </v-card-text>
-              <v-card-actions>
-                <v-btn depressed 
-                       width=100% 
-                       color="#0095ff" 
-                       class="white--text py-3 pb-7" 
-                       @click="login"               
-                       >Log In</v-btn>
-              </v-card-actions>
-
-              <div class="mx-auto text-center" >OR</div>
-
-              <span></span>
-
-              <v-divider></v-divider>
-
-              <v-card-actions>
-                <v-btn depressed @click="loginGoogle" width=100% color="#F4511E" class="white--text py-6 pb-10">
-                  <div class="pr-4 ml-n7 pl-4"><v-icon large left> mdi-google </v-icon></div>
-                  <div class=""> Log In with GOOGLE</div>
-                </v-btn>
-              </v-card-actions>
-
-              <v-card-actions>
-                <v-btn depressed @click="loginFacebook" width=100% color="#3B5998" class="white--text py-6 pb-10">
-                <div class="pr-4 ml-n3 pl-4"> <v-icon large left> mdi-facebook </v-icon></div>
-                <div class="ml-n1"> Log In with FACEBOOK</div>  
-                </v-btn>
-              </v-card-actions>
-
             </v-card>
            <div class=" text-center pt-4">
              Don't have an account?
@@ -87,6 +91,56 @@
                   Sign Up
                </router-link>
            </div>
+
+            <v-overlay                                  
+              :value="loadingUserData"
+            >
+                <v-card
+                  max-width="344"
+                  class="mx-auto"
+                >
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title class="headline">Loading data</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>  
+                  <v-progress-circular
+                    :size="70"
+                    :width="7"
+                    color="primary"
+                    indeterminate
+                  ></v-progress-circular>                                                                        
+                  <v-card-text>
+                    This could take some time. Please, be patient.
+                  </v-card-text>                                                                                                                
+                </v-card>                                  
+            </v-overlay>
+
+            <v-overlay                                  
+              :value="incorrectCredentials"
+            >
+                <v-card
+                  max-width="500"
+                  class="mx-auto"
+                >
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title class="headline">Error!</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>                                                                                                               
+                  <v-card-text>
+                    <span>Email or password incorrect. Please, try again.</span>
+                  </v-card-text>                                                                          
+                  <v-btn
+                      color="success"
+                      @click="incorrectCredentials = false"
+                      style="margin-bottom: 2%"
+                    >
+                      Ok
+                  </v-btn>                                   
+                </v-card>                              
+            </v-overlay>
+
           </v-col>
         </v-row>
       </v-container>
@@ -100,7 +154,11 @@
 import {Vue} from 'vue-property-decorator'
 import Component from "vue-class-component";
 import { fa, providerGoogle, providerFacebook } from '../../firebase';
+
+// Services
 import userService from '../../services/user/userService';
+
+// Components
 import Footer from '@/components/footer/Footer.vue';
 
   @Component({
@@ -110,6 +168,10 @@ import Footer from '@/components/footer/Footer.vue';
   })
   export default class Login extends Vue{
 
+    valid = false;
+    loadingUserData = false;
+    incorrectCredentials = false;
+
     userData =
     {
         name : '',
@@ -117,67 +179,53 @@ import Footer from '@/components/footer/Footer.vue';
         password :'',
         image : '',
         email : '',
-        birthdate : '01/01/1991',
+        birthdate : '',
         type: 'No Federado',
-        placeID: 389
+        placeID: ''
     };
 
     serverResponse: any = null;
 
-    data (){
-      return{
-        showPassword: false,
-        rules: {
-            required: (value: any) => !!value || 'Required.',
-            email: (value: any) => {
-              const pattern =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-              return pattern.test(value) || 'Invalid e-mail.'
-            }
-         }
+    showPassword = false;
+    rules = {
+      required: (value: any) => !!value || 'Required.',
+      email: (value: any) => {
+        const pattern =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || 'Invalid e-mail.'
       }
-    }
-
-    assignFacebookCredentials(user: any) {
-      console.log("facebook");
-      this.userData.type = 'Facebook';
-    }
+    }    
+            
+    async login(){
+      if(this.valid || this.userData.type !== 'No Federado'){
+        if(this.userData.type === 'No Federado'){
+          this.serverResponse = await userService.login(this.userData.email, this.userData.password);
+        }
+        else {
+          this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
+        }
+        this.loadingUserData = false;
+        if(this.serverResponse.data === "Users doesn't exists."){
+          this.incorrectCredentials = true;
+        }
+        else {
+          this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
+          this.$store.dispatch('user/setSessionStatus', true);
+          this.$router.push({ name: 'home' });
+        }
+      }      
+    }    
 
     assignGoogleCredentials(user: any){
-        this.userData.name = user.displayName;
-        this.userData.email = user.email;
-        this.userData.image = user.photoURL;
-        this.userData.type = 'Google';        
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-        In case user wants to login, we must check if the user already exists. 
-        If so, then the server is gonna retrieve all its information and
-        we continue to the home page. If not, then we must first register the 
-        user and then procced to home page.
-    ------------------------------------------------------------------------------------------------ */
-    async login(){
-      
-        console.log("before checking ", this.serverResponse);
-        if(this.userData.type === 'No Federado'){
-            this.serverResponse = await userService.login(this.userData.email, this.userData.password);
-        }
-        else {
-            this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
-        }
-        console.log("after checking: ", this.serverResponse);
-        if(this.serverResponse.data.length === 0){            
-            console.log("User doesn't exists: ", this.serverResponse.data);
-        }
-        else {
-            console.log("User exists: ", this.serverResponse.data);
-            this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
-            this.$store.dispatch('user/setSessionStatus', true);
-            this.$router.push({ name: 'home'});
-        }
+      this.userData.name = userService.getUserFirstName(user.displayName);
+      this.userData.lastName = userService.getUserLastName(user.displayName);
+      this.userData.email = user.email;
+      this.userData.image = user.photoURL;
+      this.userData.type = 'Google';      
     }
 
     loginGoogle(){
       fa.signInWithPopup(providerGoogle).then(result =>{
+        this.loadingUserData = true;
         const token = result.credential
         const user = result.user        
         this.assignGoogleCredentials(user);
@@ -187,14 +235,21 @@ import Footer from '@/components/footer/Footer.vue';
       })
     }
 
+    assignFacebookCredentials(user: any) {
+      this.userData.name = userService.getUserFirstName(user.displayName);
+      this.userData.lastName = userService.getUserLastName(user.displayName);
+      this.userData.email = user.email;
+      this.userData.image = user.photoURL;
+      this.userData.type = 'Facebook';
+    }
+
     loginFacebook(){
       fa.signInWithPopup(providerFacebook).then(result => {
+        this.loadingUserData = true;
         const token = result.credential
-      const user = result.user
-      console.log("datos del usuario",user);
-      console.log("token", token);
-      
-      this.login();
+        const user = result.user
+        this.assignFacebookCredentials(user);
+        this.login();
       }).catch(error =>{
         console.log(error);
       })
