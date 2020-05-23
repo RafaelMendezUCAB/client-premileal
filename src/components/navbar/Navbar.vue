@@ -3,7 +3,7 @@
     <v-app>
       <v-content>
         <v-toolbar dark color="blue">
-          <v-card flat color="transparent" v-if="!userLoggedIn">
+          <v-card flat color="transparent" v-if="userLoggedIn">
             <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
           </v-card>
           <router-link to="/home"> 
@@ -48,72 +48,60 @@
                 <v-list-item-subtitle>PLAN LEVEL</v-list-item-subtitle>
               </v-list-item-content>
 
-
-              <v-list-item-content>
-                  <v-list-item-title></v-list-item-title>
-              </v-list-item-content>
-
             </v-list-item>
             <v-divider></v-divider>
             
             <v-list-item-group
-                    
                     active-class="blue--text text--accent-4"
             >
 
-          <v-list-item class="align-center">
-            <v-list-item-icon>
-              <v-icon class="blue--text">mdi-home</v-icon>
-            </v-list-item-icon>            
-            <router-link to="/signup" 
+                <v-list-item class="align-center">
+                    <v-list-item-icon>
+                        <v-icon class="blue--text">mdi-home</v-icon>
+                    </v-list-item-icon>            
+                    <router-link to="/signup" 
                          class="blue--text" 
                          style="text-decoration:none;">
-                <v-list-item-title class="blue--text"> 
-                    Home 
-                </v-list-item-title>
-            </router-link>
-         </v-list-item>
+                        <v-list-item-title class="blue--text">Home</v-list-item-title>
+                    </router-link>
+                </v-list-item>
 
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon class="blue--text">mdi-account</v-icon>
-            </v-list-item-icon>
-            <router-link to="/user/profile" 
-                         class="blue--text" 
-                         style="text-decoration:none;">
-            <v-list-item-title class="blue--text">
-                Profile
-            </v-list-item-title>
-            </router-link>
-          </v-list-item>
+                <v-list-item>
+                    <v-list-item-icon>
+                        <v-icon class="blue--text">mdi-account</v-icon>
+                    </v-list-item-icon>
+                    <router-link to="/user/profile" 
+                             class="blue--text" 
+                            style="text-decoration:none;">
+                        <v-list-item-title class="blue--text">
+                            Profile
+                        </v-list-item-title>
+                    </router-link>
+                </v-list-item>
 
-            <v-list-item>
-            <v-list-item-icon>
-              <v-icon class="blue--text">mdi-bank</v-icon>
-            </v-list-item-icon>
-            <router-link to="/user/BankAccount" 
-                         class="blue--text" 
-                         style="text-decoration:none;">
-            <v-list-item-title class="blue--text">
-                Bank Account
-            </v-list-item-title>
-            </router-link>
-            </v-list-item>
+                <v-list-item>
+                    <v-list-item-icon>
+                        <v-icon class="blue--text">mdi-bank</v-icon>
+                    </v-list-item-icon>
+                        <router-link to="/user/BankAccount" 
+                                    class="blue--text" 
+                                    style="text-decoration:none;">
+                            <v-list-item-title class="blue--text">Bank Account</v-list-item-title>
+                        </router-link>
+                </v-list-item>
 
-            <v-list-item>
-            <v-list-item-icon>
-              <v-icon class="orange--text darken-4">mdi-currency-usd-circle-outline</v-icon>
-            </v-list-item-icon>
-            <router-link to="/" 
-                         class="orange--text darken-4" 
-                         style="text-decoration:none;">
-            <v-list-item-title class="orange--text darken-4">
-                Buy Points!
-            </v-list-item-title>
-            </router-link>
-            </v-list-item>
+                <v-list-item>
+                    <v-list-item-icon>
+                        <v-icon class="orange--text darken-4">mdi-currency-usd-circle-outline</v-icon>
+                    </v-list-item-icon>
+                    <router-link to="/" 
+                                 class="orange--text darken-4" 
+                                 style="text-decoration:none;">
+                        <v-list-item-title class="orange--text darken-4 body-1">Buy Points!</v-list-item-title>
+                    </router-link>
+                </v-list-item>
 
-        </v-list-item-group>
+            </v-list-item-group>
          
           </v-list>
         </v-navigation-drawer>
