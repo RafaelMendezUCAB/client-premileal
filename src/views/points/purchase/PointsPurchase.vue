@@ -24,39 +24,40 @@
                         >
                             <v-col>
                                 <h1 class="subtittle">Add points</h1> 
-                                <v-row
-                                    align="center"
-                                    justify="center"
-                                >
-                                    <v-col cols="9" sm="6" md="6" lg="6">
-                                        <v-text-field
-                                                v-model.number="transactionInformation.points"
-                                                label="Points"
+                                <v-form v-model="valid">
+                                    <v-row
+                                        align="center"
+                                        justify="center"
+                                    >
+                                        <v-col cols="9" sm="6" md="6" lg="6">
+                                            <v-text-field
+                                                    v-model.number="transactionInformation.points"
+                                                    label="Points"
+                                                    outlined
+                                                    style="margin-top:10%"
+                                                    class="formBottomMargin"
+                                                    :rules="[rules.required, rules.minimumPoints]"
+                                                    v-on:keypress="restrictChars($event)"
+                                            ></v-text-field>
+                                        </v-col>
+                                    </v-row>     
+    
+                                    <v-row
+                                        align="center"
+                                        justify="center"
+                                    >
+                                        <v-col cols="9" sm="6" md="6" lg="6">
+                                            <v-select
+                                                v-model="transactionInformation.bankAccount.bank"
                                                 outlined
-                                                style="margin-top:10%"
+                                                :items="items"                                            
+                                                label="Bank Account"
                                                 class="formBottomMargin"
-                                                :rules="[rules.required, rules.minimumPoints]"
-                                                v-on:keypress="restrictChars($event)"
-                                        ></v-text-field>
-                                    </v-col>
-                                </v-row>     
-
-                                <v-row
-                                    align="center"
-                                    justify="center"
-                                >
-                                    <v-col cols="9" sm="6" md="6" lg="6">
-                                        <v-select
-                                            v-model="transactionInformation.bankAccount.bank"
-                                            outlined
-                                            :items="items"                                            
-                                            label="Bank Account"
-                                            class="formBottomMargin"
-                                            :rules="[rules.required]"
-                                        ></v-select>
-                                    </v-col>
-                                </v-row>  
-
+                                                :rules="[rules.required]"
+                                            ></v-select>
+                                        </v-col>
+                                    </v-row>  
+                                </v-form>
                                 <v-row
                                     align="center"
                                     justify="center"
@@ -73,7 +74,7 @@
                                     <v-col cols="4" sm="2" md="4" lg="2">
                                         <v-btn
                                           color="blue"
-                                          @click="overlay = !overlay"
+                                          @click="buyPoints"
                                           style="margin-bottom:10%,"
                                         >
                                             <span style="color:white">Pay</span>
@@ -156,6 +157,11 @@
 import {Vue, Watch} from 'vue-property-decorator'
 import Component from "vue-class-component";
 
+import bankAccountService from "@/services/bankAccount/bankAccountService";
+import settingsService from "@/services/settings/settingsService";
+import paymentService from "@/services/payment/paymentService";
+import keyInputService from "@/services/keyInput/keyInputService";
+
 import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
 
@@ -167,71 +173,82 @@ import Navbar from '@/components/navbar/Navbar.vue';
 })
 export default class PointsPurchase extends Vue{
     
+    valid = false;
+    
     items = [
         'Citibank',
         'Bank Of America',
         'CAF'
     ];    
 
+    userData: any = null;
+    settings: any = {
+        serviceCommision: 0,
+        gatewayCommision: 0,
+        dolarValue: 0
+    };
+
     transactionInformation = {
         points: 0,
         bankAccount: {
             bank: '',
-            holderName: 'Rafael Méndez',
-            AccountNumber: '****9884'
+            holderName: '',
+            AccountNumber: ''
         },
         amount: 0.00,
         totalCommision: 0.00,
-        serviceCommision: 1.5,
-        stripeCommision: 0.75,
+        serviceCommision: this.settings.serviceCommision,
+        stripeCommision: this.settings.gatewayCommision,
         total: 0.00
     }
 
-    valid = false;
+    userRegisteredBanks: any = [];
 
     rules = {
         required: (value: any) => !!value || 'Required.',
         minimumPoints: (value: number) => value > 4 || 'You can minimum adquire 5 points.'
     }
 
-    computed(){
-        //this.transactionInformation.totalCommision = this.calculateComision();
+    mounted(){
+        //this.userData = this.getUserData;
+        //this.getUserbankAccounts();
+        this.getSettings();
     }
 
-    roundOff(value: any, decimals: any) {
-      return Number(Math.round(Number(value+'e'+decimals))+'e-'+decimals);
+    get getUserData() {
+        return this.$store.getters["user/getUserData"];
     }
+    
+    async getSettings(){
+        this.settings = await settingsService.getSettings();
+    }
+
+    async getUserbankAccounts(){
+        this.userRegisteredBanks = await bankAccountService.getUserBankAccounts(this.userData.userID);
+    }    
 
     @Watch('transactionInformation.points')
     onPropertyChanged(value: any, oldValue: any){
-        console.log("pago seria: ", (this.transactionInformation.points / 500).toFixed(3));        
-        this.transactionInformation.amount = (Math.round((this.transactionInformation.points / 500) * 100.0 )/ 100.0);
-        this.transactionInformation.totalCommision = Math.round(this.calculateComision() * 100.0) / 100.0;
-        this.transactionInformation.total = Math.round(this.calculateAmount() * 100.0) / 100.0;        
-    }
-
-    calculateAmount(){
-        if(this.transactionInformation.amount !== 0){
-            return this.transactionInformation.amount + this.transactionInformation.totalCommision;
-        }
-        return 0.00
-    }
-
-    calculateComision(){
-        if(this.transactionInformation.points !== 0){
-            return (this.transactionInformation.amount * this.transactionInformation.serviceCommision / 100) + this.transactionInformation.stripeCommision;
-        }
-        return 0.00;
-    }
+        this.transactionInformation.amount = paymentService.calculateAmout(this.transactionInformation.points, this.settings.dolarValue);
+        this.transactionInformation.totalCommision = paymentService.calculateComision(this.transactionInformation.points, this.transactionInformation.amount, this.settings.serviceCommision, this.settings.gatewayCommision);
+        this.transactionInformation.total = paymentService.calculateTotalAmount(this.transactionInformation.amount, this.transactionInformation.totalCommision);          
+    } 
 
     restrictChars(event: any){
-        if(event.charCode < 48 || event.charCode > 57 || this.transactionInformation.points > 100000){
-            event.preventDefault();
-        }        
+        keyInputService.restrictChars(event, this.transactionInformation.points);        
     }
 
     gotoBackHome(){
         this.$router.push({ name: 'home' });
+    }
+
+    buyPoints(){
+        if(this.valid){
+            console.log("buying points.");
+        }
+        else {
+            console.log("fill everything");
+        }    
     }
 
 }
