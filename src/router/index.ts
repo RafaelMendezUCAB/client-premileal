@@ -74,6 +74,24 @@ Vue.use(VueRouter)
     path: '/points/purchase',
     name: 'pointsPurchase',
     component: () => import('../views/points/purchase/PointsPurchase.vue')
+  },
+
+  {
+    path: '/points/withdrawal',
+    name: 'pointsWithdrawal',
+    component: () => import('../views/points/withdrawal/PointsWithdrawal.vue')
+  },
+
+  {
+    path: '/suscriptions/premium/purchase',
+    name: 'premiumSuscriptionPurchase',
+    component: () => import('../views/suscriptions/premium/purchase/PremiumSuscriptionPurchase.vue')
+  },
+
+  {
+    path: '/suscriptions',
+    name: 'suscriptions',
+    component: () => import('../views/suscriptions/Suscriptions.vue')
   }
   
 ]
