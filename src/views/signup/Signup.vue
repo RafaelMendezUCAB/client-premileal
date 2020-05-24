@@ -24,89 +24,150 @@
                     align = "center"
                     justify="center"
                 >
-                    <v-card class="elevation-3 px-6 py-8" 
+                    <v-card class="elevation-3 px-4 py-5" 
                         width="450px">
                     
                         <v-card-text>
-                            <v-form>
-                                <form v-on:submit="createUser">
-                                    <v-text-field
-                                        v-model="userData.name"
-                                        prepend-icon= "mdi-account"
-                                        label="Name"
-                                        :rules="[rules.required, rules.alphabet]">
-                                    </v-text-field>
+                            <v-form
+                                ref="form"
+                                v-model="valid"
+                            >                                
+                                <v-text-field
+                                    v-model="userData.name"
+                                    prepend-icon= "mdi-account"
+                                    label="Name"
+                                    :rules="[rules.required, rules.alphabet]">
+                                </v-text-field>
 
-                                    <v-text-field
-                                        v-model="userData.lastName"
-                                        prepend-icon= "mdi-ab-testing"
-                                        label="Last Name"
-                                        :rules="[rules.required, rules.alphabet]">
-                                    </v-text-field>
+                                <v-text-field
+                                    v-model="userData.lastName"
+                                    prepend-icon= "mdi-ab-testing"
+                                    label="Last Name"
+                                    :rules="[rules.required, rules.alphabet]">
+                                </v-text-field>
 
-                                    <v-text-field
-                                        v-model="userData.password"
-                                        class=""
-                                        prepend-icon= "mdi-lock"
-                                        label="Password"
-                                        :type= "showPassword1 ? 'text' : 'password'" 
-                                        hint="Password must contain at least eight characters, including at least 1 letter and 1 number."
-                                        persistent-hint
-                                        :append-icon= "showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                        :rules="[rules.password]"
-                                        @click:append="showPassword1 = !showPassword1">
-                                    </v-text-field>
+                                <v-text-field
+                                    v-model="userData.password"
+                                    class=""
+                                    prepend-icon= "mdi-lock"
+                                    label="Password"
+                                    :type= "showPassword1 ? 'text' : 'password'" 
+                                    hint="Password must contain at least eight characters."
+                                    persistent-hint
+                                    :append-icon= "showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                    :rules="[rules.password]"
+                                    @click:append="showPassword1 = !showPassword1">
+                                </v-text-field>
 
-                                    <v-text-field
-                                        v-model="userData.email"
-                                        prepend-icon= "mdi-at"
-                                        label="E-mail"
-                                        :rules="[rules.required, rules.email]">
-                                    </v-text-field>
+                                <v-text-field
+                                    v-model="userData.email"
+                                    prepend-icon= "mdi-at"
+                                    label="E-mail"
+                                    :rules="[rules.required, rules.email]">
+                                </v-text-field>
 
-                                    <v-text-field
-                                        v-model="userData.birthdate"
-                                        prepend-icon= "mdi-calendar-blank-outline"
-                                        label="Birth Date"
-                                        type="date">
-                                    </v-text-field>                
+                                <v-text-field
+                                    v-model="userData.birthdate"
+                                    prepend-icon= "mdi-calendar-blank-outline"
+                                    label="Birth Date"
+                                    type="date"
+                                    :rules="[rules.required]">                                        
+                                </v-text-field> 
 
-                                    <v-btn depressed 
-                                        width=100% 
-                                        color="#0095ff" 
-                                        class="white--text py-3 pb-7"
-                                        @click="checkIfUserExists()"
-                                    >
-                                            Sign Up
-                                    </v-btn>
+                                <v-autocomplete
+                                    v-model="userData.placeID"
+                                    item-value="p_id"
+                                    prepend-icon= "mdi-map-marker"
+                                    label="Country"
+                                    :rules="[rules.required]"
+                                    :items="places"
+                                    item-text="p_name">
+                                </v-autocomplete> 
 
-                                </form>
+                                <v-card-actions>
+                                <v-btn depressed 
+                                    width=100% 
+                                    color="#0095ff" 
+                                    class="white--text py-3 pb-7"
+                                    @click="signUp()"
+                                >
+                                    Sign Up
+                                </v-btn>
+                                </v-card-actions>
+                            
+                                <span></span>
+                                <div div class="mx-auto text-center" >OR</div>
+                                <v-divider></v-divider>
                             </v-form>
+
+                            <v-card-actions>
+                                <v-btn depressed @click="accessGoogle" width=100% color="#F4511E" class="white--text py-6 pb-10">
+                                    <div class="pr-4 ml-n7 pl-4">
+                                        <v-icon large left> mdi-google </v-icon>
+                                    </div>
+                                    <div class=""> Sign Up with GOOGLE</div>
+                                </v-btn>
+                            </v-card-actions>
+
+                            <v-card-actions>                            
+                                <v-btn depressed @click="accessFacebook" width=100% color="#3B5998" class="white--text py-6 pb-10">
+                                    <div class="pr-4 ml-n3 pl-4"> 
+                                        <v-icon large left> mdi-facebook </v-icon>
+                                    </div>
+                                    <div class="ml-n1"> Sign Up with FACEBOOK</div>  
+                                </v-btn>
+                            </v-card-actions>
+
+                            <v-overlay                                  
+                              :value="loadingUserData"
+                            >
+                                <v-card
+                                  max-width="344"
+                                  class="mx-auto"
+                                >
+                                  <v-list-item>
+                                    <v-list-item-content>
+                                      <v-list-item-title class="headline">Saving data</v-list-item-title>
+                                    </v-list-item-content>
+                                  </v-list-item>  
+                                  <v-progress-circular
+                                    :size="70"
+                                    :width="7"
+                                    color="primary"
+                                    indeterminate
+                                  ></v-progress-circular>                                                                        
+                                  <v-card-text>
+                                    This could take some time. Please, be patient.
+                                  </v-card-text>                                                                                                                
+                                </v-card>                                  
+                            </v-overlay>                        
+
+                            <v-overlay                                  
+                              :value="error"
+                            >
+                                <v-card
+                                  max-width="500"
+                                  class="mx-auto"
+                                >
+                                  <v-list-item>
+                                    <v-list-item-content>
+                                      <v-list-item-title class="headline">{{errorTittle}}</v-list-item-title>
+                                    </v-list-item-content>
+                                  </v-list-item>                                                                                                               
+                                  <v-card-text>
+                                    <span>{{errorDescription}}</span>
+                                  </v-card-text>                                                                          
+                                  <v-btn
+                                      color="success"
+                                      @click="error = false"
+                                      style="margin-bottom: 2%"
+                                    >
+                                      Ok
+                                  </v-btn>                                   
+                                </v-card>                              
+                            </v-overlay>
+
                         </v-card-text>                    
-
-                        <span></span>
-
-                        <div class="mx-auto text-center" >OR</div>
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                            <v-btn depressed @click="accessGoogle" width=100% color="#F4511E" class="white--text py-6 pb-10">
-                                <div class="pr-2 ml-n6 pl-4">
-                                    <v-icon large left> mdi-google </v-icon>
-                                </div>
-                                <div class=""> Sign Up with GOOGLE</div>
-                            </v-btn>
-                        </v-card-actions>
-
-                        <v-card-actions>                            
-                            <v-btn depressed @click="accessFacebook" width=100% color="#3B5998" class="white--text py-6 pb-10">
-                                <div class="pr-1 ml-n2 pl-4"> 
-                                    <v-icon large left> mdi-facebook </v-icon>
-                                </div>
-                                <div class="ml-n1"> Sign Up with FACEBOOK</div>  
-                            </v-btn>
-                        </v-card-actions>
                     </v-card>
 
                     <div class="text-center pt-4">
@@ -142,120 +203,138 @@
 })
 export default class Signup extends Vue{
 
+    valid = false;
+    loadingUserData = false;
+    
     serverResponse: any = null;
     places: any = [];
 
-    data(){
-        return {
-            showPassword1: false,
-            password:'',
-            rules:{
-                required: (value: string[]) => !!value || 'Required.',
-                min: (v: string) => v.length >= 8 || 'Min 8 characters',
-                alphabet: (value: string) => {
-                    const pattern = /^[A-z]*$|^$/;
-                    return(
-                        pattern.test(value) ||"Only alphabet characters allowed"
-                    )
-                },
-                // counter: (value: any) => value.lenght <= 20 || 'Max 20 characters',        
-                password: (value: string) => {
-                    const pattern = /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/;
-                    return (
-                        pattern.test(value) ||
-                        "Password must contain at least eight characters, including at least 1 letter and 1 number.");
-                },
-                email: (value: string) => {
-                    const pattern = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return pattern.test(value) || 'Invalid e-mail.'
-                }
-            },
-        }
-    }
+    errorTittle = '';
+    errorDescription = '';
+    error = false;
 
-    assignGoogleCredentials(user: any){
-        this.userData.name = user.displayName;
-        this.userData.email = user.email;
-        this.userData.image = user.photoURL;
-        this.userData.type = 'Google';        
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-        In case user wants to signup, we must check if the user has already
-        logged in used one of both. If so, then the server is gonna retrieve all its information and
-        we continue to the home page. If not, then we must first register the user and then procced
-        to home page
-    ------------------------------------------------------------------------------------------------ */
-    async checkIfUserExists(){
-        if(this.userData.type === 'No Federado'){
-            this.serverResponse = await userService.login(this.userData.email, this.userData.password);
-        }
-        else {
-            this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
-        }        
-        if(this.serverResponse.data.length === 0){
-            this.serverResponse = await userService.signUp(this.userData);
-            console.log("Server response: ", this.serverResponse.data);
-        }
-        else {
-            console.log("User already registered: ", this.serverResponse.data);
-        }
-        this.$store.dispatch('user/setSessionStatus', true);
-        this.$router.push({ name: 'home'});
-    }
-    
-    accessGoogle(){
-      fa.signInWithPopup(providerGoogle).then(result =>{
-        const token = result.credential
-        const user = result.user        
-        this.assignGoogleCredentials(user);
-        console.log("Now user is: ", this.userData);
-        this.checkIfUserExists();        
-      }).catch(error =>{
-        console.log(error);
-      })
-    }
-
-    accessFacebook(){
-      fa.signInWithPopup(providerFacebook).then(result => {
-        const token = result.credential
-        const user = result.user
-        console.log("USER DATA",user);
-        console.log("token", token);
-      }).catch(error =>{
-        console.log(error);
-      })
-    }
-
-   userData =
+    userData =
     {
         name : '',
         lastName : '',
         password :'',
         image : '',
         email : '',
-        birthdate : '01/01/1991',
+        birthdate : '',        
         type: 'No Federado',
-        placeID: 389
+        placeID: ''
     };
 
-    async createUser(e: any){
-        e.preventDefault();
-        console.log(this.getUser());
-    }
-
-    getUser(){
-       return this.userData
+    showPassword1 = false;
+    password = '';
+    rules = {
+        required: (value: string[]) => !!value || 'Required.',
+        min: (v: string) => v.length >= 8 || 'Min 8 characters',
+        alphabet: (value: string) => {
+            const pattern = /^[A-z]*$|^$/;
+            return(
+                pattern.test(value) ||"Only alphabet characters allowed"
+            )
+        },
+        password: (value: string) => {
+            const pattern = /(?=.{8,})/;
+            return (
+                pattern.test(value) ||
+                "Password must contain at least eight characters."
+            );
+        },
+        email: (value: string) => {
+            const pattern = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return pattern.test(value) || 'Invalid e-mail.';
+        }
     }
 
     mounted(){
         this.getAllPlaces();
     }
 
+    async signUp(){
+        if(this.valid || this.userData.type !== 'No Federado'){
+            if(this.loadingUserData === false){
+                this.loadingUserData = true;
+            }
+            this.serverResponse = await userService.signUp(this.userData);
+            this.loadingUserData = false;
+            if(this.serverResponse.data === 'User email already exists.'){
+                this.errorTittle = 'Error!';
+                this.errorDescription = 'The email address is already registered. Please, use another or login.';
+                this.error = true;
+            }
+            else {
+                this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
+                this.$store.dispatch('user/setSessionStatus', true);
+                this.$router.push({ name: 'home' });
+            }
+        }        
+    }                
+
+    assignGoogleCredentials(user: any){        
+        this.userData.name = userService.getUserFirstName(user.displayName);
+        this.userData.lastName = userService.getUserLastName(user.displayName);
+        this.userData.email = user.email;
+        this.userData.image = user.photoURL;
+        this.userData.type = 'Google';
+    }
+
+    accessGoogle(){
+      fa.signInWithPopup(providerGoogle).then(result =>{
+        this.loadingUserData = true;
+        const token = result.credential;
+        const user = result.user;        
+        this.assignGoogleCredentials(user);
+        this.signUp();        
+      }).catch(error =>{
+        console.log(error);
+        this.errorTittle = 'Network Error!';
+        this.errorDescription = 'There was a network error. Check your network connection and try again.';
+        this.error = true;
+      })
+    }
+
+    assignFacebookCredentials(user: any){
+        this.userData.name = userService.getUserFirstName(user.displayName);
+        this.userData.lastName = userService.getUserLastName(user.displayName);
+        this.userData.email = user.email;
+        this.userData.image = user.photoURL;
+        this.userData.type = 'Facebook';
+    }
+
+    accessFacebook(){
+      fa.signInWithPopup(providerFacebook).then(result => {
+        this.loadingUserData = true;
+        const token = result.credential;
+        const user = result.user;
+        this.assignFacebookCredentials(user);
+        this.signUp();
+      }).catch(error =>{
+        console.log(error);
+        this.errorTittle = 'Network Error!';
+        this.errorDescription = 'There was a network error. Check your network connection and try again.';
+        this.error = true;
+      })
+    }
+
+    resetData(){
+        this.userData = {
+            name : '',
+            lastName : '',
+            password :'',
+            image : '',
+            email : '',
+            birthdate : '',        
+            type: 'No Federado',
+            placeID: ''
+        }
+    }               
+
     async getAllPlaces(){
         this.serverResponse = await placeService.getAllPlaces();
         this.places = this.serverResponse.data;
-        console.log("places are: ", this.places);
     }    
 
 }
