@@ -1,4 +1,7 @@
 import api from '../API/request';
+import { fa, providerGoogle, providerFacebook } from '@/firebase';
+
+let serverResponse: any = null;
 
 export default {  
 
@@ -22,18 +25,31 @@ export default {
     else {
       return userFullName;
     }
-  },  
+  },
+
+  async login(userData: any){
+    if(userData.type !== 'No Federado'){      
+      serverResponse = await this.socialAuthentication(userData.email, userData.type); 
+      if(serverResponse.data === "Social user doesn't exists."){
+        return await this.signUp(userData);
+      }      
+    }
+    else {
+      serverResponse = await this.authenticate(userData.email, userData.password);      
+    }
+    return serverResponse;
+  },    
 
   /* --------------------- API CALLS ------------------------------- */
   getAllUsers() {
     return api.user.getAllUsers();
   },
 
-  login(email: string, password: string){
+  authenticate(email: string, password: string){
     return api.user.login(email, password);
   },
 
-  socialLogin(email: string, type: string){
+  socialAuthentication(email: string, type: string){
     return api.user.socialLogin(email, type);
   },
 

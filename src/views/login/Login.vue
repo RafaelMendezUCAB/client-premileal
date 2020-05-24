@@ -199,14 +199,9 @@ import Footer from '@/components/footer/Footer.vue';
     }    
             
     async login(){
-      if(this.valid || this.userData.type !== 'No Federado'){        
-        if(this.userData.type === 'No Federado'){
-          this.loadingUserData = true
-          this.serverResponse = await userService.login(this.userData.email, this.userData.password);
-        }
-        else {
-          this.serverResponse = await userService.socialLogin(this.userData.email, this.userData.type);
-        }
+      if(this.valid || this.userData.type !== 'No Federado'){  
+        this.loadingUserData = true;
+        this.serverResponse = await userService.login(this.userData);      
         this.loadingUserData = false;
         if(this.serverResponse.data === "Users doesn't exists."){
           this.errorTittle = 'Error!';
@@ -238,9 +233,11 @@ import Footer from '@/components/footer/Footer.vue';
         this.login();
       }).catch(error =>{
         console.log(error);
-        this.errorTittle = 'Network Error!';
-        this.errorDescription = 'There was a network error. Check your network connection and try again.';
-        this.error = true;
+        if(error.code !== "auth/cancelled-popup-request" && error.code !== "auth/popup-closed-by-user"){
+          this.errorTittle = 'Network Error!';
+          this.errorDescription = 'There was a network error. Check your network connection and try again.';
+          this.error = true;
+        }        
       })
     }
 
@@ -261,9 +258,11 @@ import Footer from '@/components/footer/Footer.vue';
         this.login();
       }).catch(error =>{
         console.log(error);
-        this.errorTittle = 'Network Error!';
-        this.errorDescription = 'There was a network error. Check your network connection and try again.';
-        this.error = true;
+        if(error.code !== "auth/popup-closed-by-user" && error.code !== "auth/cancelled-popup-request"){
+          this.errorTittle = 'Network Error!';
+          this.errorDescription = 'There was a network error. Check your network connection and try again.';
+          this.error = true;
+        }   
       })
     }
 
