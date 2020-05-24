@@ -89,7 +89,7 @@
                         >
                             <v-btn
                               color="orange"
-
+                              @click="acquireSuscription"
                             >
                               Acquire now!
                             </v-btn>
@@ -155,12 +155,30 @@ import Navbar from '@/components/navbar/Navbar.vue';
 })
 export default class Suscriptions extends Vue{
 
-    icons = [
-        'facebook',
-        'twitter',        
-        'instagram',
-        'youtube',
-    ];
+    userData: any = null;
+    userLoggedIn: any = null;
+
+    mounted(){
+      this.userData = this.getUserData;
+      this.userLoggedIn = this.sessionStatus;
+    }
+
+    get getUserData() {
+      return this.$store.getters["user/getUserData"];
+    }
+
+    get sessionStatus(){
+      return this.$store.getters["user/getSessionStatus"];
+    }
+
+    acquireSuscription(){
+      if(this.userLoggedIn){
+        this.$router.push({ name: 'premiumSuscriptionPurchase' });
+      }
+      else {
+        this.$router.push({ name: 'login' });
+      }
+    }
 
 }
 </script>

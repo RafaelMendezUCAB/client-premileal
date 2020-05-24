@@ -117,7 +117,7 @@
             </v-overlay>
 
             <v-overlay                                  
-              :value="incorrectCredentials"
+              :value="error"
             >
                 <v-card
                   max-width="500"
@@ -125,15 +125,15 @@
                 >
                   <v-list-item>
                     <v-list-item-content>
-                      <v-list-item-title class="headline">Error!</v-list-item-title>
+                      <v-list-item-title class="headline">{{errorTittle}}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>                                                                                                               
                   <v-card-text>
-                    <span>Email or password incorrect. Please, try again.</span>
+                    <span>{{errorDescription}}</span>
                   </v-card-text>                                                                          
                   <v-btn
                       color="success"
-                      @click="incorrectCredentials = false"
+                      @click="error = false"
                       style="margin-bottom: 2%"
                     >
                       Ok
@@ -170,7 +170,10 @@ import Footer from '@/components/footer/Footer.vue';
 
     valid = false;
     loadingUserData = false;
-    incorrectCredentials = false;
+
+    errorTittle = '';
+    errorDescription = '';
+    error = false;
 
     userData =
     {
@@ -196,8 +199,9 @@ import Footer from '@/components/footer/Footer.vue';
     }    
             
     async login(){
-      if(this.valid || this.userData.type !== 'No Federado'){
+      if(this.valid || this.userData.type !== 'No Federado'){        
         if(this.userData.type === 'No Federado'){
+          this.loadingUserData = true
           this.serverResponse = await userService.login(this.userData.email, this.userData.password);
         }
         else {
@@ -205,7 +209,9 @@ import Footer from '@/components/footer/Footer.vue';
         }
         this.loadingUserData = false;
         if(this.serverResponse.data === "Users doesn't exists."){
-          this.incorrectCredentials = true;
+          this.errorTittle = 'Error!';
+          this.errorDescription = 'Email or password incorrect. Please, try again.';
+          this.error = true;
         }
         else {
           this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
@@ -232,6 +238,9 @@ import Footer from '@/components/footer/Footer.vue';
         this.login();
       }).catch(error =>{
         console.log(error);
+        this.errorTittle = 'Network Error!';
+        this.errorDescription = 'There was a network error. Check your network connection and try again.';
+        this.error = true;
       })
     }
 
@@ -252,6 +261,9 @@ import Footer from '@/components/footer/Footer.vue';
         this.login();
       }).catch(error =>{
         console.log(error);
+        this.errorTittle = 'Network Error!';
+        this.errorDescription = 'There was a network error. Check your network connection and try again.';
+        this.error = true;
       })
     }
 
