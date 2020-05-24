@@ -15,14 +15,14 @@
                 </v-col>
             </v-row>      
             <v-divider></v-divider>  
-            <v-row>
+            <v-row>                
                 <v-col cols="12" md="6" lg="4" class="rightBorder">
                     <div class="text-center">
                         <v-row
                             align="center"
                             justify="center"
                         >
-                            <v-col>
+                            <v-col>                                
                                 <h1 class="subtittle">Add points</h1> 
                                 <v-form v-model="valid">
                                     <v-row
@@ -47,10 +47,12 @@
                                         justify="center"
                                     >
                                         <v-col cols="9" sm="6" md="6" lg="6">
-                                            <v-select
-                                                v-model="transactionInformation.bankAccount.bank"
+                                            <v-select return-object
+                                                v-model="transactionInformation.bankAccount"
                                                 outlined
-                                                :items="items"                                            
+                                                :items="userRegisteredBanks"                                            
+                                                item-text="bank"
+                                                item-value="item"
                                                 label="Bank Account"
                                                 class="formBottomMargin"
                                                 :rules="[rules.required]"
@@ -110,7 +112,7 @@
                                       <ul style="margin-top: -4%; margin-bottom: 4%">
                                           <li>Bank: <b>{{transactionInformation.bankAccount.bank}}</b></li>
                                           <li>Holder name: <b>{{transactionInformation.bankAccount.holderName}}</b></li>
-                                          <li>Account number: <b>{{transactionInformation.bankAccount.AccountNumber}}</b></li>
+                                          <li>Account number: <b>{{transactionInformation.bankAccount.accountNumber}}</b></li>
                                       </ul>
                                       <p>Amount: <b>${{transactionInformation.amount}}</b></p>
                                       <p>Service commission: <b>${{transactionInformation.totalCommision}}</b></p>                                      
@@ -145,8 +147,69 @@
 
                             </v-col>
                         </v-row>
-                    </div>
+                    </div>                                        
                 </v-col>
+
+                <v-row
+                    align = "center"
+                    justify="center"
+                >
+                    <v-col
+                        align = "center"
+                        justify="center"
+                        cols="12"
+                    >
+                        <v-overlay                                  
+                          :value="sendingPayment"
+                        >
+                            <v-card
+                              max-width="344"
+                              class="mx-auto"
+                            >
+                              <v-list-item>
+                                <v-list-item-content>
+                                  <v-list-item-title class="headline">Proccessing payment.</v-list-item-title>
+                                </v-list-item-content>
+                              </v-list-item>  
+                              <v-progress-circular
+                                :size="70"
+                                :width="7"
+                                color="primary"
+                                indeterminate
+                              ></v-progress-circular>                                                                        
+                              <v-card-text>
+                                This could take some time. Please, be patient.
+                              </v-card-text>                                                                                                                
+                            </v-card>                                  
+                        </v-overlay>
+
+                        <v-overlay                                  
+                          :value="transactionFinished"
+                        >
+                            <v-card
+                              max-width="500"
+                              class="mx-auto"
+                            >
+                              <v-list-item>
+                                <v-list-item-content>
+                                  <v-list-item-title class="headline">{{transactionTitle}}</v-list-item-title>
+                                </v-list-item-content>
+                              </v-list-item>                                                                                                               
+                              <v-card-text>
+                                <span>{{transactionDescription}}</span>
+                              </v-card-text>                                                                          
+                              <v-btn
+                                  color="success"
+                                  @click="transactionFinished = false"
+                                  style="margin-bottom: 2%"
+                                >
+                                  Ok
+                              </v-btn>                                   
+                            </v-card>                              
+                        </v-overlay>
+                    </v-col>
+                </v-row>
+
             </v-row>
         </v-content>
         <Footer></Footer>
@@ -174,6 +237,11 @@ import Navbar from '@/components/navbar/Navbar.vue';
 export default class PointsPurchase extends Vue{
     
     valid = false;
+
+    sendingPayment = false;
+    transactionFinished = false;
+    transactionTitle = '';
+    transactionDescription = '';
     
     items = [
         'Citibank',
@@ -189,11 +257,21 @@ export default class PointsPurchase extends Vue{
     };
 
     transactionInformation = {
+        userID: 0,
+        userName: '',
+        userEmail: '',
+        customer: 0,
         points: 0,
         bankAccount: {
+            bankAccountID: 0,
             bank: '',
             holderName: '',
-            AccountNumber: ''
+            accountNumber: '',
+            accountType: '',
+            routingNumber: '',
+            isPrimary: false,
+            stripeID: '',
+            stripeConnectID: ''
         },
         amount: 0.00,
         totalCommision: 0.00,
@@ -204,14 +282,20 @@ export default class PointsPurchase extends Vue{
 
     userRegisteredBanks: any = [];
 
+    serverResponse: any = null;
+
     rules = {
         required: (value: any) => !!value || 'Required.',
         minimumPoints: (value: number) => value > 4 || 'You can minimum adquire 5 points.'
     }
 
     mounted(){
-        //this.userData = this.getUserData;
-        //this.getUserbankAccounts();
+        this.userData = this.getUserData;
+        this.transactionInformation.userID = this.userData.userID;
+        this.transactionInformation.userEmail = this.userData.email;
+        this.transactionInformation.userName = this.userData.name;
+        this.transactionInformation.customer = this.userData.stripe_id;
+        this.getUserbankAccounts();
         this.getSettings();
     }
 
@@ -225,6 +309,8 @@ export default class PointsPurchase extends Vue{
 
     async getUserbankAccounts(){
         this.userRegisteredBanks = await bankAccountService.getUserBankAccounts(this.userData.userID);
+        //this.userRegisteredBanks = await bankAccountService.getUserBankAccounts(26);
+        console.log("banks: ", this.userRegisteredBanks);
     }    
 
     @Watch('transactionInformation.points')
@@ -242,9 +328,22 @@ export default class PointsPurchase extends Vue{
         this.$router.push({ name: 'home' });
     }
 
-    buyPoints(){
-        if(this.valid){
-            console.log("buying points.");
+    async buyPoints(){
+        if(this.valid){            
+            this.sendingPayment = true;
+            this.serverResponse = await paymentService.buyPoints(this.transactionInformation);
+            this.sendingPayment = false;
+            if(this.serverResponse.data === "Points payment successfully proccessed."){
+                this.userData.points = this.userData.points + this.transactionInformation.points;
+                this.$store.dispatch('user/addPoints', this.userData.points);  
+                this.transactionTitle = 'Payment successfully proccessed!'
+                this.transactionDescription = 'Now you have ', this.userData.points, ' available for use,';                
+            }
+            else {
+                this.transactionTitle = 'Error! Payment rejected.';
+                this.transactionDescription = 'An error ocurred. Your payment has been rejected.';
+            }
+            this.transactionFinished = true;
         }
         else {
             console.log("fill everything");

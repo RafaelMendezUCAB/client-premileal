@@ -33,6 +33,10 @@ export default {
 
     setUserSessionStatus(state: {}, status: boolean){
       Vue.set(state, "loggedIn", status);
+    },
+
+    addPointToUser(state: {}, points: number){
+      Vue.set(state, "user.points", points);
     }
   },
   // -----------------------------------------------------------------
@@ -50,6 +54,10 @@ export default {
 
     setSessionStatus: (context: any, status: boolean) => {
       context.commit("setUserSessionStatus", status);
+    },
+
+    addPoints: (context: any, points: number) => {
+      context.commit("addPointToUser", points);
     }
   },
 };
