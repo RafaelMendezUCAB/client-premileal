@@ -1,5 +1,8 @@
 <template>
     <v-app light>
+        <div>
+          <Navbar></Navbar>
+        </div>
         <v-content>
             <v-row
                 align="center"
@@ -34,7 +37,7 @@
                                         >
                                           <v-img
                                             height="250"
-                                            src="https://www.citibank.com.hk/views/images/citi-hk-logo.png"
+                                            src="@/assets/banks/Citibank.png"
                                           ></v-img>                                  
 
                                           <v-card-text>                                    
@@ -42,7 +45,8 @@
                                             <p>Bank Account Number: <b>5899</b></p>  
                                             <p>Bank Account Routing Number: <b>41553370</b></p>  
                                             <p>Bank Account Checking Number: <b>0384</b></p>  
-                                            <p>Bank Account Status: <b style="color: red;">Unverified</b></p>                                      
+                                            <p v-if="bankAccount.status === 'Unverified'">Bank Account Status: <b style="color: red;">Unverified</b></p>  
+                                            <p v-if="bankAccount.status === 'Verified'">Bank Account Status: <b style="color: green;">Verified</b></p>                             
                                           </v-card-text>                                
                                         </v-card>
                                     </v-col>
@@ -119,7 +123,125 @@
                                       Verify Bank Account
                                     </v-btn>
                                   
-                                </v-card>   
+                                </v-card>  
+
+                                <v-overlay
+                                  
+                                  :value="proccessingRequest"
+                                >
+                                    <v-card
+                                      max-width="344"
+                                      class="mx-auto"
+                                    >
+                                      <v-list-item>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline">{{eventDescription}}</v-list-item-title>
+                                        </v-list-item-content>
+                                      </v-list-item>  
+
+                                      <v-progress-circular
+                                        :size="70"
+                                        :width="7"
+                                        color="primary"
+                                        indeterminate
+                                      ></v-progress-circular>                                                                        
+
+                                      <v-card-text>
+                                        This could take some time. Please, be patient.
+                                      </v-card-text>                                       
+                                    </v-card>
+                                  
+                                </v-overlay> 
+
+                                <v-overlay                                  
+                                  :value="userWasntCharged"
+                                >
+                                    <v-card
+                                      max-width="400"
+                                      class="mx-auto"
+                                    >
+                                      <v-list-item>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline">What now?</v-list-item-title>
+                                        </v-list-item-content>
+                                      </v-list-item>                                                                                                               
+
+                                      <v-card-text>
+                                        As you weren't charged, you have 2 options:
+                                        <ol>
+                                            <br/><li>You can notify us about the issue, so we get it touch with you ass soon as we can.</li><br/>
+                                            <li>You can select to be charged again, making us charging again your bank account.</li>
+                                        </ol>
+                                      </v-card-text>   
+
+                                      <v-btn
+                                          color="success"
+                                          @click="notifyPremileal"
+                                          style="margin-bottom: 2%; margin-right: 1%"
+                                        >
+                                          Notify us
+                                      </v-btn> 
+
+                                      <v-btn
+                                          color="danger"
+                                          @click="chargeUserAgain"
+                                          style="margin-bottom: 2%"
+                                        >
+                                          Charge me again
+                                      </v-btn>                                                                                                                                                   
+                                    </v-card>                                  
+                                </v-overlay>
+
+                                <v-overlay                                  
+                                  :value="error"
+                                >
+                                    <v-card
+                                      max-width="500"
+                                      class="mx-auto"
+                                    >
+                                      <v-list-item>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline">{{errorTittle}}</v-list-item-title>
+                                        </v-list-item-content>
+                                      </v-list-item>                                                                                                               
+                                      <v-card-text>
+                                        <span>{{errorDescription}}</span>
+                                      </v-card-text>                                                                          
+                                      <v-btn
+                                          color="success"
+                                          @click="error = false"
+                                          style="margin-bottom: 2%"
+                                        >
+                                          Ok
+                                      </v-btn>                                   
+                                    </v-card>                              
+                                </v-overlay>
+
+                                <v-overlay                                  
+                                  :value="alreadyVerifiedMessage"
+                                >
+                                    <v-card
+                                      max-width="500"
+                                      class="mx-auto"
+                                    >
+                                      <v-list-item>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline">Bank Account already verified!</v-list-item-title>
+                                        </v-list-item-content>
+                                      </v-list-item>                                                                                                               
+                                      <v-card-text>
+                                        <span>There's no need to verify the bank account if it's already verified.</span>
+                                      </v-card-text>                                                                          
+                                      <v-btn
+                                          color="success"
+                                          @click="alreadyVerifiedMessage = false"
+                                          style="margin-bottom: 2%"
+                                        >
+                                          Ok
+                                      </v-btn>                                   
+                                    </v-card>                              
+                                </v-overlay>
+
                             </v-col>
                             
                         </v-row> 
@@ -139,7 +261,7 @@
                                 <h3 style="margin-top: 8%; margin-bottom: 2%;">Important!</h3>                                
                                 <p>Insert the exact amount including decimals. Ex: 0.75</p>
                                 <p>Remember charges could take days to appear in your bank account balance. Be patient.</p>
-                                <p>If you mark that you weren't charged, then we will try making again 2 charges to you bank account. Be sure the transaction didn't take place.</p>
+                                <p>If you mark that you weren't charged, then we will try making again 2 charges to you bank account. Make sure the transaction didn't take place.</p>
                             </v-col>
                         </v-row>
                     </div>
@@ -153,11 +275,16 @@
 <script lang='ts'>
 import {Vue} from 'vue-property-decorator'
 import Component from "vue-class-component";
+
+import bankAccountService from '@/services/bankAccount/bankAccountService';
+
 import Footer from '@/components/footer/Footer.vue';
+import Navbar from '@/components/navbar/Navbar.vue';
 
 @Component({
     components:{
-        Footer
+        Footer,
+        Navbar
     }
 })
 export default class BankAccountVerification extends Vue{
@@ -169,6 +296,32 @@ export default class BankAccountVerification extends Vue{
 
     firstCharge = '';
     secondCharge = '';
+
+    userWasntCharged = false;
+    alreadyVerifiedMessage = false;
+
+    proccessingRequest = false;
+    eventTitle = '';
+    eventDescription = '';
+
+    errorTittle = '';
+    errorDescription = '';
+    error = false;
+
+    userData: any = null;
+    bankAccount: any = {
+        status: 'Verified'
+    };
+
+    serverResponse: any = null;
+
+    mounted(){
+        this.userData = this.getUserData;
+    }
+
+    get getUserData() {
+        return this.$store.getters["user/getUserData"];
+    }
 
     rules = {
         required: (value: any) => !!value || 'Required.',    
@@ -194,16 +347,53 @@ export default class BankAccountVerification extends Vue{
         }        
     }
 
-    verifyBankAccount(){
-        if(this.notCharged){
-            console.log("show alert, then make the client pay again");
+    async verifyBankAccount(){
+        if(this.bankAccount.status === 'Unverified'){
+            if(this.notCharged){            
+            this.userWasntCharged = true;
+            }
+            else if(this.valid){
+                this.eventDescription = 'Validating bank account.';
+                this.proccessingRequest = true;
+                this.serverResponse = await bankAccountService.verifyBankAccount(this.bankAccount.bankAccountID, {
+                    bankAccount: this.bankAccount,
+                    user: this.userData
+                });
+                this.proccessingRequest = false;
+                if(this.serverResponse.data === 'Invalid amounts.'){
+                    this.errorTittle = 'Error. Invalid amounts!';
+                    this.errorDescription = 'The amounts you have entered didn\'t match with the ones we have. Please, try again.';
+                    this.error = true;
+                }
+                else if(this.serverResponse.data === 'An error has ocurred.'){
+                    this.errorTittle = 'Network Error!';
+                    this.errorDescription = 'There was a network error. Check your network connection and try again.';
+                    this.error = true; 
+                }
+                else {
+                    console.log("Validating");
+                    this.bankAccount.status = 'Verified';
+                }
+            }
+            else{
+                console.log("won't validate a shit");
+            }
         }
-        else if(this.valid){
-            console.log("procced to validate bank account");
+        else {
+            this.alreadyVerifiedMessage = true;
         }
-        else{
-            console.log("won't validate a shit");
-        }
+    }
+
+    notifyPremileal(){
+        this.userWasntCharged = false;
+        this.eventDescription = 'Sending notification.';
+        this.proccessingRequest = true;
+    }
+
+    chargeUserAgain(){
+        this.userWasntCharged = false;
+        this.eventDescription = 'Charging Bank Account.';
+        this.proccessingRequest = true;
     }
 }
 </script>

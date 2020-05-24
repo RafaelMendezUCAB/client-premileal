@@ -1,5 +1,8 @@
 <template>
     <v-app light>
+        <div>
+          <Navbar></Navbar>
+        </div>
         <v-content>
             <v-row
                 align="center"
@@ -29,7 +32,7 @@
                                 >
                                   <v-img
                                     height="250"
-                                    src="https://www.citibank.com.hk/views/images/citi-hk-logo.png"
+                                    src="@/assets/banks/Citizens Bank.png"
                                   ></v-img>                                  
 
                                   <v-card-text>                                    
@@ -258,11 +261,14 @@
 <script lang='ts'>
 import {Vue} from 'vue-property-decorator'
 import Component from "vue-class-component";
+
 import Footer from '@/components/footer/Footer.vue';
+import Navbar from '@/components/navbar/Navbar.vue';
 
 @Component({
     components:{
-        Footer
+        Footer,
+        Navbar
     }
 })
 export default class BankAccountStatus extends Vue{

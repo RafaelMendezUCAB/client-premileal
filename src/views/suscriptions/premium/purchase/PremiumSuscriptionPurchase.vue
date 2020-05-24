@@ -1,5 +1,8 @@
 <template>
     <v-app>
+        <div>
+          <Navbar></Navbar>
+        </div>
         <v-content>
             <v-row
                 align="center"
@@ -35,7 +38,7 @@
                                       <v-img
                                         class="white--text align-end"
                                         height="400px"
-                                        src="https://corkscrewerreport.com/wp-content/uploads/2017/07/Premium-Icon-600x600.png"
+                                        src="@/assets/suscriptions/premium.png"
                                       >
                                         <v-card-title>Top 10 Australian beaches</v-card-title>
                                       </v-img>
@@ -169,10 +172,12 @@ import {Vue, Watch} from 'vue-property-decorator'
 import Component from "vue-class-component";
 
 import Footer from '@/components/footer/Footer.vue';
+import Navbar from '@/components/navbar/Navbar.vue';
 
 @Component({
     components:{
-        Footer
+        Footer,
+        Navbar
     }
 })
 export default class PremiumSuscriptionPurchase extends Vue{
@@ -246,7 +251,7 @@ export default class PremiumSuscriptionPurchase extends Vue{
     }
 
     cancelPayment(){
-      console.log("payment being cancelled");
+      this.$router.push({ name: 'home' });
     }
 
 }
