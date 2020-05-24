@@ -261,7 +261,7 @@
                                 <h3 style="margin-top: 8%; margin-bottom: 2%;">Important!</h3>                                
                                 <p>Insert the exact amount including decimals. Ex: 0.75</p>
                                 <p>Remember charges could take days to appear in your bank account balance. Be patient.</p>
-                                <p>If you mark that you weren't charged, then we will try making again 2 charges to you bank account. Be sure the transaction didn't take place.</p>
+                                <p>If you mark that you weren't charged, then we will try making again 2 charges to you bank account. Make sure the transaction didn't take place.</p>
                             </v-col>
                         </v-row>
                     </div>
