@@ -24,10 +24,7 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-card flat color="transparent" v-if="userLoggedIn">
-                <!-- IF USER ARE ALREADY LOG IN -->
-            <!--<v-btn class="black--text mr-2 font-weight-black" flat color="amber" >Buy Points!</v-btn>
-            <v-btn  class="mr-6 white--text" flat outlined color="white"  >Profile</v-btn>
-            <v-btn class="mr-2 blue--text" flat color="white" @click="logout" >Log Out</v-btn>-->
+                <!-- IF USER ARE ALREADY LOG IN -->            
             <v-btn class="black--text mr-2 font-weight-black buyPoints" flat color="amber" @click="gotoBuyPoints">Buy Points!</v-btn>
                <!-- IF USER ARE NOT ALREADY LOG IN -->
           </v-card>
