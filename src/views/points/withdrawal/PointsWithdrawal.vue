@@ -1,5 +1,8 @@
 <template>
     <v-app>
+        <div>
+          <Navbar></Navbar>
+        </div>
         <v-content>
             <v-row
                 align="center"
@@ -162,10 +165,12 @@ import {Vue, Watch} from 'vue-property-decorator'
 import Component from "vue-class-component";
 
 import Footer from '@/components/footer/Footer.vue';
+import Navbar from '@/components/navbar/Navbar.vue';
 
 @Component({
     components:{
-        Footer
+        Footer,
+        Navbar
     }
 })
 export default class PointsWithdrawal extends Vue{

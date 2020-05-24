@@ -1,5 +1,8 @@
 <template>
     <v-app light>
+        <div>
+          <Navbar></Navbar>
+        </div>
         <v-content>  
 
             <v-row
@@ -264,7 +267,9 @@
 <script lang='ts'>
 import {Vue, Watch} from 'vue-property-decorator'
 import Component from "vue-class-component";
+
 import Footer from '@/components/footer/Footer.vue';
+import Navbar from '@/components/navbar/Navbar.vue';
 
 // Services
 import bankService from '@/services/bank/bankService';
@@ -272,7 +277,8 @@ import bankAccountService from '@/services/bankAccount/bankAccountService';
 
 @Component({
     components: {
-        Footer
+        Footer,
+        Navbar
     }
 })
 export default class BankAccountRegistration extends Vue{

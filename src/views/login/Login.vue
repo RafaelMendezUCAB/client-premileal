@@ -216,7 +216,7 @@ import Footer from '@/components/footer/Footer.vue';
         else {
           this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
           this.$store.dispatch('user/setSessionStatus', true);
-          this.$router.push({ name: 'userBankAccountRegistration' });
+          this.$router.push({ name: 'home' });
         }
       }      
     }    

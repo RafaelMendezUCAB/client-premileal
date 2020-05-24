@@ -171,14 +171,7 @@ export default class PointsPurchase extends Vue{
         'Citibank',
         'Bank Of America',
         'CAF'
-    ];
-
-    icons = [
-        'facebook',
-        'twitter',        
-        'instagram',
-        'youtube',
-    ];
+    ];    
 
     transactionInformation = {
         points: 0,
@@ -211,12 +204,7 @@ export default class PointsPurchase extends Vue{
 
     @Watch('transactionInformation.points')
     onPropertyChanged(value: any, oldValue: any){
-        console.log("pago seria: ", (this.transactionInformation.points / 500).toFixed(3));
-        //console.log("roundoff is: ", this.roundOff(this.transactionInformation.points / 500, 2));
-
-        //this.transactionInformation.amount = this.roundOff(this.transactionInformation.points / 500, 2);
-
-        //this.transactionInformation.amount = parseFloat(Number((this.transactionInformation.points / 500)).toFixed(2));
+        console.log("pago seria: ", (this.transactionInformation.points / 500).toFixed(3));        
         this.transactionInformation.amount = (Math.round((this.transactionInformation.points / 500) * 100.0 )/ 100.0);
         this.transactionInformation.totalCommision = Math.round(this.calculateComision() * 100.0) / 100.0;
         this.transactionInformation.total = Math.round(this.calculateAmount() * 100.0) / 100.0;        

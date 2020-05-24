@@ -19,6 +19,7 @@ export default {
     // getters and computed props
     //collection: (state: any) => state.users,
     getUserData: (state: any) => state.user,
+    getSessionStatus: (state: any) => state.loggedIn,
   },
   // -----------------------------------------------------------------
   mutations: {    
