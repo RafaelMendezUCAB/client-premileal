@@ -1,9 +1,151 @@
-.finedTitle {
-    font-weight: 900;
-    text-shadow: 2px 2px #000000;
+.welcomeTittle{
+   color: #EEEEEE;
+   font-weight: medium;
+   font-size: 70px;
+}
+
+.WelcomeSubtittle{
+  color: #EEEEEE;
+  font-weight: medium;
+  font-size: 40px;
+}
+  
+.button {
+  color: #2196F3;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.premilealTitle{
+  font-weight: bold;
+  font-weight: medium;
+  font-size: 60px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+  color: #2196F3;
+}
+
+.parallaxHeight{
+  height: 500;
+}
+
+.miniCard1{
+  font-weight: 450;
+  padding-top: 12px;
+  color: black;
+}
+
+.miniCard2{
+  font-weight: 450;
+  /* padding-top: 18px; */
+  /* margin-top: 4px; */
+  color: white ;
+  background-color:#1E88E5 ;
+  font-size: 48px;
+}
+
+@media only screen and (max-width: 1263px) {
+  .welcomeTittle{
+      font-size: 60px;
+  }
+
+  .WelcomeSubtittle{
+    font-size: 40px;
+  }
+  .button{
+    font-size: 20px;
+  }
+  .premilealTitle{
+    font-size: 55px;
+  }
+}
+
+@media only screen and (max-width: 959px) {
+  .welcomeTittle{
+      font-size: 55px;
+  }
+  .WelcomeSubtittle{
+    font-size: 35px;
+  }
+  .button{
+    font-size: 20px;
+  }
+  .premilealTitle{
+    font-size: 50px;
+  }
+}
+
+@media only screen and (max-width: 779px) {
+  .welcomeTittle{
+      font-size: 50px;
+  }
+  .WelcomeSubtittle{
+    font-size: 30px;
+  }
+  .button{
+    font-size: 18px;
+  }
+  .premilealTitle{
+    font-size: 45px;
+  }
+}
+
+@media only screen and (max-width: 626px) {
+  .welcomeTittle{
+      font-size: 38px;
+  }
+  .WelcomeSubtittle{
+    font-size: 25px;
+  }
+  .button{
+    font-size: 15px;
+  }
+  .premilealTitle{
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .welcomeTittle{
+      font-size: 29px;
+  }
+  .WelcomeSubtittle{
+    font-size: 20px;
+  }
+  .button{
+    font-size: 15px;
+  }
+  .premilealTitle{
+    font-size: 35px;
   }
   
-.social-icon {
-  font-size: 21px;
-  color: black;
+}
+
+@media only screen and (max-width: 405px) {
+  .welcomeTittle{
+      font-size: 21px;
+  }
+  .WelcomeSubtittle{
+    font-size: 18px;
+  }
+  .button{
+    font-size: 15px;
+  }
+  .premilealTitle{
+    font-size: 30px;
+  }
+
+}
+
+
+
+@media only screen and (min-width: 1264px) {
+  .rightSeparationForGuide{
+      margin-right: 10%;
+  }
+
+  .rightSeparationForTransactionInformation{
+      margin-right: 25%;
+  }
+  
 }

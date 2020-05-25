@@ -6,25 +6,25 @@
         </div>
         <section>
           <div>
-          <v-parallax src="@/assets/backgrounds/home_background.jpg" height="500"> 
+          <v-parallax src="@/assets/backgrounds/home_background.jpg"  class="parallaxHeight"> 
             <v-row align="center">
               <v-col md-6
                 cols="12">
-                <v-layout mx-12 column align-center justify-center >
-                  <div class="flex display-1 font-weight-medium pb-7 pt-8 grey--text text--lighten-3">
-                    <h1>
+                <v-layout mx-8 column align-center justify-center >
+                  <div class="  ">
+                    <h1 class="welcomeTittle">
                       Join Premileal Rewards
                     </h1>
                   </div>
-                  <div class="subheading pr-12 pl-12 mx-12 text-xs-center grey--text text--lighten-3" style="font-weight: 450;">
-                    <h2>
+                  <div class="subheading text-xs-center">
+                    <h2 class="WelcomeSubtittle"> 
                       Start Earn Points
                     </h2>
                   </div>
-                  <v-btn class="mt-5 white--text"  color="blue" rounded  dark x-large href="/signup" v-if="!userLoggedIn">
+                  <v-btn class="button white--text" color="blue" rounded dark x-large href="/signup" v-if="!userLoggedIn">
                     Become a Member Now
                   </v-btn> 
-                  <v-btn class="mt-5 white--text"  color="blue" rounded  dark x-large @click="gotoBuyPoints" v-if="userLoggedIn">
+                  <v-btn class="button white--text"  color="blue" rounded dark x-large @click="gotoBuyPoints" v-if="userLoggedIn">
                     Acquire points now!
                   </v-btn>                   
                 </v-layout>
@@ -35,7 +35,7 @@
           <v-container fluid>
           <div class="py12" style="text-align:center">
             <v-card>
-            <h1 class="font-weight-bold flex display-3 font-weight-medium pt-10 pb-4 blue--text">
+            <h1 class="premilealTitle">
               PREMILEAL
             </h1>
             </v-card>
@@ -43,7 +43,7 @@
               <v-flex xs6 order-md2 order-xs1>
                     <v-card tile flat outlined class=" mx-1" height="100%">
                       <v-card-text>
-                        <p class="body-1 black--text pt-3" style="font-weight: 450;">
+                        <p class="miniCard1 body-1" >
                           Welcome to Premileal, an exclusive loyalty program. The journey of this rewarding program begins 
                           post purchase of Premileal points from the our webpage Premileal. It entitles you to a lifetime of premium 
                           privileges, benefits and services. Plus if you earn more points you can get better rewards!
@@ -54,7 +54,7 @@
               <v-flex xs6 order-md2 order-xs1>
                     <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mr-1" height="100%">
                       <v-card-text>
-                        <h1 class=" display-2 font-italicthin white--text pt-4">JOIN OUR LOYALTY PROGRAM</h1>                  
+                        <h1 class=" display-2 miniCard2  ">JOIN OUR LOYALTY PROGRAM</h1>                  
                       </v-card-text>
                     </v-card>
                   </v-flex>
