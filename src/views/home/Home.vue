@@ -43,7 +43,7 @@
               <v-flex xs6 order-md2 order-xs1>
                     <v-card tile flat outlined class=" mx-1" height="100%">
                       <v-card-text>
-                        <p class="miniCard1 body-1" >
+                        <p class="miniCard1" >
                           Welcome to Premileal, an exclusive loyalty program. The journey of this rewarding program begins 
                           post purchase of Premileal points from the our webpage Premileal. It entitles you to a lifetime of premium 
                           privileges, benefits and services. Plus if you earn more points you can get better rewards!
@@ -52,28 +52,28 @@
                     </v-card>
               </v-flex>
               <v-flex xs6 order-md2 order-xs1>
-                    <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mr-1" height="100%">
+                    <v-card  flat outlined dark color="blue darken-1" class="pt-4 mr-1" height="100%">
                       <v-card-text>
-                        <h1 class=" display-2 miniCard2  ">JOIN OUR LOYALTY PROGRAM</h1>                  
+                        <h1 class=" miniCard2  ">JOIN OUR LOYALTY PROGRAM</h1>                  
                       </v-card-text>
                     </v-card>
                   </v-flex>
               <v-flex xs6 order-md2 order-xs1>
                     <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mx-1" height="100%">
                       <v-card-text>
-                        <h1 class="display-2 thin white--text pt-4">GET EXCLUSIVE REWARDS</h1>                     
+                        <h1 class="miniCard2 thin white--text">GET EXCLUSIVE REWARDS</h1>                     
                       </v-card-text>
                     </v-card>
                   </v-flex>                  
               <v-flex xs6 order-md2 order-xs1>
                     <v-card tile flat outlined class=" mr-1" height="100%">
                       <v-card-text>
-                        <p class="body-1 black--text pt-3" style="font-weight: 450;">
+                        <h3 class="miniCard1  pt-3" style="font-weight: 450;">
                           The objective of our platform is for you, our dear client, to be able to benefit from the purchase 
                           of points, special offers that you will receive only for being a member of our rewards program, and 
                           the possibility of exchanging the points that you have obtained for other products or money among other 
                           promotions that will arrive soon.
-                        </p>                      
+                        </h3>                      
                       </v-card-text>
                     </v-card>
               </v-flex>      
@@ -82,7 +82,7 @@
         </v-container>
         <v-container fluid>
           <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text" style="text-align:center">
-            <h3>About our Membership Plans</h3>
+            <h3 class="Title">About our Membership Plans</h3>
           </div>
           <div style="max-width: 60%; margin: auto;">
             <v-flex xs-center>
@@ -141,7 +141,7 @@
           </div>
           <div>
             <center>
-              <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text"><h3>What are you waiting for?</h3></div>
+              <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text"><h3 class="Title">What are you waiting for?</h3></div>
               <div class="text-wrap">
                 <v-layout row pb-8>
                   <v-flex xs6 order-md2 order-xs1>
