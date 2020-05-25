@@ -275,8 +275,8 @@ export default class PointsPurchase extends Vue{
         },
         amount: 0.00,
         totalCommision: 0.00,
-        serviceCommision: this.settings.serviceCommision,
-        stripeCommision: this.settings.gatewayCommision,
+        serviceCommision: 0,
+        stripeCommision: 0,
         total: 0.00
     }
 
@@ -305,6 +305,8 @@ export default class PointsPurchase extends Vue{
     
     async getSettings(){
         this.settings = await settingsService.getSettings();
+        this.transactionInformation.serviceCommision =  this.settings.serviceCommision;
+        this.transactionInformation.stripeCommision = this.settings.gatewayCommision;
     }
 
     async getUserbankAccounts(){
@@ -337,7 +339,11 @@ export default class PointsPurchase extends Vue{
                 this.userData.points = this.userData.points + this.transactionInformation.points;
                 this.$store.dispatch('user/addPoints', this.userData.points);  
                 this.transactionTitle = 'Payment successfully proccessed!'
-                this.transactionDescription = 'Now you have ', this.userData.points, ' available for use,';                
+                this.transactionDescription = 'Now you have '+ this.userData.points+ ' available for use,';                
+            }
+            else if(this.serverResponse.data === "Bank account is not verified."){
+                this.transactionTitle = 'Error! Payment rejected.';
+                this.transactionDescription = 'You are trying to use a bank account that has not been verified.';
             }
             else {
                 this.transactionTitle = 'Error! Payment rejected.';
