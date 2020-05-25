@@ -84,45 +84,45 @@
           <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text" style="text-align:center">
             <h3 class="Title">About our Membership Plans</h3>
           </div>
-          <div style="max-width: 60%; margin: auto;">
+          <div style="max-width: 80%; margin: auto;">
             <v-flex xs-center>
-              <v-card flat class="mt-12 mb-2">
+              <v-card flat class="mt-1 mb-2">
                 <v-simple-table class=""  >
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th class=" display-1 text-center wrap font-weight-medium blue--text py-4" width= "30%" >Plan Level</th>
-                        <th class="display-1 text-center wrap font-weight-medium black--text py-4"  >Description</th>
+                        <th class="  titleTable wrap blue--text" width= "30%" >Plan Level</th>
+                        <th class=" titleTable wrap black--text" width=""  >Description</th>
                       </tr>            
                     </thead>
                     <tbody>
                       <tr>
-                        <td class="display-1 font-weight-bold text-start py-3" style="color: rgb(205, 127, 50);">
-                          <v-icon left class="display-1 font-weight-bold py-3" style="color: rgb(205, 127, 50);">mdi-triangle</v-icon>
+                        <td class="subtitleTable" style="color: rgb(205, 127, 50);">
+                          <v-icon left class=" iconTable font-weight-bold py-3 pt-1" style="color: rgb(205, 127, 50);">mdi-triangle</v-icon>
                           Basic
                         </td>
-                        <td class="body-1 py-3 black--text">
+                        <td class="sizeDescriptionTable">
                           Once your Premileal account is created, you become a Basic level user for free, at this level you can 
                           buy the number of points you want, after registering a bank account on our platform.
                         </td>
                       </tr>
                       <tr>
-                        <td class="display-1 text-start font-weight-bold grey--text text--darken-1 py-3">
-                          <v-icon left class="display-1 font-weight-bold grey--text text--darken-1 py-3">mdi-rhombus</v-icon>
+                        <td class="subtitleTable grey--text text--darken-1">
+                          <v-icon left class=" iconTable font-weight-bold grey--text text--darken-1 py-3">mdi-rhombus</v-icon>
                           Premium
                         </td>
-                        <td class="body-1 py3 black--text">
+                        <td class="sizeDescriptionTable">
                           When you purchase a lifetime Premium subscription to your account 
                           for the price of $25.00, you will be able to get 20% more points every time you want to buy a new 
                           amount of it.
                         </td>
                       </tr>               
                       <tr>
-                        <td class="display-1 text-start font-weight-bold amber--text text--darken-2 py-4">
-                          <v-icon left class="display-1 font-weight-bold amber--text text--darken-2 py-4">mdi-octagram</v-icon>
+                        <td class="subtitleTable amber--text text--darken-2">
+                          <v-icon left class=" iconTable font-weight-bold amber--text text--darken-2 py-4">mdi-octagram</v-icon>
                           Gold
                         </td>
-                        <td class="body-1 py-3 black--text">
+                        <td class="sizeDescriptionTable">
                           The maximun membership level that an user can reach after the purchase of a lifetime Premiun 
                           account and being constantly participating on promotions and purchase of products. In addition, 
                           users who reach this level will receive 2500 points as a thank you gift.
