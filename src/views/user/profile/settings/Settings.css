@@ -70,7 +70,7 @@
 
 @media only screen and (max-width: 599px) {
     .mainTittle{
-        font-size: 18px;
+        font-size: 14px;
     }
     .subtittle{
         font-size: 23px;
@@ -91,13 +91,14 @@
       margin-bottom: 8%;
     }
     .formMarginXY{
-        margin-right:-40px;
-        margin-left:-40px;
+        margin-right:-70px;
+        margin-left:-70px;
     }
  
     .buttonSize{
         font-size: 12px;
         margin-bottom: 6px;
+        margin-top: 6px;
     }
     .fontSize{
         font-size: 12px;
