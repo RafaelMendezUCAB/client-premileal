@@ -28,13 +28,16 @@
                                    alt="Avatar">
                             </v-avatar>
                           </div>
+                          <!-- ERROR AL USAR ESTA LINEA DE CODIGO EN FILE INPUT
+                          v-model="userData.image" -->
                             <v-file-input
-                                v-model="userData.image"
+                                
                                 class="fontSize"
                                 label="Profile Pic"
                                 placeholder="Upload Image"
                                 outlined
                                 prepend-icon="mdi-camera"
+                                :rules="[rules.size]"
                                 >
                           </v-file-input>
                           <v-text-field 
@@ -97,14 +100,9 @@
                           </v-autocomplete>  
                                                          
                         </div>
-                        <v-divider class="mb-4"></v-divider>
+                        
                         </v-form>  
-                        <v-btn class="black buttonSize" dark color="blue" @click="SaveChanges()">
-                          Save Changes
-                        </v-btn>
-                        <v-btn class="black ml-1 buttonSize" dark color="red" @click="Cancel()">
-                          CANCEL
-                        </v-btn>  
+                       
 
                             <v-overlay                                  
                               :value="loadingUserData"
@@ -133,6 +131,12 @@
 
                       </v-card-text>
                     </v-card>
+                     <v-btn class="black buttonSize" dark color="blue" @click="SaveChanges()">
+                          Save Changes
+                        </v-btn>
+                        <v-btn class="black ml-1 buttonSize" dark color="red" @click="Cancel()">
+                          CANCEL
+                        </v-btn>  
                 </v-col>
       </v-row>
     </v-content>
@@ -163,7 +167,7 @@ export default class UserSettings extends Vue{
     serverResponse: any = null;
     places: any = [];
 
-
+    
     userData = 
     {
         name : '',
@@ -176,8 +180,8 @@ export default class UserSettings extends Vue{
         placeID: ''        
     };
 
-      showPassword1 = false;
-      rules = {
+    showPassword1 = false;
+    rules = {
         size: (value: File )=> !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
         required: (value: string[]) => !!value || 'Required.',
         min: (v: string) => v.length >= 8 || 'Min 8 characters',
@@ -199,10 +203,11 @@ export default class UserSettings extends Vue{
             return pattern.test(value) || 'Invalid e-mail.';
         }
       }
-        mounted(){
-        this.getAllPlaces();
+        
+    mounted(){
+       this.getAllPlaces();
     }
-    
+        
      
 
     async getAllPlaces(){

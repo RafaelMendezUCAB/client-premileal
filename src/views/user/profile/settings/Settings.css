@@ -18,6 +18,10 @@
     margin-top: 8px;
     margin-bottom: 8px;
 }
+.buttonSize{
+    margin-top: 10PX;
+    margin-right: 10px;
+}
 
 
 @media only screen and (max-width: 1263px) {
@@ -98,7 +102,8 @@
     .buttonSize{
         font-size: 12px;
         margin-bottom: 6px;
-        margin-top: 6px;
+        margin-top: 10px;
+        margin-left: -10px;
     }
     .fontSize{
         font-size: 12px;
