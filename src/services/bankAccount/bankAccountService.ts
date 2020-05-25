@@ -7,7 +7,7 @@ export default {
   /* ---------------------- GET METHODS -------------------------- */ 
   async getUserBankAccounts(userID: number) {
     serverResponse = await api.bankAccount.getUserBankAccounts(userID);
-    if(serverResponse.data === 'No bank accounts registered'){
+    if(serverResponse.data === 'No bank accounts registered.'){
       return [];
     }
     return serverResponse.data;
