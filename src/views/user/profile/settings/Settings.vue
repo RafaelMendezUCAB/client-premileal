@@ -9,7 +9,7 @@
                        md="4"
                        align = "center"
                        justify="center">
-                  <div class="pt-8">
+                  <div class="pt-8 ">
                       <v-icon size="60" color="blue">mdi-account-circle</v-icon>
                       <h1 class="mainTittle">User Profile Settings</h1>
                   </div>
@@ -131,7 +131,7 @@
 
                       </v-card-text>
                     </v-card>
-                     <v-btn class="black buttonSize" dark color="blue" @click="SaveChanges()">
+                     <v-btn class="black buttonSize ml-0" dark color="blue" @click="SaveChanges()">
                           Save Changes
                         </v-btn>
                         <v-btn class="black ml-1 buttonSize" dark color="red" @click="Cancel()">

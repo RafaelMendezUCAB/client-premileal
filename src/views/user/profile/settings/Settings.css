@@ -34,12 +34,7 @@
     .topMargin{
       margin-top: -2%;
     }
-    .marginBottom{
-      margin-bottom: -5%;
-    }
-    .rowSeparation{
-      margin-bottom: -7%;
-    }
+
     .buttonSize{
         font-size: 12px;
     }
@@ -74,7 +69,7 @@
 
 @media only screen and (max-width: 599px) {
     .mainTittle{
-        font-size: 14px;
+        font-size: 12px;
     }
     .subtittle{
         font-size: 23px;
@@ -95,8 +90,8 @@
       margin-bottom: 8%;
     }
     .formMarginXY{
-        margin-right:-70px;
-        margin-left:-70px;
+        margin-right:-110px;
+        margin-left:-100px;
     }
  
     .buttonSize{

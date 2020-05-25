@@ -3,20 +3,20 @@
     <Navbar></Navbar>
       <v-content>
         <v-row >
-          <v-col cols="4">
+          <v-col class="widthUserProfileInformation">
             <div class="text-center">
               <v-row class="rowSeparation" align="center" justify="center">
-                <v-col cols="11" lg="12">
-                  <div class="pt-8">
+                <v-col cols="11" lg="12" md="6" align = "center" justify="center">
+                  <div class="pt-8 formMarginXY " align = "center" justify="center">
                     <v-icon size="60" color="blue">mdi-account-circle</v-icon>
-                    <h1 class="mainTittle">User Profile</h1>
+                    <h1 class="mainTittle mr-2">User Profile</h1>
                   </div>
                   <v-card class="formMarginXY"
                           max-width="374"
                           color="grey lighten-5">
                     <v-card-text>
-                     <div class="mx-10 py-2">
-                      <div class="pb-8"> 
+                     <div class=" mx-4">
+                      <div class="pb-4"> 
                         <v-avatar color="blue" size="100">
                       <!-- AQUI IRIA DONDE SE ALMACENA LA IMAGEN DEL USUARIO EN CASO DE TENERLA -->
                           <img src="" 
@@ -68,22 +68,24 @@
                     </v-card-text>
                   </v-card>
                     
-                  <v-btn class="black my-4" dark color="blue" @click="gotoProfileSettings">
-                      Edit Information
+                  <v-btn class="black mt-4" dark color="blue" @click="gotoProfileSettings">
+                      Edit Info
                   </v-btn>
                 </v-col>                        
               </v-row>
             </div>
           </v-col>
-          <v-col widthBankAccountInformation>
-            <div class="text-center mr-2">
+        <template v-if="movements.items !== [null]">
+                          
+          <v-col class="widthBankAccountInformation">
+            <div class="text-center">
               <v-row align="center" justify="center">
                 <v-col>
-                  <div class="pt-8">
+                  <div class="pt-10">
                     <v-icon size="60" color="blue">mdi-bank</v-icon>
                       <h1 class="mainTittle">Bank Account Information</h1>
                   </div> 
-                  <v-card>
+                  <v-card >
                     <v-card-title class="subtittle">
                       Registered Banks
                     </v-card-title>
@@ -104,6 +106,27 @@
               </v-row>
             </div>
           </v-col>
+        </template>  
+        <template v-else>
+          <v-col class="widthBankAccountInformation">
+            <div class="text-center mr-2">
+              <v-row align="center" justify="center">
+                <v-col cols="9">
+                  <div class="pt-10">
+                    <v-icon size="60" color="blue">mdi-bank</v-icon>
+                      <h1 class="mainTittle mr-2">Bank Account Information</h1>
+                  </div> 
+                  <v-card class=" cardMarginX  my-2">
+                    <v-icon size="60" color="red">mdi-exclamation</v-icon>
+                    <p class="red--text headline"> <b> You don't have registered Bank Accounts yet. </b></p>
+                    <v-btn class=" buttonSize black white--text mb-4" color="red">Register</v-btn>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </div>
+          </v-col>          
+        </template>     
+
         </v-row>
     </v-content>
     <Footer></Footer>
