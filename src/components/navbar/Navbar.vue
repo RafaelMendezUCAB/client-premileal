@@ -3,7 +3,7 @@
     <v-app>
       <v-content>
         <v-toolbar dark color="blue">
-          <v-card flat color="transparent" v-if="userLoggedIn">
+          <v-card flat color="transparent" v-if="!userLoggedIn">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
           </v-card>
           <router-link to="/home"> 
@@ -94,6 +94,19 @@
                       </router-link>
               </v-list-item>
 
+              <v-list-item @click="gotoWithdrawalHistory">
+                  <v-list-item-icon>
+                      <v-icon class="blue--text">mdi-account-cash</v-icon>
+                  </v-list-item-icon>
+                      <router-link 
+                        to="/user/withdrawalHistory/history" 
+                        class="blue--text" 
+                        style="text-decoration:none;"
+                      >
+                      <v-list-item-title class="blue--text">Withdrawal History</v-list-item-title>
+                      </router-link>
+              </v-list-item>              
+
               <v-list-item @click="gotoBuyPoints">
                   <v-list-item-icon>
                       <v-icon class="orange--text darken-4">mdi-currency-usd-circle-outline</v-icon>
@@ -106,7 +119,7 @@
                   <v-list-item-title class="orange--text darken-4 body-1">Buy Points!</v-list-item-title>
                   </router-link>
               </v-list-item>
-
+              <v-divider></v-divider>
               <v-list-item class="align-center" @click="logout">
                   <v-list-item-icon>
                       <v-icon class="blue--text">mdi-logout-variant</v-icon>
@@ -185,6 +198,10 @@ export default class Navbar extends Vue {
 
   gotoBuyPoints(){
     this.$router.push({ name: 'pointsPurchase' });
+  }
+  
+  gotoWithdrawalHistory(){
+   this.$router.push({ name: 'userProfileWithdrawalHistory' });
   }
 
 }

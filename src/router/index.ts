@@ -71,6 +71,12 @@ Vue.use(VueRouter)
   },
 
   {
+    path: '/user/history/withdrawal',
+    name: 'userProfileWithdrawalHistory',
+    component: () => import('../views/user/history/withdrawal/withdrawal.vue')
+  },
+
+  {
     path: '/points/purchase',
     name: 'pointsPurchase',
     component: () => import('../views/points/purchase/PointsPurchase.vue')

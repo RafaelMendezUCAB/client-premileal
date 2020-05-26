@@ -68,9 +68,12 @@
                     </v-card-text>
                   </v-card>
                     
-                  <v-btn class="black mt-4" dark color="blue" @click="gotoProfileSettings">
+                  <v-btn class="black mt-4 mr-1" dark color="blue" @click="gotoProfileSettings">
                       Edit Info
                   </v-btn>
+                  <v-btn class="black mt-4" dark color="blue" @click="gotoWithdrawalHistory">
+                      See Withdrawal History
+                  </v-btn>                  
                 </v-col>                        
               </v-row>
             </div>
