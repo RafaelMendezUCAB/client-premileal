@@ -290,9 +290,11 @@ export default class Signup extends Vue{
         this.signUp();        
       }).catch(error =>{
         console.log(error);
-        this.errorTittle = 'Network Error!';
-        this.errorDescription = 'There was a network error. Check your network connection and try again.';
-        this.error = true;
+        if(error.code !== "auth/cancelled-popup-request" && error.code !== "auth/popup-closed-by-user"){
+          this.errorTittle = 'Network Error!';
+          this.errorDescription = 'There was a network error. Check your network connection and try again.';
+          this.error = true;
+        } 
       })
     }
 
@@ -313,9 +315,11 @@ export default class Signup extends Vue{
         this.signUp();
       }).catch(error =>{
         console.log(error);
-        this.errorTittle = 'Network Error!';
-        this.errorDescription = 'There was a network error. Check your network connection and try again.';
-        this.error = true;
+        if(error.code !== "auth/popup-closed-by-user" && error.code !== "auth/cancelled-popup-request"){
+          this.errorTittle = 'Network Error!';
+          this.errorDescription = 'There was a network error. Check your network connection and try again.';
+          this.error = true;
+        } 
       })
     }
 
