@@ -322,6 +322,7 @@ export default class BankAccountRegistration extends Vue{
 
     mounted(){
         this.userData = this.getUserData;
+        console.log("user data is: ", this.userData);
         this.bankAccountData.userID = this.userData.userID;
         this.bankAccountData.customer = this.userData.stripe_id;
         this.bankAccountData.customerConnectAccount = this.userData.stripe_connect_id;

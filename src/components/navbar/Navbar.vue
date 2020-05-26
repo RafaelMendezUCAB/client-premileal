@@ -23,9 +23,9 @@
             </router-link>
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-card flat color="transparent" v-if="userLoggedIn">
+          <v-card color="transparent" v-if="userLoggedIn">
                 <!-- IF USER ARE ALREADY LOG IN -->            
-            <v-btn class="black--text mr-2 font-weight-black buyPoints" flat color="amber" @click="gotoBuyPoints">Buy Points!</v-btn>
+            <v-btn class="black--text mr-2 font-weight-black buyPoints" color="amber" @click="gotoBuyPoints">Buy Points!</v-btn>
                <!-- IF USER ARE NOT ALREADY LOG IN -->
           </v-card>
           <v-card v-if="!userLoggedIn">
@@ -81,7 +81,7 @@
                   </router-link>
               </v-list-item>
 
-              <v-list-item @click="gotoBankAccounts">
+              <v-list-item @click="gotoAddBankAccounts">
                   <v-list-item-icon>
                       <v-icon class="blue--text">mdi-bank</v-icon>
                   </v-list-item-icon>
@@ -179,8 +179,8 @@ export default class Navbar extends Vue {
     this.$router.push({ name: 'userProfile' });
   }
 
-  gotoBankAccounts(){
-    this.$router.push({ name: 'userBankAccounts' });
+  gotoAddBankAccounts(){
+    this.$router.push({ name: 'userBankAccountRegistration' });
   }
 
   gotoBuyPoints(){

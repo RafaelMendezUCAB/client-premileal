@@ -27,6 +27,10 @@ export default {
     }
   },
 
+  getOnlyBirthDate(birthdate: string){
+    return birthdate.split("T")[0];
+  },
+
   async login(userData: any){
     if(userData.type !== 'No Federado'){      
       serverResponse = await this.socialAuthentication(userData.email, userData.type); 

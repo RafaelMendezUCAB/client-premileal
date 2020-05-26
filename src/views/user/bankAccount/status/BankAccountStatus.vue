@@ -23,7 +23,7 @@
                             justify="center"
                             class="rowBottomMargin"
                         >
-                            <v-col cols="11" lg="12">
+                            <v-col cols="11" lg="12" v-if="bankAccount !== null">
                                 <h1 class="subtittle marginBottom">Bank Account Information</h1>
 
                                 <v-card                                
@@ -32,26 +32,39 @@
                                 >
                                   <v-img
                                     height="250"
-                                    src="@/assets/banks/Citizens Bank.png"
+                                    :src='require("@/assets/banks/"+bankAccount.bank+".png")'                                  
+                                    v-if="bankAccount !== null"
                                   ></v-img>                                  
 
                                   <v-card-text>                                    
-                                    <p>Bank: <b>Citybank</b></p>  
-                                    <p>Bank Account Holder Name: <b>RAFAEL MENDEZ</b></p>
-                                    <p>Bank Account Number: <b>5899</b></p>  
-                                    <p>Bank Account Routing Number: <b>41553370</b></p>  
-                                    <p>Bank Account Checking Number: <b>0384</b></p>  
-                                    <p>Bank Account Status: <b style="color: green;">Verified</b></p>                                      
+                                    <p>Bank: <b>{{bankAccount.bank}}</b></p>  
+                                    <p>Bank Account Holder Name: <b>{{bankAccount.holderName}}</b></p>
+                                    <p>Bank Account Number: <b>{{bankAccount.accountNumber}}</b></p>  
+                                    <p>Bank Account Routing Number: <b>{{bankAccount.routingNumber}}</b></p>  
+                                    <p>Bank Account Checking Number: <b>{{bankAccount.checkNumber}}</b></p>  
+                                    <p v-if="bankAccount.status === 'verified'">Bank Account Status: <b style="color: green;">{{bankAccount.status}}</b></p>                                      
+                                    <p v-if="bankAccount.status === 'unverified'">Bank Account Status: <b style="color: red;">{{bankAccount.status}}</b></p>                                      
                                   </v-card-text>                                
                                 </v-card>
 
                                 <v-btn
+                                      v-if="bankAccount.status === 'verified'"
                                       color="primary"                                      
                                       style="margin-bottom:10%"
                                       class="topMargin"
                                       @click="editBankAccount"
                                     >
                                       Edit Bank Account
+                                </v-btn>
+
+                                <v-btn
+                                      v-if="bankAccount.status === 'unverified'"
+                                      color="primary"                                      
+                                      style="margin-bottom:10%"
+                                      class="topMargin"
+                                      @click="verifyBankAccount"
+                                    >
+                                      Verify bank account
                                 </v-btn>
 
                                 <v-btn
@@ -63,8 +76,7 @@
                                       <v-icon style="color: white">mdi-trash-can-outline</v-icon>
                                 </v-btn>
 
-                                <v-overlay
-                                  
+                                <v-overlay                                  
                                   :value="editingBankAccount"
                                 >
                                     <v-card
@@ -259,7 +271,7 @@
 </template>
 
 <script lang='ts'>
-import {Vue} from 'vue-property-decorator'
+import {Vue, Prop} from 'vue-property-decorator'
 import Component from "vue-class-component";
 
 import Footer from '@/components/footer/Footer.vue';
@@ -280,12 +292,9 @@ export default class BankAccountStatus extends Vue{
 
     transactionDescription = '';
     
-    icons = [
-        'facebook',
-        'twitter',        
-        'instagram',
-        'youtube',
-    ];
+    bankAccount: any = null;
+
+    bankLogo = '';
 
     rules = {
         required: (value: any) => !!value || 'Required.',
@@ -395,6 +404,16 @@ export default class BankAccountStatus extends Vue{
         },
     ];
 
+    mounted(){
+      //this.bankLogo = require("@/assets/banks/"+this.bankAccount.bank+".png");
+      this.bankAccount = this.getBankAccountData;
+      console.log("banco seria: ", this.bankAccount);
+    }
+
+    get getBankAccountData() {
+        return this.$store.getters["bankAccount/getBankAccountData"];
+    }
+
     seeDetails(){
         console.log("see details");
     }
@@ -435,6 +454,10 @@ export default class BankAccountStatus extends Vue{
         event.preventDefault();
       }      
     }
+
+    verifyBankAccount(){
+      this.$router.push({ name: 'userBankAccountVerification' });
+    }   
     
 }
 </script>

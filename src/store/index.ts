@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import User from './modules/userModule';
+import BankAccount from './modules/bankAccountModule';
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    user:User
+    user:User,
+    bankAccount:BankAccount
   }
 })

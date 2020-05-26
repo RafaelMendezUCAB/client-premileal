@@ -15,7 +15,7 @@
                 </v-col>
             </v-row>
             <v-divider></v-divider>
-            <v-row>                              
+            <v-row v-if="bankAccount !== null">                              
                 <v-col cols="12" md="6" lg="4" class="rightBorder">
                     <div class="text-center">
                         <v-row
@@ -37,16 +37,17 @@
                                         >
                                           <v-img
                                             height="250"
-                                            src="@/assets/banks/Citibank.png"
+                                            :src='require("@/assets/banks/"+bankAccount.bank+".png")'
                                           ></v-img>                                  
 
                                           <v-card-text>                                    
-                                            <p>Bank: <b>Citybank</b></p>  
-                                            <p>Bank Account Number: <b>5899</b></p>  
-                                            <p>Bank Account Routing Number: <b>41553370</b></p>  
-                                            <p>Bank Account Checking Number: <b>0384</b></p>  
-                                            <p v-if="bankAccount.status === 'Unverified'">Bank Account Status: <b style="color: red;">Unverified</b></p>  
-                                            <p v-if="bankAccount.status === 'Verified'">Bank Account Status: <b style="color: green;">Verified</b></p>                             
+                                            <p>Bank: <b>{{bankAccount.bank}}</b></p>  
+                                            <p>Holder Name: <b>{{bankAccount.holderName}}</b></p>
+                                            <p>Bank Account Number: <b>{{bankAccount.accountNumber}}</b></p>  
+                                            <p>Bank Account Routing Number: <b>{{bankAccount.routingNumber}}</b></p>  
+                                            <p>Bank Account Checking Number: <b>{{bankAccount.checkNumber}}</b></p>  
+                                            <p v-if="bankAccount.status === 'unverified'">Bank Account Status: <b style="color: red;">Unverified</b></p>  
+                                            <p v-if="bankAccount.status === 'verified'">Bank Account Status: <b style="color: green;">Verified</b></p>                             
                                           </v-card-text>                                
                                         </v-card>
                                     </v-col>
@@ -81,7 +82,7 @@
                                                     v-model="firstCharge"
                                                     label="First Charge"
                                                     outlined
-                                                    
+                                                    type="number"
                                                     class="marginFirstChargeForm"
                                                     :rules="[rules.required, rules.validNumber]"
                                                     v-on:keypress="restrictChars($event, firstCharge)"
@@ -170,24 +171,24 @@
                                         As you weren't charged, you have 2 options:
                                         <ol>
                                             <br/><li>You can notify us about the issue, so we get it touch with you ass soon as we can.</li><br/>
-                                            <li>You can select to be charged again, making us charging again your bank account.</li>
+                                            <li>Wait more time just to make sure you were not charged.</li>
                                         </ol>
                                       </v-card-text>   
 
                                       <v-btn
-                                          color="success"
-                                          @click="notifyPremileal"
+                                          color="danger"
+                                          @click="userWasntCharged = false"
                                           style="margin-bottom: 2%; margin-right: 1%"
                                         >
-                                          Notify us
+                                          Cancel
                                       </v-btn> 
 
                                       <v-btn
-                                          color="danger"
-                                          @click="chargeUserAgain"
+                                          color="success"
+                                          @click="notifyPremileal"
                                           style="margin-bottom: 2%"
                                         >
-                                          Charge me again
+                                          Notify us
                                       </v-btn>                                                                                                                                                   
                                     </v-card>                                  
                                 </v-overlay>
@@ -242,6 +243,31 @@
                                     </v-card>                              
                                 </v-overlay>
 
+                                <v-overlay                                  
+                                  :value="successfullValidation"
+                                >
+                                    <v-card
+                                      max-width="500"
+                                      class="mx-auto"
+                                    >
+                                      <v-list-item>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline">Bank Account successfully verified!</v-list-item-title>
+                                        </v-list-item-content>
+                                      </v-list-item>                                                                                                               
+                                      <v-card-text>
+                                        <span>Now you can use you bank account to buy products.</span>
+                                      </v-card-text>                                                                          
+                                      <v-btn
+                                          color="success"
+                                          @click="successfullValidation = false"
+                                          style="margin-bottom: 2%"
+                                        >
+                                          Ok
+                                      </v-btn>                                   
+                                    </v-card>                              
+                                </v-overlay>
+
                             </v-col>
                             
                         </v-row> 
@@ -273,7 +299,7 @@
 </template>
 
 <script lang='ts'>
-import {Vue} from 'vue-property-decorator'
+import { Prop, Vue } from 'vue-property-decorator'
 import Component from "vue-class-component";
 
 import bankAccountService from '@/services/bankAccount/bankAccountService';
@@ -299,6 +325,7 @@ export default class BankAccountVerification extends Vue{
 
     userWasntCharged = false;
     alreadyVerifiedMessage = false;
+    successfullValidation = false;
 
     proccessingRequest = false;
     eventTitle = '';
@@ -309,14 +336,21 @@ export default class BankAccountVerification extends Vue{
     error = false;
 
     userData: any = null;
-    bankAccount: any = {
+    /*bankAccount: any = {
         status: 'Verified'
-    };
+    };*/
 
     serverResponse: any = null;
 
+    bankAccount: any = null
+
     mounted(){
         this.userData = this.getUserData;
+        this.bankAccount = this.getBankAccountData;
+    }
+
+    get getBankAccountData() {
+        return this.$store.getters["bankAccount/getBankAccountData"];
     }
 
     get getUserData() {
@@ -348,7 +382,7 @@ export default class BankAccountVerification extends Vue{
     }
 
     async verifyBankAccount(){
-        if(this.bankAccount.status === 'Unverified'){
+        if(this.bankAccount.status === 'unverified'){
             if(this.notCharged){            
             this.userWasntCharged = true;
             }
@@ -357,7 +391,9 @@ export default class BankAccountVerification extends Vue{
                 this.proccessingRequest = true;
                 this.serverResponse = await bankAccountService.verifyBankAccount(this.bankAccount.bankAccountID, {
                     bankAccount: this.bankAccount,
-                    user: this.userData
+                    user: this.userData,
+                    firstCharge: this.firstCharge,
+                    secondCharge: this.secondCharge
                 });
                 this.proccessingRequest = false;
                 if(this.serverResponse.data === 'Invalid amounts.'){
@@ -373,11 +409,10 @@ export default class BankAccountVerification extends Vue{
                 else {
                     console.log("Validating");
                     this.bankAccount.status = 'Verified';
+                    this.successfullValidation = true;   
+                    this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);      
                 }
-            }
-            else{
-                console.log("won't validate a shit");
-            }
+            }            
         }
         else {
             this.alreadyVerifiedMessage = true;
@@ -385,16 +420,12 @@ export default class BankAccountVerification extends Vue{
     }
 
     notifyPremileal(){
-        this.userWasntCharged = false;
-        this.eventDescription = 'Sending notification.';
-        this.proccessingRequest = true;
+      this.userWasntCharged = false;
+      this.eventDescription = 'Sending notification.';
+      this.proccessingRequest = true;
     }
 
-    chargeUserAgain(){
-        this.userWasntCharged = false;
-        this.eventDescription = 'Charging Bank Account.';
-        this.proccessingRequest = true;
-    }
+    
 }
 </script>
 
