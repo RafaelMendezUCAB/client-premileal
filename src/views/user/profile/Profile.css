@@ -1,0 +1,205 @@
+.mainTittle{
+    color:black;
+    margin-top: 1%;
+}
+
+.subtittle{
+    color: black;
+}
+
+.bordered{
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 1%     
+}
+.formMarginXY{
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.buttonSize{
+    margin-top: 10PX;
+    margin-right: 10px;
+}
+
+.widthBankAccountInformation{
+    width: 86.66%;
+}
+
+.widthUserProfileInformation{
+    width: 33.33%;
+}
+.cardMarginX{
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+@media only screen and (max-width: 1263px) {
+    .mainTittle{
+        font-size: 26px;
+    }
+    .subtittle{
+        font-size: 23px;
+    }
+    .topMargin{
+      margin-top: -2%;
+    }
+
+    .buttonSize{
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+    .formMarginXY{
+        margin-right:-10px;
+        margin-left:-10px;
+    }
+}
+
+@media only screen and (max-width: 959px) {
+    .mainTittle{
+        font-size: 24px;
+    }
+    .subtittle{
+        font-size: 20px;
+    }
+    .formBottomMargin{
+        margin-bottom: -7%;
+    }
+    .rowBottomMargin{
+        margin-bottom: -12%;
+    }
+    .topMargin{
+      margin-top: -5%;
+    }
+    .marginBottom{
+      margin-bottom: -5%;
+    }
+    .rowSeparation{
+      margin-bottom: 6%;
+    }
+    .buttonSize{
+        font-size: 12px;
+    }
+    .formMarginXY{
+        margin-right:-20px;
+        margin-left:-20px;
+    }
+    .fontSize{
+        font-size: 14px;
+    }
+    
+}
+
+@media only screen and (max-width: 750px) {
+    .widthBankAccountInformation{
+        width: 75%;
+    }
+    .cardMarginX{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .buttonSize{
+        font-size: 10px;
+        margin-bottom: 4px;
+        margin-top: 6px;
+        /* margin-left: ; */
+        margin-right:3px ;
+    }
+    
+}
+
+@media only screen and (max-width: 599px) {
+    .mainTittle{
+        font-size: 16px;
+    }
+    .subtittle{
+        font-size: 14px;
+    }
+    .formBottomMargin{
+        margin-bottom: -7%;
+    }
+    .rowBottomMargin{
+        margin-bottom: -12%;
+    }
+    .topMargin{
+      margin-top: -10%;
+    }
+
+    .formMarginXY{
+        margin-right:-100px;
+        margin-left:-70px;
+    }
+    .buttonSize{
+        font-size: 12px;
+        margin-bottom: 6px;
+        margin-top: 10px;
+        margin-left: -10px;
+    }
+    .fontSize{
+        font-size: 14px;
+    }
+    .avatarSize{
+        size: small;
+    }
+    .widthBankAccountInformation{
+        width: 90%;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    .mainTittle{
+        font-size: 16px;
+    }
+    .subtittle{
+        font-size: 14px;
+    }
+    .formBottomMargin{
+        margin-bottom: -7%;
+    }
+    .rowBottomMargin{
+        margin-bottom: -12%;
+    }
+    .topMargin{
+      margin-top: -10%;
+    }
+    .marginBottom{
+      margin-bottom: -10%;
+    }
+    .rowSeparation{
+      margin-bottom: 8%;
+    }
+    .formMarginXY{
+        margin-right:-70px;
+        margin-left:-70px;
+    }
+    .buttonSize{
+        font-size: 10px;
+        margin-bottom: 6px;
+        margin-top: 10px;
+        margin-left: -10px;
+    }
+    .fontSize{
+        font-size: 14px;
+    }
+    .avatarSize{
+        size: small;
+    }
+    .widthBankAccountInformation{
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 1264px) {
+    .rightSeparationForGuide{
+        margin-right: 10%;
+    }
+
+    .rightSeparationForTransactionInformation{
+        margin-right: 25%;
+    }
+
+    .mainTittle{
+        margin-right: 8%;
+    }
+}
