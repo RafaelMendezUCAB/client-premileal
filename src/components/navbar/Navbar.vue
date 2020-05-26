@@ -3,7 +3,7 @@
     <v-app>
       <v-content>
         <v-toolbar dark color="blue">
-          <v-card flat color="transparent" v-if="!userLoggedIn">
+          <v-card flat color="transparent" v-if="userLoggedIn">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
           </v-card>
           <router-link to="/home"> 
@@ -99,7 +99,7 @@
                       <v-icon class="blue--text">mdi-account-cash</v-icon>
                   </v-list-item-icon>
                       <router-link 
-                        to="/user/withdrawalHistory/history" 
+                        to="/user/history/withdrawal/" 
                         class="blue--text" 
                         style="text-decoration:none;"
                       >
