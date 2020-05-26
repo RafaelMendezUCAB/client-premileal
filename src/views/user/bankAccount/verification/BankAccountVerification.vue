@@ -408,7 +408,7 @@ export default class BankAccountVerification extends Vue{
                 }
                 else {
                     console.log("Validating");
-                    this.bankAccount.status = 'Verified';
+                    this.bankAccount.status = 'verified';
                     this.successfullValidation = true;   
                     this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);      
                 }
