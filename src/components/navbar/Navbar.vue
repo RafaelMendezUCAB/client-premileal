@@ -99,7 +99,7 @@
                       <v-icon class="blue--text">mdi-account-cash</v-icon>
                   </v-list-item-icon>
                       <router-link 
-                        to="/user/history/withdrawal/" 
+                        to="/user/history/withdrawal" 
                         class="blue--text" 
                         style="text-decoration:none;"
                       >
@@ -201,7 +201,7 @@ export default class Navbar extends Vue {
   }
   
   gotoWithdrawalHistory(){
-   this.$router.push({ name: 'userProfileWithdrawalHistory' });
+   this.$router.push({ name: 'userWithdrawalHistory' });
   }
 
 }

@@ -45,22 +45,21 @@
                                 </v-card>
 
                                 <v-btn
-                                      color="primary"                                      
+                                      color="blue" dark                                    
                                       style="margin-bottom:10%"
-                                      class="topMargin"
+                                      class="topMargin mr-1"
                                       @click="gotoProfile"
                                     >
                                       See Profile
                                 </v-btn>
-<!-- 
                                 <v-btn
-                                      color="red"
-                                      @click="overlay = !overlay"
+                                      color="primary"                                      
                                       style="margin-bottom:10%"
                                       class="topMargin"
+                                      @click="gotoPaymentHistory"
                                     >
-                                      <v-icon style="color: white">mdi-trash-can-outline</v-icon>
-                                </v-btn> -->
+                                      Payment History
+                                </v-btn>   
 
                             </v-col>
                         </v-row>
@@ -331,9 +330,11 @@ export default class BankAccountStatus extends Vue{
     gotoProfile(){
       this.$router.push({name: 'userProfile'});
     }
-
+    gotoPaymentHistory(){
+      this.$router.push({name: 'userPaymentHistory'});
+    }
     
 }
 </script>
 
-<style src="./withdrawal.css" scoped></style>
+<style src="./Withdrawal.css" scoped></style>

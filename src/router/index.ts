@@ -72,8 +72,8 @@ Vue.use(VueRouter)
 
   {
     path: '/user/history/withdrawal',
-    name: 'userProfileWithdrawalHistory',
-    component: () => import('../views/user/history/withdrawal/withdrawal.vue')
+    name: 'userWithdrawalHistory',
+    component: () => import('../views/user/history/withdrawal/Withdrawal.vue')
   },
 
   {

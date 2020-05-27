@@ -70,10 +70,7 @@
                     
                   <v-btn class="black mt-4 mr-1" dark color="blue" @click="gotoProfileSettings">
                       Edit Info
-                  </v-btn>
-                  <v-btn class="black mt-4" dark color="blue" @click="gotoWithdrawalHistory">
-                      See Withdrawal History
-                  </v-btn>                  
+                  </v-btn>                 
                 </v-col>                        
               </v-row>
             </div>
