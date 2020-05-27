@@ -24,9 +24,7 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-card color="transparent" v-if="userLoggedIn">
-                <!-- IF USER ARE ALREADY LOG IN -->            
             <v-btn class="black--text mr-2 font-weight-black buyPoints" color="amber" @click="gotoBuyPoints">Buy Points!</v-btn>
-               <!-- IF USER ARE NOT ALREADY LOG IN -->
           </v-card>
           <v-card v-if="!userLoggedIn">
             <v-btn class="blue--text" color="white" @click="login" >Log In</v-btn>
@@ -39,14 +37,11 @@
             <v-list-item two-line>
                 
               <v-list-item-avatar color="blue" size="60">
-                  <!-- AQUI IRIA EL AVATAR DEL USUARIO -->
                 <img src="@/assets/icons/profile/no-image.png" alt="AVATAR">
               </v-list-item-avatar>
 
               <v-list-item-content>
-                  <!-- AQUI IRIA EL NOMBRE DEL USUARIO -->
                 <v-list-item-title>Gabriel Tovar</v-list-item-title>
-                <!-- AQUI IRIA EL NIVEL DE MEMBRESIA DEL USUARIO: BASIC, PREMIUM, GOLD -->
                 <v-list-item-subtitle>PLAN LEVEL</v-list-item-subtitle>
               </v-list-item-content>
 
@@ -104,6 +99,19 @@
                       <v-list-item-title class="blue--text">Payment History</v-list-item-title>
                   </router-link>
               </v-list-item>
+              
+              <v-list-item @click="gotoWithdrawalHistory">
+                  <v-list-item-icon>
+                      <v-icon class="blue--text">mdi-account-cash</v-icon>
+                  </v-list-item-icon>
+                      <router-link 
+                        to="/user/history/withdrawal" 
+                        class="blue--text" 
+                        style="text-decoration:none;"
+                      >
+                      <v-list-item-title class="blue--text">Withdrawal History</v-list-item-title>
+                      </router-link>
+              </v-list-item>              
 
               <v-list-item @click="gotoBuyPoints">
                   <v-list-item-icon>
@@ -117,7 +125,7 @@
                   <v-list-item-title class="orange--text darken-4 body-1">Buy Points!</v-list-item-title>
                   </router-link>
               </v-list-item>
-
+              <v-divider></v-divider>
               <v-list-item class="align-center" @click="logout">
                   <v-list-item-icon>
                       <v-icon class="blue--text">mdi-logout-variant</v-icon>
@@ -196,6 +204,10 @@ export default class Navbar extends Vue {
 
   gotoBuyPoints(){
     this.$router.push({ name: 'pointsPurchase' });
+  }
+  
+  gotoWithdrawalHistory(){
+   this.$router.push({ name: 'userWithdrawalHistory' });
   }
 
   gotoPaymentHistory(){
