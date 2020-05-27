@@ -45,13 +45,14 @@
                                 </v-card>
 
                                 <v-btn
-                                      color="blue" dark                                    
+                                      color="blue" dark                                   
                                       style="margin-bottom:10%"
                                       class="topMargin mr-1"
                                       @click="gotoProfile"
                                     >
                                       See Profile
                                 </v-btn>
+                                
                                 <v-btn
                                       color="primary"                                      
                                       style="margin-bottom:10%"
