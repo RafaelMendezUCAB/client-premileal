@@ -73,6 +73,12 @@ Vue.use(VueRouter)
   },
 
   {
+    path: '/user/history/payment',
+    name: 'userPaymentHistory',
+    component: () => import('../views/user/history/payment/Payment.vue')
+  },
+
+  {
     path: '/points/purchase',
     name: 'pointsPurchase',
     component: () => import('../views/points/purchase/PointsPurchase.vue')

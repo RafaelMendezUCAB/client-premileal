@@ -94,6 +94,17 @@
                       </router-link>
               </v-list-item>
 
+              <v-list-item class="align-center" @click="gotoPaymentHistory">
+                  <v-list-item-icon>
+                      <v-icon class="blue--text">mdi-credit-card</v-icon>
+                  </v-list-item-icon>            
+                  <router-link to="/user/history/payment" 
+                       class="blue--text" 
+                       style="text-decoration:none;">
+                      <v-list-item-title class="blue--text">Payment History</v-list-item-title>
+                  </router-link>
+              </v-list-item>
+
               <v-list-item @click="gotoBuyPoints">
                   <v-list-item-icon>
                       <v-icon class="orange--text darken-4">mdi-currency-usd-circle-outline</v-icon>
@@ -185,6 +196,10 @@ export default class Navbar extends Vue {
 
   gotoBuyPoints(){
     this.$router.push({ name: 'pointsPurchase' });
+  }
+
+  gotoPaymentHistory(){
+    this.$router.push({ name: 'userPaymentHistory'});
   }
 
 }
