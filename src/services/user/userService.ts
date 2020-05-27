@@ -86,6 +86,10 @@ export default {
 
   updateUserProfileImage(userID: number, imageURL: any){
     return api.user.updateUserProfileImage(userID, { URL: imageURL });
+  },
+
+  updateUserData(userID: number, userData: any){
+    return api.user.updateUserData(userID, userData);
   }
   /* ------------------------------------------------------------------ */
 

@@ -56,7 +56,32 @@
                           Ok
                       </v-btn>                                   
                     </v-card>                              
-                </v-overlay>                  
+                </v-overlay>  
+
+                <v-overlay                                  
+                  :value="successfullTransaction"
+                >
+                    <v-card
+                      max-width="500"
+                      class="mx-auto"
+                    >
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title class="headline">{{successfullTransactionTitle}}</v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>                                                                                                               
+                      <v-card-text>
+                        <span>{{successfullTransactionDescription}}</span>
+                      </v-card-text>                                                                          
+                      <v-btn
+                          color="success"
+                          @click="successfullTransaction = false"
+                          style="margin-bottom: 2%"
+                        >
+                          Ok
+                      </v-btn>                                   
+                    </v-card>                              
+                </v-overlay>                
             </v-col>
           </v-row>
         </div>
@@ -119,66 +144,81 @@
                         </v-file-input> 
                                                 
                         <span v-if="userData !== null">
-                        <v-text-field 
-                          v-model="userData.name"
-                          class="fontSize"
-                          label="Name"
-                          prepend-icon= "mdi-account"                        
-                        >                                            
-                        </v-text-field>
-                        <v-text-field 
-                          v-model="userData.lastName"
-                          class="fontSize"
-                          label="Last Name"
-                          prepend-icon= "mdi-ab-testing"                        
-                        >
-                        </v-text-field>
-                        <v-text-field 
-                          v-model="userData.password"
-                          class="fontSize"
-                          label="Password"
-                          :type= "showPassword1 ? 'text' : 'password'" 
-                          :append-icon= "showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
-                          prepend-icon= "mdi-lock"
-                          @click:append="showPassword1 = !showPassword1"  
-                          :disabled="userData.password === ''"                                                               
-                        >
-                        </v-text-field>                             
-                        <v-text-field 
-                          v-model="userData.email"
-                          class="fontSize"
-                          label="E-Mail"
-                          prepend-icon= "mdi-at"
-                          :disabled="userData.type !== 'No Federado'"                        
-                        >
-                        </v-text-field> 
-                        <v-text-field 
-                          v-model="userData.birthdate"
-                          class="fontSize"
-                          label="Birth Date"
-                          prepend-icon= "mdi-calendar-blank-outline"                        
-                          type="date"
-                        >
-                        </v-text-field> 
-                        <v-text-field 
-                          v-model="userData.placeID"
-                          class="fontSize"
-                          label="Country"
-                          prepend-icon= "mdi-map-marker"                                                                            
-                        >
-                        </v-text-field>                            
-                        <p>Membership Level: <b>{{userData.levelName}}</b> </p>
-                        <p>Points available: <b style="color: green; font-size:20px">{{userData.points}}</b> </p>
+                          <v-form v-model="valid">
+                            <v-text-field 
+                              v-model="userDataAux.name"
+                              class="fontSize"
+                              label="Name"
+                              prepend-icon= "mdi-account" 
+                              :rules="[rules.required, rules.alphabet]"                       
+                            >                                            
+                            </v-text-field>
+                            <v-text-field 
+                              v-model="userDataAux.lastName"
+                              class="fontSize"
+                              label="Last Name"
+                              prepend-icon= "mdi-ab-testing"   
+                              :rules="[rules.required, rules.alphabet]"                     
+                            >
+                            </v-text-field>
+                            <v-text-field 
+                              v-model="userDataAux.password"
+                              class="fontSize"
+                              label="Password"
+                              :type= "showPassword1 ? 'text' : 'password'" 
+                              :append-icon= "showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
+                              prepend-icon= "mdi-lock"
+                              @click:append="showPassword1 = !showPassword1"  
+                              :disabled="userData.password === ''"
+                              :rules="[rules.password]"                                                                                          
+                            >
+                            </v-text-field>                             
+                            <v-text-field 
+                              v-model="userDataAux.email"
+                              class="fontSize"
+                              label="E-Mail"
+                              prepend-icon= "mdi-at"
+                              :disabled="userData.type !== 'No Federado'"  
+                              :rules="[rules.required, rules.email]"                      
+                            >
+                            </v-text-field> 
+                            <v-text-field 
+                              v-model="userDataAux.birthdate"
+                              class="fontSize"
+                              label="Birth Date"
+                              prepend-icon= "mdi-calendar-blank-outline"                        
+                              type="date"
+                            >
+                            </v-text-field> 
+                            <v-autocomplete
+                                v-model="userDataAux.placeID"
+                                item-value="p_id"
+                                prepend-icon= "mdi-map-marker"
+                                label="Country"                              
+                                :items="places"
+                                item-text="p_name">
+                            </v-autocomplete>  
+                          </v-form>                           
+                          <p>Membership Level: <b>{{userData.levelName}}</b> </p>
+                          <p>Points available: <b style="color: green; font-size:20px">{{userData.points}}</b> </p>
 
-                        <v-btn
-                          color="primary"
-                          @click="updateUser"
-                          style="margin-bottom: 2%"                                          
-                        >
-                          Update user
-                        </v-btn>
+                          <v-btn
+                            color="error"
+                            @click="resetValues"
+                            style="margin-bottom: 2%"                                          
+                          >
+                            Reset values
+                          </v-btn>
 
-                      </span>
+                          <v-btn
+                            color="primary"
+                            @click="updateUser"
+                            style="margin-bottom: 2%"                                          
+                          >
+                            Update user
+                          </v-btn>
+
+                        </span>
                       </v-card-text>
                     </v-card>
                   </v-col>
@@ -242,12 +282,7 @@ import Navbar from '@/components/navbar/Navbar.vue';
 
 import userService from '../../../services/user/userService';
 import bankAccountService from '@/services/bankAccount/bankAccountService';
-
-/* --- Services --- */
-
-
-/* --- Types --- */
-
+import placeService from '@/services/place/placeService';
 
 @Component({
   components: {
@@ -257,7 +292,20 @@ import bankAccountService from '@/services/bankAccount/bankAccountService';
 })
 export default class UserProfile extends Vue{
 
-  userData: any = null;
+  valid = false;
+  
+  userData: any = {
+    type: ""  
+  };
+
+  userDataAux: any = {
+    name: "",
+    lastName: "",
+    password: "",
+    email: "",
+    birthdate: "",
+    placeID: ""
+  };
   userBankAccounts: any = [];
   bankAccountsData: any = [];
   bankAccount: any = null;
@@ -271,6 +319,12 @@ export default class UserProfile extends Vue{
   error = false;
   errorTittle = '';
   errorDescription = '';
+
+  successfullTransaction = false;
+  successfullTransactionTitle = "";
+  successfullTransactionDescription = "";
+
+  places: any = [];
 
   headers = [
     {
@@ -295,49 +349,32 @@ export default class UserProfile extends Vue{
         text:'Details',
         value: 'details',
     }    
-  ];
-
-  movements = [
-    {
-      bankName:'Bank of America',
-      accountNumber:'5801',            
-      accountStatus:'Verified',
-      details:'details'
-    },
-    {
-      bankName:'CityBank',
-      accountNumber:'5899',            
-      accountStatus:'Unverified',
-      details:'details'
-    },
-    {
-      bankName:'U.S. Bank',
-      accountNumber:'5803',            
-      accountStatus:'Unverified',
-      details:'details'
-    },
-    {
-      bankName:'Wells Fargo',
-      accountNumber:'5806',            
-      accountStatus:'Verified',
-      details:'details'
-    },
-    {
-      bankName:'BNY Mellon',
-      accountNumber:'5804',            
-      accountStatus:'Unverified',
-      details:'details'
-    },  
-    {
-      bankName:'JP Morgan',
-      accountNumber:'5810',            
-      accountStatus:'Unverified',
-      details:'details'
-    },           
-  ];
+  ];  
 
   showPassword1 = false;
 
+  rules = {
+    required: (value: string[]) => !!value || 'Required.',
+    min: (v: string) => v.length >= 8 || 'Min 8 characters',
+    alphabet: (value: string) => {
+        const pattern = /^[A-z]*$|^$/;
+        return(
+            pattern.test(value) || "Only alphabet characters allowed"
+        )
+    },
+    password: (value: string) => {
+        const pattern = /(?=.{8,})/;
+        return (
+            pattern.test(value) || this.userData.type !== 'No Federado' ||
+            "Password must contain at least eight characters."
+        );
+    },
+    email: (value: string) => {
+        const pattern = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || 'Invalid e-mail.';
+    }
+  }
+  
   mounted(){
     this.userData = this.getUserData;
     console.log("user retrieved: ", this.userData);
@@ -346,8 +383,9 @@ export default class UserProfile extends Vue{
     }
     if(this.userData.userID !== undefined){
       this.getUserBankAccounts();
+      this.getAllPlaces();
     }
-    
+    this.resetValues();
   }
 
   get getUserData() {
@@ -364,7 +402,6 @@ export default class UserProfile extends Vue{
         details: 'details'
       });
     });
-    console.log("bank acoounts are: ", this.userBankAccounts);
   }
 
   async getUserBankAccounts(){
@@ -372,13 +409,13 @@ export default class UserProfile extends Vue{
     if(this.serverResponse !== []){
       this.bankAccountsData = this.serverResponse;
       this.fillBankAccountsArray(this.serverResponse);
-      
     }
   }
   
   gotoProfileSettings(){
     this.$router.push({ name: 'userProfileSettings'});
   }
+
   seeDetails(bankAccount: any){
     for(let i = 0; i < this.bankAccountsData.length; i++){
       if(this.bankAccountsData[i].bankAccountID === bankAccount.bankAccountID){
@@ -386,24 +423,78 @@ export default class UserProfile extends Vue{
         break;
       }
     }
-    console.log("va a guardar banco: ", this.bankAccount);
     this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);
     //this.$router.push({ name: 'userBankAccountStatus', params: { bankAccount: this.bankAccount } });
     this.$router.push({ name: 'userBankAccountStatus', });
   }
 
-  updateUser(){
-    console.log("update user");
+  async updateUser(){    
+    if(this.valid){      
+      console.log("information valid.");            
+      if(this.valuesChanged()){
+        this.transactionTittle = "Updating user information.";
+        this.transactionDescription = "This could take some time. Please be patient."
+        this.proccessingTransaction = true;
+        this.serverResponse = await userService.updateUserData(this.userData.userID, {
+          userID: this.userData.userID,
+          stripeID: this.userData.stripe_id,
+          stripeConnectID: this.userData.stripe_connect_id,
+          name: this.userDataAux.name,
+          lastName: this.userDataAux.lastName,
+          email: this.userDataAux.email,
+          password: this.userDataAux.password,
+          birthdate: this.userDataAux.birthdate,
+          image: this.userData.image,
+          levelID: this.userData.levelID,
+          placeID: this.userData.placeID,
+          place: this.getPlaceName(),
+          points: this.userData.points,
+          roleID: this.userData.roleID,
+          type: this.userData.type, 
+          blocked: this.userData.blocked
+        });
+        this.proccessingTransaction = false;
+        if(this.serverResponse.data === "User successfully updated."){
+          this.successfullTransactionTitle = "User data successfully updated!";
+          this.successfullTransactionDescription = "Data has been updated.";
+          this.successfullTransaction = true;
+          this.assignNewValuesToUserData();
+          this.resetValues();
+        }
+        else {
+          this.error = true;
+          this.errorTittle = "An error ocurred!";
+          this.errorDescription = "Data couldn't be updated. Please check you internet connection and try again.";
+        }
+      }
+    }    
+  }
+
+  getPlaceName(){
+    this.places.forEach((place: any) => {
+      if(place.p_id === this.userDataAux.placeID){
+        return place.p_name
+      }
+    });
+  }
+
+  assignNewValuesToUserData(){
+    this.userData.name = this.userDataAux.name;
+    this.userData.lastName = this.userDataAux.lastName;
+    this.userData.password = this.userDataAux.password;
+    this.userData.email = this.userDataAux.email;
+    this.userData.birthdate = this.userDataAux.birthdate;
+    this.userData.placeID = this.userDataAux.placeID;
+    this.userData.place = this.getPlaceName();
+    this.$store.dispatch('user/setUserData', this.userData);
   }
 
   async uploadImage(event: any){
-    console.log("ima")
     if(event){
       this.proccessingTransaction = true;
       this.transactionTittle = 'Uploading image.';
       this.transactionDescription = 'This could take some time. Please be patient.';
       const newUserProfilePhoto = event || event.dataTransfer.files;
-      console.log("user photo: ", newUserProfilePhoto);
       const imageURL = await userService.uploadProfileImage(this.userData.userID, newUserProfilePhoto);      
       const serverResponse = await userService.updateUserProfileImage(this.userData.userID, imageURL);
       if(serverResponse.data === 'An error ocurred.'){
@@ -413,11 +504,39 @@ export default class UserProfile extends Vue{
         this.errorDescription = "Image couldn't be uploaded. Please check you internet connection and try again.";
       }
       else {
-        console.log("URL is: ", imageURL);
+        this.successfullTransactionTitle = "User image successfully updated!";
+        this.successfullTransactionDescription = "Image has been updated.";
+        this.successfullTransaction = true;
         this.userData.image = imageURL;
         this.proccessingTransaction = false;
       }      
     }
+  }
+
+  async getAllPlaces(){
+    this.serverResponse = await placeService.getAllPlaces();
+    this.places = this.serverResponse.data;
+  } 
+
+  resetValues(){
+    console.log(this.userDataAux);
+    console.log(this.userData)
+    this.userDataAux = this.userData;
+    this.userDataAux = {
+      name: this.userData.name,
+      lastName: this.userData.lastName,
+      password: this.userData.password,
+      email: this.userData.email,
+      birthdate: this.userData.birthdate,
+      placeID: this.userData.placeID,
+    }
+  }
+
+  valuesChanged(){
+    if(this.userDataAux.name !== this.userData.name || this.userDataAux.lastName !== this.userData.lastName || this.userDataAux.password !== this.userData.password || this.userDataAux.email !== this.userData.email || this.userDataAux.birthdate !== this.userData.birthdate || this.userDataAux.placeID !== this.userData.placeID ){
+      return true;
+    }
+    return false;
   }
 
 }

@@ -11,11 +11,13 @@ export default interface User {
     levelName: string,
     levelPercentage: number,
     placeID: number,
+    place: string,
     points: number,
     roleDescription: string,
     roleID: number,
     roleName: string,
     type: string, 
     stripe_id: string,
-    stripe_connect_id: string
+    stripe_connect_id: string,
+    blocked: boolean
 }
