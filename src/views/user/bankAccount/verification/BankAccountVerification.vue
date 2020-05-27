@@ -80,7 +80,7 @@
                                             <v-col cols="6" lg="8">
                                                 <v-text-field
                                                     v-model="firstCharge"
-                                                    label="First Charge"
+                                                    label="First Deposit"
                                                     outlined
                                                     type="number"
                                                     class="marginFirstChargeForm"
@@ -98,7 +98,7 @@
                                             <v-col cols="6" lg="8">
                                                 <v-text-field
                                                     v-model="secondCharge"
-                                                    label="Second Charge"
+                                                    label="Second Deposit"
                                                     outlined
                                                     :rules="[rules.required, rules.validNumber]"
                                                     v-on:keypress="restrictChars($event, secondCharge)"
@@ -111,7 +111,7 @@
                                             justify="center"
                                         >
                                             <v-col cols="12" lg="10" class="d-flex justify-center">
-                                                <v-checkbox class="text-center"  style="margin-top: -6%;" label="I wasn't charged"  v-model="notCharged"></v-checkbox>                                                
+                                                <v-checkbox class="text-center"  style="margin-top: -6%;" label="I didn't received any money"  v-model="notCharged"></v-checkbox>                                                
                                             </v-col>
                                         </v-row>
                                     </v-form>
@@ -168,10 +168,10 @@
                                       </v-list-item>                                                                                                               
 
                                       <v-card-text>
-                                        As you weren't charged, you have 2 options:
+                                        As you didn't received money, you have 2 options:
                                         <ol>
                                             <br/><li>You can notify us about the issue, so we get it touch with you ass soon as we can.</li><br/>
-                                            <li>Wait more time just to make sure you were not charged.</li>
+                                            <li>Wait more time just to make sure money will never get to you bank account.</li>
                                         </ol>
                                       </v-card-text>   
 
@@ -256,7 +256,7 @@
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
                                       <v-card-text>
-                                        <span>Now you can use you bank account to buy products.</span>
+                                        <span>Now you can use you bank account to buy points and retire money.</span>
                                       </v-card-text>                                                                          
                                       <v-btn
                                           color="success"
@@ -281,13 +281,13 @@
                         >
                             <v-col cols="10" lg="12" class="bordered rightSeparationForGuide">
                                 <h1 style="margin-bottom:5%" class="subtittle">Instructions</h1>
-                                <h3>Step 1</h3><p>You must go to you bank account and see your balance. Two charges made from Premileal must appear, you must take note of both charges.</p>
-                                <h3>Step 2</h3><p>insert each charge on each input and then click on verify. If amounts appear not to be correct, switch both and try again. You will only have 3 tries.</p>
+                                <h3>Step 1</h3><p>You must go to you bank account and see your balance. Two deposits made from Premileal must appear, you must take note of both amounts.</p>
+                                <h3>Step 2</h3><p>Insert each deposit on each input and then click on verify. If amounts appear not to be correct, switch both and try again. You will only have 3 tries.</p>
                                 <h3>Step 3</h3><p>If both amounts are correct, then, the bank account status will change to <span style="color:green">"Verified"</span> and you'll also be able to see it change on the left card shown.</p>
                                 <h3 style="margin-top: 8%; margin-bottom: 2%;">Important!</h3>                                
                                 <p>Insert the exact amount including decimals. Ex: 0.75</p>
-                                <p>Remember charges could take days to appear in your bank account balance. Be patient.</p>
-                                <p>If you mark that you weren't charged, then we will try making again 2 charges to you bank account. Make sure the transaction didn't take place.</p>
+                                <p>Remember deposits could take days to appear in your bank account balance. Be patient.</p>
+                                <p>If you mark that you didn't received money, then you could notify us and we will get it touch with you as soon as we can. Make sure the transaction didn't take place.</p>
                             </v-col>
                         </v-row>
                     </div>
@@ -359,7 +359,7 @@ export default class BankAccountVerification extends Vue{
 
     rules = {
         required: (value: any) => !!value || 'Required.',    
-        validNumber: (value: string) => !!value && this.numberIsValid(value) || 'Invalid amount'
+        validNumber: (value: string) => !!value && this.numberIsValid(value) || 'Invalid amount.'
     }
 
     numberIsValid(value: string){
@@ -398,7 +398,7 @@ export default class BankAccountVerification extends Vue{
                 this.proccessingRequest = false;
                 if(this.serverResponse.data === 'Invalid amounts.'){
                     this.errorTittle = 'Error. Invalid amounts!';
-                    this.errorDescription = 'The amounts you have entered didn\'t match with the ones we have. Please, try again.';
+                    this.errorDescription = "The amounts you have entered didn't match with the ones we have. Please, try again.";
                     this.error = true;
                 }
                 else if(this.serverResponse.data === 'An error has ocurred.'){

@@ -18,7 +18,7 @@
                   </div>
                   <div class="subheading text-xs-center">
                     <h2 class="WelcomeSubtittle"> 
-                      Start Earn Points
+                      Start Earning Points
                     </h2>
                   </div>
                   <v-btn class="button white--text" color="blue" rounded dark x-large href="/signup" v-if="!userLoggedIn">
@@ -45,7 +45,7 @@
                       <v-card-text>
                         <p class="miniCard1" >
                           Welcome to Premileal, an exclusive loyalty program. The journey of this rewarding program begins 
-                          post purchase of Premileal points from the our webpage Premileal. It entitles you to a lifetime of premium 
+                          after the purchase of Premileal points from our web application. It entitles you to a lifetime of premium 
                           privileges, benefits and services. Plus if you earn more points you can get better rewards!
                         </p>                      
                       </v-card-text>
@@ -113,8 +113,7 @@
                         </td>
                         <td class="sizeDescriptionTable">
                           When you purchase a lifetime Premium subscription to your account 
-                          for the price of $25.00, you will be able to get 20% more points every time you want to buy a new 
-                          amount of it.
+                          for the price of $25.00, you will be able to get 20% more points every time you make a new purchase.
                         </td>
                       </tr>               
                       <tr>
@@ -125,7 +124,7 @@
                         <td class="sizeDescriptionTable">
                           The maximun membership level that an user can reach after the purchase of a lifetime Premiun 
                           account and being constantly participating on promotions and purchase of products. In addition, 
-                          users who reach this level will receive 2500 points as a thank you gift.
+                          users who reach this level will receive 2500 points for each purchase.
                         </td>   
                       </tr>
                     </tbody>

@@ -10,7 +10,7 @@
             >
                 <v-col cols="12">
                     <div class="text-center">
-                        <h1 class="mainTittle">Points Adquisition</h1>                                                                      
+                        <h1 class="mainTittle">Points Acquisition</h1>                                                                      
                     </div>
                 </v-col>
             </v-row>      
@@ -106,7 +106,7 @@
                                     <br/>
                                     <div class="text--primary">
                                       <p>Transaction type: <b>Payment</b></p>
-                                      <p>Description: <b>Points adquisition</b></p>
+                                      <p>Description: <b>Points acquisition</b></p>
                                       <p>Points to acquire: <b>{{transactionInformation.points}}</b></p>
                                       <p>Bank account information:</p>
                                       <ul style="margin-top: -4%; margin-bottom: 4%">
@@ -134,16 +134,16 @@
                             
                             <v-col cols="10" lg="12" class="bordered rightSeparationForGuide">
                                 <h1 class="text-center subtittle" style="margin-bottom: 5%">How it works?</h1>
-                                <p>The following applies when buying products: </p>
+                                <p>The following applies when buying points: </p>
                                 <ul>
                                     <li>When buying points, a service commission is aggregated to the total amount.</li>
                                     <li>Points won't appear instantly in your account.</li>
                                     <li>Points take from 1 to 2 days to appear in your account.</li>
-                                    <li>You'll receive an email with the payments especifications.</li>
-                                    <li>You'll receive an email when the transaction has been successfully proccessed.</li>
+                                    <li>You'll receive an email with the payments specifications.</li>
+                                    <li>You'll receive an email when the transaction has been successfully processed.</li>
                                 </ul>  
                                 <br/>
-                                <h3>For any issues, please contact us by sending an email to: <span style="color: blue">support@premileal.com</span></h3>                              
+                                <h3>For any issues, please contact us by sending an email to: <span style="color: blue">premileal@gmail.com</span></h3>                              
 
                             </v-col>
                         </v-row>
@@ -168,7 +168,7 @@
                             >
                               <v-list-item>
                                 <v-list-item-content>
-                                  <v-list-item-title class="headline">Proccessing payment.</v-list-item-title>
+                                  <v-list-item-title class="headline">Processing payment.</v-list-item-title>
                                 </v-list-item-content>
                               </v-list-item>  
                               <v-progress-circular
@@ -338,8 +338,8 @@ export default class PointsPurchase extends Vue{
             if(this.serverResponse.data === "Points payment successfully proccessed."){
                 this.userData.points = this.userData.points + this.transactionInformation.points;
                 this.$store.dispatch('user/addPoints', this.userData.points);  
-                this.transactionTitle = 'Payment successfully proccessed!'
-                this.transactionDescription = 'Now you have '+ this.userData.points+ ' available for use,';                
+                this.transactionTitle = 'Payment successfully processed!'
+                this.transactionDescription = 'Now you have '+ this.userData.points+ ' available for use.';                
             }
             else if(this.serverResponse.data === "Bank account is not verified."){
                 this.transactionTitle = 'Error! Payment rejected.';

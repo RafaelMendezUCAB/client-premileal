@@ -47,7 +47,7 @@
                         <td><v-icon style="color: green;">mdi-check-circle</v-icon></td>
                       </tr>
                       <tr class="text-center">
-                        <td class="benefitDescription">2.500 extra points <br/>for echar payment.</td>
+                        <td class="benefitDescription">2.500 extra points <br/>for each payment.</td>
                         <td></td>
                         <td></td>
                         <td><v-icon style="color: green;">mdi-check-circle</v-icon></td>
@@ -79,7 +79,7 @@
 
                       <v-card-text class="text--primary">
                         <div>Cost: $25</div>
-                        <p>When you become premium, we care you won't regret about it. That's why we give you 20% more point each time you buy points. Start gaining more! become PREMIUM now!</p>
+                        <p>When you become premium, we make sure you won't regret about it. That's why we give you 20% more point each time you buy points. Start gaining more! become PREMIUM now!</p>
                       </v-card-text>                      
 
                       <v-card-actions>                        
@@ -116,7 +116,7 @@
                       <v-card-text class="text--primary">
                         <div>Cost: No cost</div>
                     
-                        <p>You don't pay to become GOLD, you earn it. How? Well, by being already Premium and making an income of a total of $2500.00 for us. Premium users get 20% points for each points adquisition + 2500 points bonus!</p>
+                        <p>You don't pay to become GOLD, you earn it. How? Well, by being already Premium and making an income of a total of $2500.00 for us. Premium users get 20% points for each points acquisition + 2500 points bonus!</p>
                       </v-card-text>
                     
                       <v-card-actions>

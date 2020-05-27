@@ -233,7 +233,7 @@ export default class Signup extends Vue{
         alphabet: (value: string) => {
             const pattern = /^[A-z]*$|^$/;
             return(
-                pattern.test(value) ||"Only alphabet characters allowed"
+                pattern.test(value) || "Only alphabet characters allowed"
             )
         },
         password: (value: string) => {

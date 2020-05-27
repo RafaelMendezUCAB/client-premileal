@@ -1,5 +1,5 @@
 import api from '../API/request';
-import { fa, providerGoogle, providerFacebook } from '@/firebase';
+import { fa, fb, providerGoogle, providerFacebook } from "../../firebase";
 
 let serverResponse: any = null;
 
@@ -42,7 +42,30 @@ export default {
       serverResponse = await this.authenticate(userData.email, userData.password);      
     }
     return serverResponse;
-  },    
+  },   
+  
+  async uploadProfileImage(userID: any, imageFile: any) {
+    const imageExtension = imageFile.name.split(".")[1];
+    return new Promise(function (resolve, reject) {
+      const storageRef = fb
+        .storage()
+        .ref("images/user/" + userID + "/profile/profileImage.png");
+      const uploadTask = storageRef.put(imageFile);
+  
+      uploadTask.on(
+        "state_changed",
+        null,
+        (error) => {
+          reject(error);
+        },
+        async () => {
+          await uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  },
 
   /* --------------------- API CALLS ------------------------------- */
   getAllUsers() {
@@ -59,6 +82,10 @@ export default {
 
   signUp(user: any){
     return api.user.signUp(user);
+  },
+
+  updateUserProfileImage(userID: number, imageURL: any){
+    return api.user.updateUserProfileImage(userID, { URL: imageURL });
   }
   /* ------------------------------------------------------------------ */
 

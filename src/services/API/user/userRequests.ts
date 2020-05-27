@@ -18,9 +18,12 @@ export default {
     /* ---------------------- POST METHODS -------------------------- */
     signUp(user: any){
       return API_URL.post(process.env.VUE_APP_USER_ROUTE+"/signup", user);
-    }
+    },
   
     /* ---------------------- PUT METHODS -------------------------- */
+    updateUserProfileImage(userID: number, image: any){
+      return API_URL.put(process.env.VUE_APP_USER_ROUTE+"/update/profile/image/"+userID, image);
+    }
   
     /* ---------------------- DELETE METHODS -------------------------- */
   };

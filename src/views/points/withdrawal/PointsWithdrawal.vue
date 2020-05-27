@@ -58,7 +58,7 @@
                                                 outlined
                                                 class="formBottomMargin"
                                                 :items="items"                                            
-                                                label="Select Bank Account to transfer"
+                                                label="Select the Bank Account you want the money to be transfered"
                                                 :rules="[rules.required]"
                                             ></v-select>
                                         </v-col>  
@@ -83,7 +83,7 @@
                                           @click="sendTransfer"
                                           style="margin-bottom:10%,"
                                         >
-                                            <span style="color:white">Pay</span>
+                                            <span style="color:white">Transfer</span>
                                         </v-btn>
                                     </v-col>
                                 </v-row>                                                                                                                                                                                                              
@@ -140,15 +140,15 @@
                                 <h1 class="text-center subtittle" style="margin-bottom: 5%">How it works?</h1>
                                 <p>The following applies when transfering money: </p>
                                 <ul>
-                                    <li>You can only withdraw a maximun of <span style="color: green">1000000</span> points per transaction.</li>
-                                    <li>When tranfering money, a service commission is aggregated to the total transfer.</li>
+                                    <li>You can only withdraw a maximum of <span style="color: green">1000000</span> points per transaction.</li>
+                                    <li>When transferring money, a service commission is aggregated to the total transfer.</li>
                                     <li>Transfers won't appear instantly in you bank account.</li>
-                                    <li>Transactions may take from 2 to 5 days to appear in your bank account.</li>
+                                    <li>Transfers may take from 2 to 5 business days to appear in your bank account.</li>
                                     <li>You'll receive an email with the transaction specifications.</li>
-                                    <li>You'll receive an email when the transaction has been successfully proccessed.</li>
+                                    <li>You'll receive an email when the transaction has been successfully processed.</li>
                                 </ul>  
                                 <br/>
-                                <h3>For any issues, please contact us by sending an email to: <span style="color: blue">support@premileal.com</span></h3>                              
+                                <h3>For any issues, please contact us by sending an email to: <span style="color: blue">premileal@gmail.com</span></h3>                              
 
                             </v-col>
                         </v-row>
@@ -201,7 +201,7 @@ export default class PointsWithdrawal extends Vue{
     rules = {
         required: (value: any) => !!value || 'Required.',
         points: (points: number) => points > 499 || 'Minimum points to retire must be 500.',
-        pointsMax: (points: number) => points <= this.transactionInformation.pointsAvailable || 'You don\'t have than many points available'        
+        pointsMax: (points: number) => points <= this.transactionInformation.pointsAvailable || "You don't have enough many points available."        
     }    
 
     @Watch('transactionInformation.points')

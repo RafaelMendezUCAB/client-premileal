@@ -419,7 +419,7 @@ export default class BankAccountStatus extends Vue{
     }
 
     editBankAccount(){
-      this.transactionDescription = 'Updating Bank Account';
+      this.transactionDescription = 'Updating Bank Account.';
       this.editingBankAccount = true;
     }
 
@@ -434,7 +434,7 @@ export default class BankAccountStatus extends Vue{
 
     eliminateBankAccount(){
         console.log("users wants to delete bank account");
-        this.transactionDescription = 'Deleting bank account';
+        this.transactionDescription = 'Deleting bank account.';
         this.overlay = false;
         this.processingTransaction = true;
         setTimeout(() => {

@@ -90,7 +90,7 @@
                         class="blue--text" 
                         style="text-decoration:none;"
                       >
-                      <v-list-item-title class="blue--text">Bank Accounts</v-list-item-title>
+                      <v-list-item-title class="blue--text">Add Bank Account</v-list-item-title>
                       </router-link>
               </v-list-item>
 

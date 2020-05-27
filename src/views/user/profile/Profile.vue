@@ -2,6 +2,65 @@
   <v-app>
       <Navbar></Navbar>
       <v-content>
+
+        <div class="text-center">
+          <v-row
+            align="center"
+            justify="center"
+          >
+            <v-col class="d-flex justify-center">
+                <v-overlay                                  
+                  :value="proccessingTransaction"                      
+                >
+                    <v-card
+                      max-width="500"
+                      class="mx-auto"
+                    >
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title class="headline d-flex justify-center">{{transactionTittle}}</v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>   
+                      <v-progress-circular
+                        :size="70"
+                        :width="7"
+                        color="primary"
+                        indeterminate
+                      ></v-progress-circular>                                                                                                             
+                      <v-card-text>
+                        <span>{{transactionDescription}}.</span>
+                      </v-card-text>                                                                              
+                    </v-card>                              
+                </v-overlay>  
+
+                <v-overlay                                  
+                  :value="error"
+                >
+                    <v-card
+                      max-width="500"
+                      class="mx-auto"
+                    >
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title class="headline">{{errorTittle}}</v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>                                                                                                               
+                      <v-card-text>
+                        <span>{{errorDescription}}</span>
+                      </v-card-text>                                                                          
+                      <v-btn
+                          color="success"
+                          @click="error = false"
+                          style="margin-bottom: 2%"
+                        >
+                          Ok
+                      </v-btn>                                   
+                    </v-card>                              
+                </v-overlay>                  
+            </v-col>
+          </v-row>
+        </div>
+
           <v-row
               align="center"
               justify="center"
@@ -33,7 +92,7 @@
                       max-width="374"
                     >
                       <v-card-text>
-                        <v-avatar color="blue" size="100" v-if="userData !== null">                                          
+                        <v-avatar color="blue" size="100" v-if="userData !== null">                                                                   
                           <img 
                             :src="userData.image" 
                             alt="Avatar" 
@@ -45,8 +104,20 @@
                             v-else                          
                           >
                         </v-avatar>
-                        
-
+                      
+                        <v-file-input                            
+                          prepend-icon="mdi-camera"
+                          accept="image/*"
+                          class="mx-5 uploadPhoto"
+                          @change="uploadImage($event)"
+                          label="Click here to upload new photo" 
+                                                  
+                        >
+                          <v-btn>
+                            upload image
+                          </v-btn>
+                        </v-file-input> 
+                                                
                         <span v-if="userData !== null">
                         <v-text-field 
                           v-model="userData.name"
@@ -193,6 +264,14 @@ export default class UserProfile extends Vue{
 
   serverResponse: any = null;
 
+  proccessingTransaction = false;
+  transactionTittle = '';
+  transactionDescription = ''
+
+  error = false;
+  errorTittle = '';
+  errorDescription = '';
+
   headers = [
     {
         text: 'ID',
@@ -315,6 +394,30 @@ export default class UserProfile extends Vue{
 
   updateUser(){
     console.log("update user");
+  }
+
+  async uploadImage(event: any){
+    console.log("ima")
+    if(event){
+      this.proccessingTransaction = true;
+      this.transactionTittle = 'Uploading image.';
+      this.transactionDescription = 'This could take some time. Please be patient.';
+      const newUserProfilePhoto = event || event.dataTransfer.files;
+      console.log("user photo: ", newUserProfilePhoto);
+      const imageURL = await userService.uploadProfileImage(this.userData.userID, newUserProfilePhoto);      
+      const serverResponse = await userService.updateUserProfileImage(this.userData.userID, imageURL);
+      if(serverResponse.data === 'An error ocurred.'){
+        this.proccessingTransaction = false;
+        this.error = true;
+        this.errorTittle = 'An error ocurred!';
+        this.errorDescription = "Image couldn't be uploaded. Please check you internet connection and try again.";
+      }
+      else {
+        console.log("URL is: ", imageURL);
+        this.userData.image = imageURL;
+        this.proccessingTransaction = false;
+      }      
+    }
   }
 
 }

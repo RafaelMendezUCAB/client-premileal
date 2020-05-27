@@ -240,8 +240,8 @@
                     <h1 class="bottomSeparation subtittle">How can I verify my Bank Account?</h1>
                   
                     <p>Your bank account has been successfully registered, but it currently has a status of "<span style="color: red">Unverified</span>", which means, you can't use it for any transaction inside our platform.</p>
-                    <p>In order to change the bank account status to "Verified", we've made 2 charges to that bank account so you can procced the account validation. In order to validate the account, you must fill the
-                        corresponding <a @click="gotoValidationForm">form</a> with the exact amount of both charges. If the information provided corresponds with the ones we have, then the Bank Account will
+                    <p>In order to change the bank account status to "Verified", we've made 2 small deposits to that bank account so you can do the account validation. To validate the account, you must fill the
+                        corresponding <a @click="gotoValidationForm">form</a> with the exact amount of both deposits. If the information provided corresponds with the ones we have, then the Bank Account will
                         now have a status of "Verified" which means, now is able for being use for any transaction inside our platform.
                     </p>
                     <p>Thanks for trusting us!</p>
@@ -372,8 +372,8 @@ export default class BankAccountRegistration extends Vue{
         this.loading = true;
         if(!this.routingNumberIsValid()){
             this.loading = false;
-            this.errorTittle = 'Error. Routing number is invalid';
-            this.errorDescription = 'You\'ve entered a routing number that doesn\'t belong to the bank selected. Please, change bank or routing number.';
+            this.errorTittle = 'Error. Routing number is invalid.';
+            this.errorDescription = "You've entered a routing number that doesn't belong to the bank selected. Please, change bank or routing number.";
             this.error = true;
         }
         else {
@@ -381,7 +381,7 @@ export default class BankAccountRegistration extends Vue{
             this.loading = false;
             if(this.serverResponse.data === 'Bank account already exists.'){               
                 this.errorTittle = 'Error. Bank account already exists.';
-                this.errorDescription = 'You\'ve entered a bank account that has already been registered before. If the problem persists, please contact us at: premileal@gmail.com';
+                this.errorDescription = "You've entered a bank account that has already been registered before. If the problem persists, please contact us at: premileal@gmail.com";
                 this.error = true; 
             }
             else if(this.serverResponse.data === 'Bank account created.'){
