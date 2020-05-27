@@ -44,14 +44,22 @@
                                   </v-card-text>                                
                                 </v-card>
 
+                                <v-btn dark
+                                      color="blue"                                      
+                                      style="margin-bottom:10%"
+                                      class="topMargin mr-1"
+                                      @click="gotoProfile"
+                                    >
+                                      See Profile
+                                </v-btn>
                                 <v-btn
                                       color="primary"                                      
                                       style="margin-bottom:10%"
                                       class="topMargin"
                                       @click="gotoProfile"
                                     >
-                                      See Profile
-                                </v-btn>
+                                      Withdrawal History
+                                </v-btn>                                
 <!-- 
                                 <v-btn
                                       color="red"

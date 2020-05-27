@@ -67,10 +67,14 @@
                      </div>
                     </v-card-text>
                   </v-card>
-                    
-                  <v-btn class="black mt-4" dark color="blue" @click="gotoProfileSettings">
-                      Edit Info
-                  </v-btn>
+                  <v-row class="rowSeparation" align="center" justify="center">
+                      <v-btn class="black mt-4 mr-1" dark color="blue" @click="gotoProfileSettings">
+                          Edit Info
+                      </v-btn>
+                      <v-btn class="black mt-4" dark color="primary" @click="gotoPaymentHistory">
+                          Payment History
+                      </v-btn>    
+                  </v-row>                                                    
                 </v-col>                        
               </v-row>
             </div>
@@ -241,6 +245,9 @@ export default class UserProfile extends Vue{
   }
   gotoProfileSettings(){
     this.$router.push({ name: 'userProfileSettings'});
+  }
+    gotoPaymentHistory(){
+    this.$router.push({ name: 'userPaymentHistory'});
   }
   seeDetails(){
      console.log("see details");
