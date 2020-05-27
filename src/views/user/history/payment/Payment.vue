@@ -56,19 +56,10 @@
                                       color="primary"                                      
                                       style="margin-bottom:10%"
                                       class="topMargin"
-                                      @click="gotoProfile"
+                                      @click="gotoWithdrawalHistory"
                                     >
                                       Withdrawal History
                                 </v-btn>                                
-<!-- 
-                                <v-btn
-                                      color="red"
-                                      @click="overlay = !overlay"
-                                      style="margin-bottom:10%"
-                                      class="topMargin"
-                                    >
-                                      <v-icon style="color: white">mdi-trash-can-outline</v-icon>
-                                </v-btn> -->
 
                             </v-col>
                         </v-row>
@@ -340,6 +331,9 @@ export default class BankAccountStatus extends Vue{
       this.$router.push({name: 'userProfile'});
     }
 
+    gotoWithdrawalHistory(){
+      this.$router.push({name: 'userHistoryWithdrawal'});
+    }
     
 }
 </script>
