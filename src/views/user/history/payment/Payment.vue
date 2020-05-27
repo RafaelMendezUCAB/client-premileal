@@ -332,7 +332,7 @@ export default class BankAccountStatus extends Vue{
     }
 
     gotoWithdrawalHistory(){
-      this.$router.push({name: 'userHistoryWithdrawal'});
+      this.$router.push({name: 'userWithdrawalHistory'});
     }
     
 }
