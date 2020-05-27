@@ -1,6 +1,7 @@
 import bank from './bank/bankRequests';
 import bankAccount from './bankAccount/bankAccountRequests';
 import historicStatus from './historicStatus/historicStatusRequests';
+import internationalization from './internationalization/internationalizationRequests';
 import invoice from './invoice/invoiceRequests';
 import level from './level/levelRequests';
 import offer from './offer/offerRequests';
@@ -19,6 +20,7 @@ export default {
   bank,
   bankAccount,
   historicStatus,
+  internationalization,
   invoice,
   level,
   offer,
