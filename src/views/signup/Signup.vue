@@ -332,26 +332,30 @@ export default class Signup extends Vue{
     }    
 
     async getTranslations(language: string){        
-        const translations = await internationalizationService.getTermsTranslations(language);        
-        if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
-            this.textsTranslated = translations.data;
-            this.texts = internationalizationService.signUp.translate(this.textsTranslated, this.texts);
-            const parsedTerms = JSON.stringify(this.textsTranslated);
-            localStorage.setItem('termsTranslated', parsedTerms);
-        }
-        else {
-            this.texts = internationalizationService.signUp.translate(this.textsTranslated, this.texts);
-        }
-        this.languages = [
-            {
-                acronym: 'en-us',
-                name: this.texts.englishLabel
-            },
-            {
-                acronym: 'es',
-                name: this.texts.spanishLabel
+        try {
+            const translations = await internationalizationService.getTermsTranslations(language);        
+            if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+                this.textsTranslated = translations.data;
+                this.texts = internationalizationService.signUp.translate(this.textsTranslated, this.texts);
+                const parsedTerms = JSON.stringify(this.textsTranslated);
+                localStorage.setItem('termsTranslated', parsedTerms);
             }
-        ];     
+            else {
+                this.texts = internationalizationService.signUp.translate(this.textsTranslated, this.texts);
+            }
+            this.languages = [
+                {
+                    acronym: 'en-us',
+                    name: this.texts.englishLabel
+                },
+                {
+                    acronym: 'es',
+                    name: this.texts.spanishLabel
+                }
+            ];
+        } catch (error) {
+            console.log("An error ocurred: ", error);
+        }     
     }
 
     @Watch('userData.preferredLanguage')
@@ -383,23 +387,27 @@ export default class Signup extends Vue{
             if(this.loadingUserData === false){
                 this.loadingUserData = true;
             }
-            this.serverResponse = await userService.signUp(this.userData);
-            this.loadingUserData = false;
-            if(this.serverResponse.data === 'User email already exists.'){
-                this.errorTittle = 'Error!';
-                this.errorDescription = 'The email address is already registered. Please, use another or login.';
-                this.error = true;
-            }
-            else {
-                this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
-                this.$store.dispatch('user/setSessionStatus', true);
-                const user = JSON.stringify(this.serverResponse.data[0]);
-                localStorage.setItem('userData', user);
-                localStorage.setItem('userLoggedIn', "true");
-                this.$router.push({ name: 'home' }).catch(error => {
-                  console.log(error);
-                });
-            }
+            try {
+                this.serverResponse = await userService.signUp(this.userData);
+                this.loadingUserData = false;
+                if(this.serverResponse.data === 'User email already exists.'){
+                    this.errorTittle = 'Error!';
+                    this.errorDescription = 'The email address is already registered. Please, use another or login.';
+                    this.error = true;
+                }
+                else {
+                    this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
+                    this.$store.dispatch('user/setSessionStatus', true);
+                    const user = JSON.stringify(this.serverResponse.data[0]);
+                    localStorage.setItem('userData', user);
+                    localStorage.setItem('userLoggedIn', "true");
+                    this.$router.push({ name: 'home' }).catch(error => {
+                      console.log(error);
+                    });
+                }
+            } catch (error) {
+                console.log("An error ocurred: ", error);
+            }            
         }        
     }                
 
@@ -412,7 +420,8 @@ export default class Signup extends Vue{
     }
 
     accessGoogle(){
-      fa.signInWithPopup(providerGoogle).then(result =>{
+      try {
+          fa.signInWithPopup(providerGoogle).then(result =>{
         this.loadingUserData = true;
         const token = result.credential;
         const user = result.user;        
@@ -426,6 +435,9 @@ export default class Signup extends Vue{
           this.error = true;
         } 
       })
+      } catch (error) {
+          console.log("An error ocurred: ", error);
+      }
     }
 
     assignFacebookCredentials(user: any){
@@ -437,7 +449,8 @@ export default class Signup extends Vue{
     }
 
     accessFacebook(){
-      fa.signInWithPopup(providerFacebook).then(result => {
+      try {
+          fa.signInWithPopup(providerFacebook).then(result => {
         this.loadingUserData = true;
         const token = result.credential;
         const user = result.user;
@@ -451,6 +464,9 @@ export default class Signup extends Vue{
           this.error = true;
         } 
       })
+      } catch (error) {
+          console.log(error);
+      }
     }
 
     resetData(){
@@ -467,8 +483,12 @@ export default class Signup extends Vue{
     }               
 
     async getAllPlaces(){
-        this.serverResponse = await placeService.getAllPlaces();
-        this.places = this.serverResponse.data;
+        try {
+            this.serverResponse = await placeService.getAllPlaces();
+            this.places = this.serverResponse.data;
+        } catch (error) {
+            console.log(error);
+        }
     }    
 
 }

@@ -183,9 +183,8 @@ export default class BankAccountStatus extends Vue{
             this.movements.forEach((movement: any) => {
                 movement.details = 'details';
             });
-            console.log("movements: ", this.movements);
         } catch (error) {
-            console.log(error);
+            console.log("An error ocurred getting payment history: ", error);
         }
     }
 

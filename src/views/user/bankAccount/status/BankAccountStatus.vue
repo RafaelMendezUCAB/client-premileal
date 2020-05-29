@@ -407,13 +407,11 @@ export default class BankAccountStatus extends Vue{
       try {
         this.serverResponse = await bankAccountService.getBankAccountStatus(this.bankAccount.bankAccountID);
         this.movements = this.serverResponse.data.movements;
-        console.log("pays are: ", this.movements)
         this.movements.forEach((movement: any) => {
           movement.details = 'details';
         });
-        console.log("pays are: ", this.movements);
       } catch (error) {
-        console.log(error);
+        console.log("An error ocurred getting bank account status: ", error);
       }
     }
 
@@ -488,16 +486,9 @@ export default class BankAccountStatus extends Vue{
           this.transactionDescription = this.texts.errorUpdatingBankAccount;
         }
         this.successfullTransaction = true;
-        console.log(this.transactionDescription);
-        console.log("texts are: ", this.texts);
       } catch (error) {
-        console.log(error);
-      }
-
-      /*setTimeout(() => {
-          this.processingTransaction = false;
-          this.successfullTransaction = true;
-        }, 5000);*/
+        console.log("An error ocurred while updating bank account: ", error);
+      }      
     }
 
     eliminateBankAccount(){
@@ -544,7 +535,7 @@ export default class BankAccountStatus extends Vue{
         }
         this.successfullTransaction = true;
       } catch (error) {
-        console.log(error);
+        console.log("An error ocurred assigning bank account as primary: ", error);
       }
     }
     

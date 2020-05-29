@@ -243,8 +243,7 @@ import Footer from '@/components/footer/Footer.vue';
       const parsedTerms = JSON.stringify(this.textsTranslated.data);
       localStorage.setItem('termsTranslated', parsedTerms);
     } catch (error) {
-      console.log("error was: ",error);
-      console.log("revise su conexión a internet.");
+      console.log("An error ocurred: ",error);      
     }
     
   }
@@ -312,7 +311,8 @@ import Footer from '@/components/footer/Footer.vue';
     }
 
     loginFacebook(){
-      fa.signInWithPopup(providerFacebook).then(result => {
+      try {
+        fa.signInWithPopup(providerFacebook).then(result => {
         this.loadingUserData = true;
         const token = result.credential
         const user = result.user
@@ -325,7 +325,10 @@ import Footer from '@/components/footer/Footer.vue';
           this.errorDescription = 'There was a network error. Check your network connection and try again.';
           this.error = true;
         }   
-      })
+      });
+      } catch (error) {
+        console.log(error);
+      }      
     }
 
   }

@@ -265,7 +265,6 @@ export default class Logout extends Vue{
 
   mounted(){    
     this.userData = this.getUserData;
-    console.log("en home es: ", this.userData);
     if(this.userData.userID === undefined){
       const user = localStorage.getItem('userData');
       if(user){
@@ -297,20 +296,23 @@ export default class Logout extends Vue{
     }
   }
 
-  async getTranslations(language: string){        
-    const translations = await internationalizationService.getTermsTranslations(language);        
-    if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
-        this.textsTranslated = translations.data;
-        this.texts = internationalizationService.home.translate(this.textsTranslated, this.texts);
-        const parsedTerms = JSON.stringify(this.textsTranslated);
-        localStorage.setItem('termsTranslated', parsedTerms);
-    }      
+  async getTranslations(language: string){    
+    try {
+      const translations = await internationalizationService.getTermsTranslations(language);        
+      if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+          this.textsTranslated = translations.data;
+          this.texts = internationalizationService.home.translate(this.textsTranslated, this.texts);
+          const parsedTerms = JSON.stringify(this.textsTranslated);
+          localStorage.setItem('termsTranslated', parsedTerms);
+      } 
+    } catch (error) {
+      console.log("An error ocurred getting translations: ", error);
+    }         
   }
 
   checkLanguage(){
     if(this.userData.preferredLanguage !== 'en-us'){
       this.getTranslations(this.userData.preferredLanguage);
-      console.log("Antes de traducir ", this.textsTranslated);
       if(this.textsTranslated){
           this.texts = internationalizationService.home.translate(this.textsTranslated, this.texts);
       }

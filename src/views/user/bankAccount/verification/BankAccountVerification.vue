@@ -436,7 +436,7 @@ export default class BankAccountVerification extends Vue{
             localStorage.setItem('termsTranslated', parsedTerms);
         } 
       } catch (error) {
-        console.log(error);
+        console.log("An error ocurred getting translations: ", error);
       }         
     }
 
@@ -467,43 +467,46 @@ export default class BankAccountVerification extends Vue{
     }
 
     restrictChars(event: any, value: string){
-        if(((event.charCode < 48 || event.charCode > 57) && event.charCode !== 46) || value.length > 8){
-            event.preventDefault();
-        }        
+      if(((event.charCode < 48 || event.charCode > 57) && event.charCode !== 46) || value.length > 8){
+          event.preventDefault();
+      }        
     }
 
     async verifyBankAccount(){
         if(this.bankAccount.status === 'unverified'){
-            if(this.notCharged){            
-            this.userWasntCharged = true;
-            }
-            else if(this.valid){
-                this.eventDescription = 'Validating bank account.';
-                this.proccessingRequest = true;
-                this.serverResponse = await bankAccountService.verifyBankAccount(this.bankAccount.bankAccountID, {
-                    bankAccount: this.bankAccount,
-                    user: this.userData,
-                    firstCharge: this.firstCharge,
-                    secondCharge: this.secondCharge
-                });
-                this.proccessingRequest = false;
-                if(this.serverResponse.data === 'Invalid amounts.'){
-                    this.errorTittle = 'Error. Invalid amounts!';
-                    this.errorDescription = "The amounts you have entered didn't match with the ones we have. Please, try again.";
-                    this.error = true;
-                }
-                else if(this.serverResponse.data === 'An error has ocurred.'){
-                    this.errorTittle = 'Network Error!';
-                    this.errorDescription = 'There was a network error. Check your network connection and try again.';
-                    this.error = true; 
-                }
-                else {
-                    console.log("Validating");
-                    this.bankAccount.status = 'verified';
-                    this.successfullValidation = true;   
-                    this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);      
-                }
-            }            
+          if(this.notCharged){            
+          this.userWasntCharged = true;
+          }
+          else if(this.valid){
+            this.eventDescription = 'Validating bank account.';
+            this.proccessingRequest = true;
+            try {
+              this.serverResponse = await bankAccountService.verifyBankAccount(this.bankAccount.bankAccountID, {
+                bankAccount: this.bankAccount,
+                user: this.userData,
+                firstCharge: this.firstCharge,
+                secondCharge: this.secondCharge
+              });
+              this.proccessingRequest = false;
+              if(this.serverResponse.data === 'Invalid amounts.'){
+                  this.errorTittle = 'Error. Invalid amounts!';
+                  this.errorDescription = "The amounts you have entered didn't match with the ones we have. Please, try again.";
+                  this.error = true;
+              }
+              else if(this.serverResponse.data === 'An error has ocurred.'){
+                  this.errorTittle = 'Network Error!';
+                  this.errorDescription = 'There was a network error. Check your network connection and try again.';
+                  this.error = true; 
+              }
+              else {
+                  this.bankAccount.status = 'verified';
+                  this.successfullValidation = true;   
+                  this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);      
+              }
+            } catch (error) {
+              console.log("An error ocurred verifying bank account: ", error);
+            }                
+          }            
         }
         else {
             this.alreadyVerifiedMessage = true;

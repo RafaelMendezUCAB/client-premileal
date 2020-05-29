@@ -410,7 +410,7 @@ export default class BankAccountRegistration extends Vue{
             localStorage.setItem('termsTranslated', parsedTerms);
         } 
       } catch (error) {
-        console.log(error);
+        console.log("An error ocurred getting translations: ", error);
       }         
     }
 
@@ -419,17 +419,25 @@ export default class BankAccountRegistration extends Vue{
     }
 
     async getAllBanks(){
-        this.serverResponse = await bankService.getAllBanks();
-        if(this.serverResponse.data !== 'No banks registered.'){
-            this.banks = this.serverResponse.data;
-        }
+        try {
+          this.serverResponse = await bankService.getAllBanks();
+          if(this.serverResponse.data !== 'No banks registered.'){
+              this.banks = this.serverResponse.data;
+          }
+        } catch (error) {
+          console.log("An error ocurred trying getting all banks: ", error);
+        }        
     }
 
     async getAvailableBankRoutingNumbers(){
+      try {
         this.serverResponse = await bankService.getBankRoutingNumbers(this.bankAccountData.bank);
         if(this.serverResponse.data !== 'No routing numbers registered for bank.'){
             this.availableRoutingNumbers = this.serverResponse.data;
         }
+      } catch (error) {
+        console.log("An error ocurred getting bank routing numbers: ", error);
+      }        
     }
 
     @Watch('bankAccountData.bank')
@@ -454,30 +462,34 @@ export default class BankAccountRegistration extends Vue{
     }
     
     async saveBankAccount(){
-        this.loading = true;
-        if(!this.routingNumberIsValid()){
-            this.loading = false;
-            this.errorTittle = 'Error. Routing number is invalid.';
-            this.errorDescription = "You've entered a routing number that doesn't belong to the bank selected. Please, change bank or routing number.";
-            this.error = true;
-        }
-        else {
-            this.serverResponse = await bankAccountService.saveBankAccount(this.bankAccountData);
-            this.loading = false;
-            if(this.serverResponse.data === 'Bank account already exists.'){               
-                this.errorTittle = 'Error. Bank account already exists.';
-                this.errorDescription = "You've entered a bank account that has already been registered before. If the problem persists, please contact us at: premileal@gmail.com";
-                this.error = true; 
-            }
-            else if(this.serverResponse.data === 'Bank account created.'){
-                this.step = "3";
-            }
-            else {
-                this.errorTittle = 'Network Error!';
-                this.errorDescription = 'There was a network error. Check your network connection and try again.';
-                this.error = true;
-            }
-        }        
+      this.loading = true;
+      if(!this.routingNumberIsValid()){
+          this.loading = false;
+          this.errorTittle = 'Error. Routing number is invalid.';
+          this.errorDescription = "You've entered a routing number that doesn't belong to the bank selected. Please, change bank or routing number.";
+          this.error = true;
+      }
+      else {
+        try {
+          this.serverResponse = await bankAccountService.saveBankAccount(this.bankAccountData);
+          this.loading = false;
+          if(this.serverResponse.data === 'Bank account already exists.'){               
+              this.errorTittle = 'Error. Bank account already exists.';
+              this.errorDescription = "You've entered a bank account that has already been registered before. If the problem persists, please contact us at: premileal@gmail.com";
+              this.error = true; 
+          }
+          else if(this.serverResponse.data === 'Bank account created.'){
+              this.step = "3";
+          }
+          else {
+              this.errorTittle = 'Network Error!';
+              this.errorDescription = 'There was a network error. Check your network connection and try again.';
+              this.error = true;
+          }
+        } catch (error) {
+          console.log("An error ocurred saving bank Account: ", error);
+        }            
+      }        
     } 
 
     restrictChars(event: any){
