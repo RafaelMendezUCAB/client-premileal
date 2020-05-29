@@ -212,6 +212,7 @@
                                           <v-list-item-title class="headline" v-if="transactionDescription === texts.updatingBankAccountLabel">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
                                           <v-list-item-title class="headline" v-if="transactionDescription === texts.settingPrimaryBankAccountLabel">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
                                           <v-list-item-title class="headline" v-if="transactionDescription === texts.errorUpdatingBankAccount">{{texts.errorUpdatingBankAccount}}</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription === texts.bankAccountNotDeletedLabel">{{texts.bankAccountNotDeletedLabel}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
 
@@ -224,6 +225,36 @@
                                       <v-btn
                                           color="success"
                                           @click="successfullTransaction = false"
+                                          style="margin-bottom: 2%"
+                                        >
+                                          Ok
+                                      </v-btn>
+                                       
+                                    </v-card>
+                                  
+                                </v-overlay>
+
+                                <v-overlay
+                                  
+                                  :value="bankAccountDeleted"
+                                >
+                                    <v-card
+                                      max-width="500"
+                                      class="mx-auto"
+                                    >
+                                      <v-list-item>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline">{{texts.bankAccountSuccessfullyDelete}}</v-list-item-title>                                          
+                                        </v-list-item-content>
+                                      </v-list-item>                                                                                                               
+
+                                      <v-card-text>
+                                        <span>{{texts.bankAccountDeletedLabel}}.</span>                                      
+                                      </v-card-text>                                                                          
+
+                                      <v-btn
+                                          color="success"
+                                          @click="gotoProfile"
                                           style="margin-bottom: 2%"
                                         >
                                           Ok
@@ -306,6 +337,7 @@ export default class BankAccountStatus extends Vue{
     processingTransaction = false;    
     successfullTransaction = false;
     editingBankAccount = false;
+    bankAccountDeleted = false;
 
     transactionDescription = '';
     
@@ -377,7 +409,8 @@ export default class BankAccountStatus extends Vue{
       settingPrimaryBankAccountLabel: "Setting bank account as primary.",
       updatingBankAccountLabel: "Updating Bank Account.",
       errorUpdatingBankAccount: "Error. bank account couldn't be updated!",
-      assignAsPrimaryLabel: "Assign as primary account"
+      assignAsPrimaryLabel: "Assign as primary account",
+      bankAccountNotDeletedLabel: "Bank account couldn't be deleted."
     }
 
     mounted(){
@@ -492,10 +525,24 @@ export default class BankAccountStatus extends Vue{
       }      
     }
 
-    eliminateBankAccount(){
+    async eliminateBankAccount(){
         this.transactionDescription = this.texts.deletingBankAccountLabel;
         this.overlay = false;
         this.processingTransaction = true;
+        try {
+          this.serverResponse = await bankAccountService.deleteBankAccount(this.bankAccount.bankAccountID, this.bankAccount);
+          this.processingTransaction = false;
+          if(this.serverResponse.data === "Bank Account successfully deleted."){
+            this.bankAccountDeleted = true;
+          }
+          else {
+            this.transactionDescription = this.texts.bankAccountNotDeletedLabel;
+            this.successfullTransaction = true;
+          }          
+        } catch (error) {
+          console.log(error);
+        }
+
         setTimeout(() => {
           this.processingTransaction = false;
           this.successfullTransaction = true;
@@ -538,6 +585,13 @@ export default class BankAccountStatus extends Vue{
       } catch (error) {
         console.log("An error ocurred assigning bank account as primary: ", error);
       }
+    }
+
+    gotoProfile(){
+      this.bankAccountDeleted = false;
+      this.$router.push({ name: "userProfile" }).catch((error) => {
+        console.log(error);
+      })
     }
     
 }

@@ -45,14 +45,14 @@
                     :rules="[rules.required]"
                     />
                 </v-form>
-                  <div class="text-right">
+                  <!--<div class="text-right">
                       <router-link 
                         style="text-decoration: none;" 
                         to=""
                       >
                           {{texts.loginForgotPasswordLabel}}
                       </router-link>
-                  </div>                     
+                  </div>   -->                  
                   <v-card-actions>
                     <v-btn depressed 
                            width=100% 

@@ -34,6 +34,7 @@ export default {
                     case 'updatingBankAccountLabel': viewTexts.updatingBankAccountLabel = term.text; break;
                     case 'errorUpdatingBankAccount': viewTexts.errorUpdatingBankAccount = term.text; break;
                     case 'assignAsPrimaryLabel': viewTexts.assignAsPrimaryLabel = term.text; break;
+                    case 'bankAccountNotDeletedLabel': viewTexts.bankAccountNotDeletedLabel = term.text; break;
                     default: break;
                 }
             });
@@ -72,7 +73,8 @@ export default {
             settingPrimaryBankAccountLabel: "Setting bank account as primary.",
             updatingBankAccountLabel: "Updating Bank Account.",
             errorUpdatingBankAccount: "Error. bank account couldn't be updated!",
-            assignAsPrimaryLabel: "Assign as primary account"
+            assignAsPrimaryLabel: "Assign as primary account",
+            bankAccountNotDeletedLabel: "Bank account couldn't be deleted."
         }
     }
 

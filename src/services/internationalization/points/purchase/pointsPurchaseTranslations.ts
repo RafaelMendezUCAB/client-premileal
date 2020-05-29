@@ -38,6 +38,7 @@ export default {
                     case 'paymentRejectedLabel': viewTexts.paymentRejectedLabel = term.text; break;
                     case 'usingBankAccountNotVerifiedLabel': viewTexts.usingBankAccountNotVerifiedLabel = term.text; break;
                     case 'paymentRejectedDescriptionLabel': viewTexts.paymentRejectedDescriptionLabel = term.text; break;
+                    case 'downloadInvoiceLabel': viewTexts.downloadInvoiceLabel = term.text; break;
                     default: break;
                 }
             });
@@ -80,7 +81,8 @@ export default {
             paymentNotifiedLabel: "You'll be notified when payment has been approved",
             paymentRejectedLabel: "Error! Payment rejected.",
             usingBankAccountNotVerifiedLabel: "You are trying to use a bank account that has not been verified.",
-            paymentRejectedDescriptionLabel: "An error ocurred. Your payment has been rejected."
+            paymentRejectedDescriptionLabel: "An error ocurred. Your payment has been rejected.",
+            downloadInvoiceLabel: "Download Invoice"
         }
     }
 

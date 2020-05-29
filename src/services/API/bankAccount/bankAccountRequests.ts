@@ -27,7 +27,10 @@ export default {
 
     updateBankAccount(bankAccountID: number, data: any){
         return API_URL.put(process.env.VUE_APP_USER_BANK_ACCOUNT_ROUTE+"/update/"+bankAccountID, data);
-    }
+    },
   
     /* ---------------------- DELETE METHODS -------------------------- */
+    deleteBankAccount(bankAccountID: number, bankAccount: any){
+        return API_URL.delete(process.env.VUE_APP_USER_BANK_ACCOUNT_ROUTE+"/delete/"+bankAccountID, bankAccount);
+    }
 }

@@ -199,12 +199,20 @@
                                 <span>{{transactionDescription}}</span>
                               </v-card-text>                                                                          
                               <v-btn
-                                  color="success"
+                                  color="danger"
                                   @click="transactionFinished = false"
                                   style="margin-bottom: 2%"
                                 >
                                   Ok
-                              </v-btn>                                   
+                              </v-btn> 
+                              <v-btn
+                                  color="success"
+                                  @click="getInvoice"
+                                  style="margin-bottom: 2%"
+                                  v-if="paymentApproved"
+                                >
+                                  {{texts.downloadInvoiceLabel}}
+                              </v-btn>                                  
                             </v-card>                              
                         </v-overlay>
                     </v-col>
@@ -229,10 +237,11 @@ import internationalizationService from '@/services/internationalization/interna
 import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
 
+
 @Component({
     components:{
         Footer,
-        Navbar
+        Navbar,
     }
 })
 export default class PointsPurchase extends Vue{
@@ -243,6 +252,8 @@ export default class PointsPurchase extends Vue{
     transactionFinished = false;
     transactionTitle = '';
     transactionDescription = '';
+
+    paymentApproved = false;
     
     items: any = [];    
 
@@ -313,13 +324,13 @@ export default class PointsPurchase extends Vue{
         proccessedPurchaseEmailLabel: "You'll receive an email when the transaction has been successfully processed",
         contactUsForIssuesLabel: "For any issues, please contact us by sending an email to",
         proccessingPaymentLabel: "Processing payment",
-        bePatientLabel: "This could take some time. Please, be patient",
-        
+        bePatientLabel: "This could take some time. Please, be patient",        
         paymentSuccessfullyProcessed: "Payment successfully processed!",
         paymentNotifiedLabel: "You'll be notified when payment has been approved",
         paymentRejectedLabel: "Error! Payment rejected.",
         usingBankAccountNotVerifiedLabel: "You are trying to use a bank account that has not been verified.",
-        paymentRejectedDescriptionLabel: "An error ocurred. Your payment has been rejected."
+        paymentRejectedDescriptionLabel: "An error ocurred. Your payment has been rejected.",
+        downloadInvoiceLabel: "Download Invoice"
     }
 
     rules = {
@@ -430,11 +441,12 @@ export default class PointsPurchase extends Vue{
             try {
                 this.serverResponse = await paymentService.buyPoints(this.transactionInformation);
                 this.sendingPayment = false;
-                if(this.serverResponse.data === "Points payment successfully proccessed."){
+                if(this.serverResponse.data === "Points payment successfully proccessed."){                                        
                     /*this.userData.points = this.userData.points + this.transactionInformation.points;
                     this.$store.dispatch('user/addPoints', this.userData.points);  */
                     this.transactionTitle = this.texts.paymentSuccessfullyProcessed
-                    this.transactionDescription = this.texts.paymentNotifiedLabel;                
+                    this.transactionDescription = this.texts.paymentNotifiedLabel;   
+                    this.paymentApproved = true;             
                 }
                 else if(this.serverResponse.data === "Bank account is not verified."){
                     this.transactionTitle = this.texts.paymentRejectedLabel;
@@ -452,6 +464,15 @@ export default class PointsPurchase extends Vue{
         else {
             console.log("Information is not complete.");
         }    
+    }
+
+    getInvoice(){
+        const parsedPayment = JSON.stringify(this.transactionInformation);
+        localStorage.setItem('paymentData', parsedPayment);
+        const invoiceRoute = this.$router.resolve({ name: 'invoice' });                    
+        this.paymentApproved = false;
+        this.transactionFinished = false;
+        window.open(invoiceRoute.href, '_blank');
     }
 
 }

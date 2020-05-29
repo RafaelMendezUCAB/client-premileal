@@ -33,7 +33,10 @@ export default {
 
   updateBankAccount(bankAccountID: number, data: any){
     return api.bankAccount.updateBankAccount(bankAccountID, data);
-  }
+  },
 
   /* ---------------------- DELETE METHODS -------------------------- */
+  deleteBankAccount(bankAccountID: number, bankAccount: any){
+    return api.bankAccount.deleteBankAccount(bankAccountID, bankAccount);
+  }
 };

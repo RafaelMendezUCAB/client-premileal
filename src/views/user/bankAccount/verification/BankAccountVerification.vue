@@ -106,14 +106,14 @@
                                                 ></v-text-field>
                                             </v-col>                                                                                        
                                         </v-row>
-                                        <v-row
+                                        <!--<v-row
                                             align="center"
                                             justify="center"
                                         >
                                             <v-col cols="12" lg="10" class="d-flex justify-center">
                                                 <v-checkbox class="text-center"  style="margin-top: -6%;" :label="texts.didntReceiveMoney"  v-model="notCharged"></v-checkbox>                                                
                                             </v-col>
-                                        </v-row>
+                                        </v-row>-->
                                     </v-form>
                                   
                                     <v-btn
@@ -307,6 +307,7 @@ import bankAccountService from '@/services/bankAccount/bankAccountService';
 
 import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
+import paymentService from '../../../../services/payment/paymentService';
 
 @Component({
     components:{
@@ -520,10 +521,18 @@ export default class BankAccountVerification extends Vue{
         }
     }
 
-    notifyPremileal(){
+    async notifyPremileal(){
       this.userWasntCharged = false;
       this.eventDescription = this.texts.sendingNotificationLabel;
       this.proccessingRequest = true;
+      try {
+        this.serverResponse = await paymentService.notifyAdministrator({
+          user: this.userData,
+          bankAccount: this.bankAccount
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     
