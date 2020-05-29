@@ -1,38 +1,43 @@
-# ***Premileal***: Aplicación Web del Sistema de Fidelización de Clientes :ticket: 
 
-Repositorio para el desarrollo de la aplicación web *Premileal*.
+## Aplicación Web del Sistema de Fidelización de Clientes
 
-## Primeros pasos :running:
+### Instalación del Proyecto :pencil:
 
-Para poder obtener localmente el proyecto y así dar inicio al desarrollo y/o poder realizar pruebas, deberá abrir la consola de comandos
-y ejecutar lo siguiente:
-    
+Para poder realizar la instalación de la aplicación web del sistema de fidelización de clientes, se requiere que tenga 
+instalado previamente en su equipo:
+
+- NodeJS
+
+De esta manera, para poder obtener el proyecto de manera local y así realizar pruebas y/o desarrollar nuevas funcionalidades, 
+debe de iniciar la Consola de Comandos y ejecutar las siguientes líneas:
+
 > git clone https://github.com/RafaelMendezUCAB/client-premileal.git
 
 > cd client-premileal
 
 > npm i
 
-¡Listo!, con los comandos anteriores, ya podrá comenzar a desarrollar.
+Y de este modo, podrá empezar a desarrollar en su equipo.
 
-## Ejecución del proyecto :clapper:
+### Ejecución del proyecto :arrow_forward:
 
-Para ejecutar el proyecto, deberá correr el siguiente comando: 
+Para poder ejecutar y ver en funcionamiento el sistema, debe de correr el siguiente comando:
 
 > npm run serve
 
-Con el comando anterior, el proyecto será ejecutado y éste se actualizará automáticamente a medida que vaya haciendo cambios en el código.
+Gracias a este comando, el proyecto estará en estado de ejecución y, además, se actualizará automáticamente a medida que vaya 
+realizando cambios en el código.
 
-## Permisos :closed_lock_with_key:
+### Permisos :closed_lock_with_key:
 
-Se requiere de algunas variables de entorno para tener acceso a las distintas funcionalidades que ofrece la aplicación y así poder realizar cambios y/o pruebas.
-Deberá crear un archivo **.env** en la carpeta base del proyecto. 
+Para tener acceso a las distintas funcionalidades que ofrece la aplicación y así poder realizar cambios y/o pruebas, se 
+requiere de algunas variables de entorno. Deberá crear un archivo .env en la carpeta base del proyecto.
 
-Deberá contactar a los desarrolladores para obtener las llaves necesarias
-para tener acceso completo a todas las funcionalidades.
+Deberá contactar a los desarrolladores para poder obtener las llaves necesarias para tener acceso completo a todas las 
+funcionalidades 
 
-## Developers :computer:
+### Developers :computer:
 
-- Gabriel
-- Christian
 - Rafael Méndez
+- Christian Neira
+- Gabriel Tovar
