@@ -21,6 +21,10 @@ export default {
   /* ---------------------- PUT METHODS -------------------------- */
   verifyBankAccount(bankAccountID: number, data: any){
     return api.bankAccount.verifyBankAccount(bankAccountID, data);
+  },
+
+  setBankAccountAsPrimary(bankAccountID: number, userID: number){
+    return api.bankAccount.setBankAccountAsPrimary(bankAccountID, userID);
   }
 
   /* ---------------------- DELETE METHODS -------------------------- */

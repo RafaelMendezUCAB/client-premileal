@@ -210,7 +210,8 @@
 
                             <v-list-item>                            
                                 <v-list-item-content>
-                                    <v-list-item-title>{{texts.setAsPrimaryLabel}}: <b>{{bankAccountData.isPrimary}}</b></v-list-item-title>
+                                    <v-list-item-title v-if="bankAccountData.isPrimary">{{texts.setAsPrimaryLabel}}: <b>{{texts.yesLabel}}</b></v-list-item-title>
+                                    <v-list-item-title v-if="!bankAccountData.isPrimary">{{texts.setAsPrimaryLabel}}: <b>No</b></v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>                  
                         </v-list-item-group>
@@ -337,7 +338,8 @@ export default class BankAccountRegistration extends Vue{
         formLabel: "form",
         createdMessagePart4: "with the exact amount of both deposits. If the information provided corresponds with the ones we have, then the Bank Account will now have a status of \"Verified\" which means, now is able for being use for any transaction inside our platform",
         thanksLabel: "Thanks for trusting us!",
-        gotItLabel: "Got it!"
+        gotItLabel: "Got it!",
+        yesLabel: "Yes"
     }
 
     rules = {

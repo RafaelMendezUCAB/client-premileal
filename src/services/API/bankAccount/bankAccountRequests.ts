@@ -15,6 +15,10 @@ export default {
     /* ---------------------- PUT METHODS -------------------------- */
     verifyBankAccount(bankAccountID: number, data: any){
         return API_URL.put(process.env.VUE_APP_USER_BANK_ACCOUNT_ROUTE+"/verify/"+bankAccountID, data);
+    },
+
+    setBankAccountAsPrimary(bankAccountID: number, userID: number){
+        return API_URL.put(process.env.VUE_APP_USER_BANK_ACCOUNT_ROUTE+"/set/primary/"+bankAccountID+"/"+userID);
     }
   
     /* ---------------------- DELETE METHODS -------------------------- */

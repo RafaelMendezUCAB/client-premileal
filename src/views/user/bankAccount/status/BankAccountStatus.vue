@@ -43,7 +43,16 @@
                                     <p>{{texts.accountRoutingNumberLabel}}: <b>{{bankAccount.routingNumber}}</b></p>  
                                     <p>{{texts.accountCheckNumberLabel}}: <b>{{bankAccount.checkNumber}}</b></p>  
                                     <p v-if="bankAccount.status === 'verified'">{{texts.bankAccountStatus}}: <b style="color: green;">{{bankAccount.status}}</b></p>                                      
-                                    <p v-if="bankAccount.status === 'unverified'">{{texts.bankAccountStatus}}: <b style="color: red;">{{bankAccount.status}}</b></p>                                      
+                                    <p v-if="bankAccount.status === 'unverified'">{{texts.bankAccountStatus}}: <b style="color: red;">{{bankAccount.status}}</b></p> 
+                                    <p>Is primary: <b v-if="bankAccount.isPrimary">{{texts.yesLabel}}</b><b v-if="!bankAccount.isPrimary">No</b></p>
+                                    <v-btn           
+                                      v-if="!bankAccount.isPrimary"                           
+                                      color="primary"                                      
+                                      style="margin-bottom:10%"                                      
+                                      @click="assignAsPrimary"
+                                    >
+                                      Assign as primary account
+                                    </v-btn>                           
                                   </v-card-text>                                
                                 </v-card>
 
@@ -200,17 +209,19 @@
                                         <v-list-item-content>
                                           <v-list-item-title class="headline" v-if="transactionDescription == 'Deleting bank account'">{{texts.bankAccountSuccessfullyDelete}}</v-list-item-title>
                                           <v-list-item-title class="headline" v-if="transactionDescription == 'Updating Bank Account'">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription == 'Setting bank account as primary.'">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
 
                                       <v-card-text>
                                         <span v-if="transactionDescription == 'Deleting bank account'">{{texts.bankAccountDeletedLabel}}.</span>
                                         <span v-if="transactionDescription == 'Updating Bank Account'">{{texts.bankAccountUpdatedLabel}}.</span>
+                                        <span v-if="transactionDescription == 'Setting bank account as primary.'">{{texts.bankAccountUpdatedLabel}}.</span>
                                       </v-card-text>                                                                          
 
                                       <v-btn
                                           color="success"
-                                          @click="closeWindow"
+                                          @click="successfullTransaction = false"
                                           style="margin-bottom: 2%"
                                         >
                                           Ok
@@ -278,6 +289,8 @@ import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
 
 import internationalizationService from '@/services/internationalization/internationalizationService';
+import bankAccountService from '@/services/bankAccount/bankAccountService';
+import bankService from '../../../../services/bank/bankService';
 
 @Component({
     components:{
@@ -299,6 +312,7 @@ export default class BankAccountStatus extends Vue{
     bankLogo = '';
 
     userData: any = null;
+    serverResponse: any = null;
 
     rules = {
         required: (value: any) => !!value || 'Required.',
@@ -434,7 +448,10 @@ export default class BankAccountStatus extends Vue{
       bankAccountUpdatedLabel: "your bank account has been updated",
       bankAccountMovements: "Bank Account Movements",
       movementsLabel: "Movements",
-      searchLabel: "Search"
+      searchLabel: "Search",      
+      deletingBankAccountLabel: "Deleting bank account.",
+      settingPrimaryBankAccountLabel: "Setting bank account as primary.",
+      updatingBankAccountLabel: "Updating Bank Account."
     }
 
     mounted(){
@@ -454,6 +471,7 @@ export default class BankAccountStatus extends Vue{
       }
       else {
         this.bankAccount = this.getBankAccountData;
+        console.log(this.bankAccount);
         this.obtainTerms();
       }
       this.checkLanguage();                
@@ -509,7 +527,7 @@ export default class BankAccountStatus extends Vue{
     }
 
     editBankAccount(){
-      this.transactionDescription = 'Updating Bank Account.';
+      this.transactionDescription = this.texts.updatingBankAccountLabel;
       this.editingBankAccount = true;
     }
 
@@ -523,8 +541,7 @@ export default class BankAccountStatus extends Vue{
     }
 
     eliminateBankAccount(){
-        console.log("users wants to delete bank account");
-        this.transactionDescription = 'Deleting bank account.';
+        this.transactionDescription = this.texts.deletingBankAccountLabel;
         this.overlay = false;
         this.processingTransaction = true;
         setTimeout(() => {
@@ -548,6 +565,24 @@ export default class BankAccountStatus extends Vue{
     verifyBankAccount(){
       this.$router.push({ name: 'userBankAccountVerification' });
     }   
+
+    async assignAsPrimary(){
+      try {
+        this.transactionDescription = this.texts.settingPrimaryBankAccountLabel;
+        this.processingTransaction= true;
+        this.serverResponse = await bankAccountService.setBankAccountAsPrimary(this.bankAccount.bankAccountID, this.userData.userID);
+        if(this.serverResponse.data === "Bank Account now is primary."){
+          this.bankAccount.isPrimary = true;
+          this.processingTransaction = false;
+          this.successfullTransaction = true;
+        }
+        else {
+          console.log("error");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
     
 }
 </script>

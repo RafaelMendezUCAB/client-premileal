@@ -31,6 +31,7 @@ export default {
                     case 'createdMessagePart4': viewTexts.createdMessagePart4 = term.text; break;
                     case 'thanksLabel': viewTexts.thanksLabel = term.text; break;
                     case 'gotItLabel': viewTexts.gotItLabel = term.text; break;
+                    case 'yesLabel': viewTexts.yesLabel = term.text; break;
                     default: break;
                 }
             });
@@ -66,7 +67,8 @@ export default {
             formLabel: "form",
             createdMessagePart4: "with the exact amount of both deposits. If the information provided corresponds with the ones we have, then the Bank Account will now have a status of \"Verified\" which means, now is able for being use for any transaction inside our platform",
             thanksLabel: "Thanks for trusting us!",
-            gotItLabel: "Got it!"
+            gotItLabel: "Got it!",
+            yesLabel: "Yes"
         }
     }
 

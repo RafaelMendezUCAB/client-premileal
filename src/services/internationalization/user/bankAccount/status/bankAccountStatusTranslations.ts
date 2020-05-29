@@ -29,6 +29,10 @@ export default {
                     case 'bankAccountMovements': viewTexts.bankAccountMovements = term.text; break;
                     case 'movementsLabel': viewTexts.movementsLabel = term.text; break;
                     case 'searchLabel': viewTexts.searchLabel = term.text; break;
+                    case 'deletingBankAccountLabel': viewTexts.deletingBankAccountLabel = term.text; break;
+                    case 'settingPrimaryBankAccountLabel': viewTexts.settingPrimaryBankAccountLabel = term.text; break;
+                    case 'updatingBankAccountLabel': viewTexts.updatingBankAccountLabel = term.text; break;
+                    case 'errorUpdatingBankAccount': viewTexts.errorUpdatingBankAccount = term.text; break;
                     default: break;
                 }
             });
@@ -62,7 +66,11 @@ export default {
             bankAccountUpdatedLabel: "your bank account has been updated",
             bankAccountMovements: "Bank Account Movements",
             movementsLabel: "Movements",
-            searchLabel: "Search"
+            searchLabel: "Search",
+            deletingBankAccountLabel: "Updating Bank Account.",
+            settingPrimaryBankAccountLabel: "Setting bank account as primary.",
+            updatingBankAccountLabel: "Updating Bank Account.",
+            errorUpdatingBankAccount: "Error. bank account couldn't be updated!"
         }
     }
 

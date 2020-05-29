@@ -2,7 +2,7 @@
   <v-card height="55">
     <v-app>
       <v-content>
-        <v-toolbar dark color="blue">
+        <v-toolbar dark class="gradientBack">
           <v-card flat color="transparent" v-if="userLoggedIn">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
           </v-card>
