@@ -173,10 +173,14 @@ export default class Suscriptions extends Vue{
 
     acquireSuscription(){
       if(this.userLoggedIn){
-        this.$router.push({ name: 'premiumSuscriptionPurchase' });
+        this.$router.push({ name: 'premiumSuscriptionPurchase' }).catch(error => {
+          console.log(error);
+        });
       }
       else {
-        this.$router.push({ name: 'login' });
+        this.$router.push({ name: 'login' }).catch(error => {
+          console.log(error);
+        });
       }
     }
 

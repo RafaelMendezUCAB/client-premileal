@@ -10,7 +10,7 @@
             >
                 <v-col cols="12">
                     <div class="text-center">
-                        <h1 class="mainTittle">PAYMENT HISTORY</h1>
+                        <h1 class="mainTittle">{{texts.paymentHistoryTitleLabel}}</h1>
                     </div>
                 </v-col>
             </v-row>
@@ -24,7 +24,7 @@
                             class="rowBottomMargin"
                         >
                             <v-col cols="11" lg="12">
-                                <h1 class="subtittle marginBottom">User Information</h1>
+                                <h1 class="subtittle marginBottom">{{texts.userInformationLabel}}</h1>
 
                                 <v-card                                
                                   class="mx-auto my-12"
@@ -45,9 +45,9 @@
 
 
                                   <v-card-text v-if="userData !== null">                                    
-                                    <p>Name: <b>{{userData.name}}  {{userData.lastName}}</b></p>  
-                                    <p>E-mail address: <b>{{userData.email}}</b></p>
-                                    <p>Membership Level: <b style="color: amber;">{{userData.levelName}}</b></p>                                      
+                                    <p>{{texts.signUpNameLabel}}: <b>{{userData.name}}  {{userData.lastName}}</b></p>  
+                                    <p>{{texts.loginEmailLabel}}: <b>{{userData.email}}</b></p>
+                                    <p>{{texts.membershipLevelLabel}}: <b style="color: amber;">{{userData.levelName}}</b></p>                                      
                                   </v-card-text>                                
                                 </v-card>
 
@@ -57,7 +57,7 @@
                                       class="topMargin mr-1"
                                       @click="gotoProfile"
                                     >
-                                      See Profile
+                                      {{texts.seeProfileLabel}}
                                 </v-btn>
                                 <!--<v-btn
                                       color="primary"                                      
@@ -79,16 +79,16 @@
                             justify="center"                            
                         >
                             <v-col cols="11" lg="12">
-                                <h1 style="margin-bottom: 4%" class="subtittle topMargin">YOUR PAYMENT HISTORY</h1>
+                                <h1 style="margin-bottom: 4%" class="subtittle topMargin">{{texts.yourPaymentHistoryLabel}}</h1>
 
                                 <v-card>
                                   <v-card-title>
-                                    Payments
+                                    {{texts.paymentsLabel}}
                                     <v-spacer></v-spacer>
                                     <v-text-field
                                       v-model="search"
                                       append-icon="mdi-magnify"
-                                      label="Search"
+                                      :label="texts.searchLabel"
                                       single-line
                                       hide-details
                                     ></v-text-field>
@@ -126,6 +126,7 @@ import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
 
 import paymentService from '@/services/payment/paymentService';
+import internationalizationService from '@/services/internationalization/internationalizationService';
 
 @Component({
     components:{
@@ -165,11 +166,41 @@ export default class BankAccountStatus extends Vue{
         }
     ];
 
+    textsTranslated: any = null;
+    texts: any = {
+      paymentHistoryTitleLabel: "PAYMENT HISTORY",
+      userInformationLabel: "User Information",
+      signUpNameLabel: "Name",
+      loginEmailLabel: "E-mail address",
+      membershipLevelLabel: "Membership Level",
+      seeProfileLabel: "See Profile",
+      yourPaymentHistoryLabel: "YOUR PAYMENT HISTORY",
+      paymentsLabel: "Payments",
+      searchLabel: "Search"
+    }
+
     movements: any = [];
 
     mounted(){
         this.userData = this.getUserData;
-        this.getPaymentHistory();
+
+        if(this.userData.userID === undefined){
+        const user = localStorage.getItem('userData');
+        if(user){
+          this.userData = JSON.parse(user);
+          this.obtainTerms();
+        }
+        else {
+          this.$router.push({ name: 'home' }).catch(error => {
+            console.log(error);
+          });      
+        }      
+      }
+      else {
+        this.getPaymentHistory();        
+        this.obtainTerms();
+      }
+      this.checkLanguage();        
     }
 
     get getUserData() {
@@ -177,28 +208,68 @@ export default class BankAccountStatus extends Vue{
     }
 
     async getPaymentHistory(){
-        try {
-            this.serverResponse = await paymentService.getUserPayments(this.userData.userID);
-            this.movements = this.serverResponse.data;
-            this.movements.forEach((movement: any) => {
-                movement.details = 'details';
-            });
-            console.log("movements: ", this.movements);
-        } catch (error) {
-            console.log(error);
-        }
+      try {
+          this.serverResponse = await paymentService.getUserPayments(this.userData.userID);
+          this.movements = this.serverResponse.data;
+          this.movements.forEach((movement: any) => {
+              movement.details = 'details';
+          });
+      } catch (error) {
+          console.log("An error ocurred getting payment history: ", error);
+      }
     }
+
+    async getTranslations(language: string){        
+      try {
+        const translations = await internationalizationService.getTermsTranslations(language);        
+        if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+            this.textsTranslated = translations.data;
+            this.texts = internationalizationService.paymentHistory.translate(this.textsTranslated, this.texts);
+            const parsedTerms = JSON.stringify(this.textsTranslated);
+            localStorage.setItem('termsTranslated', parsedTerms);
+        } 
+      } catch (error) {
+        console.log(error);
+      }         
+    }
+
+    checkLanguage(){
+      if(this.userData.preferredLanguage !== 'en-us'){
+        this.getTranslations(this.userData.preferredLanguage);
+        if(this.textsTranslated){
+            this.texts = internationalizationService.paymentHistory.translate(this.textsTranslated, this.texts);
+        }
+      }
+      else {
+        this.texts = internationalizationService.paymentHistory.assignDefaultLabels();
+      }
+    }
+
+    obtainTerms(){
+    const terms = localStorage.getItem('termsTranslated');
+    if(terms){
+      try{
+          this.textsTranslated = JSON.parse(terms);
+      }catch(e){
+          localStorage.removeItem('terms');
+      }
+    }
+  }
 
     seeDetails(){
         console.log("see details");
     }
     
     gotoProfile(){
-      this.$router.push({name: 'userProfile'});
+      this.$router.push({name: 'userProfile'}).catch(error => {
+        console.log(error);
+      });
     }
 
     gotoWithdrawalHistory(){
-      this.$router.push({name: 'userWithdrawalHistory'});
+      this.$router.push({name: 'userWithdrawalHistory'}).catch(error => {
+        console.log(error);
+      });
     }
     
 }

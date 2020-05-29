@@ -251,7 +251,9 @@ export default class PremiumSuscriptionPurchase extends Vue{
     }
 
     cancelPayment(){
-      this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'home' }).catch(error => {
+          console.log(error);
+        });
     }
 
 }

@@ -319,6 +319,7 @@ export default class UserProfile extends Vue{
     birthdate: "",
     placeID: ""
   };
+
   userBankAccounts: any = [];
   bankAccountsData: any = [];
   bankAccount: any = null;
@@ -367,7 +368,16 @@ export default class UserProfile extends Vue{
     resetValuesLabel: "Reset values",
     englishLabel: "English",
     spanishLabel: "Spanish",
-    selectPreferredLanguageLabel: "Select preferred language"
+    selectPreferredLanguageLabel: "Select preferred language",
+    userUpdatedLabel: "User data successfully updated!",
+    dataUpdatedLabel: "Data has been updated.",
+    anErrorOcurredLabel: "An error ocurred!",
+    dataNotUpdatedLabel: "Data couldn't be updated. Please check you internet connection and try again.",
+    uploadingImageLabel: "Uploading image.",
+    bePatientLabel: "This could take some time. Please be patient.",
+    imageNotUploadedLabel: "Image couldn't be uploaded. Please check you internet connection and try again.",
+    imageUpdatedLabel: "User image successfully updated!",
+    updatedImageLabel: "Image has been updated."
   };
 
   languages = [
@@ -430,7 +440,6 @@ export default class UserProfile extends Vue{
   
   mounted(){
     this.userData = this.getUserData;  
-    console.log("en perfil es: ", this.userData.userID);  
     if(this.userData.userID === undefined){
       const user = localStorage.getItem('userData');
       if(user){
@@ -438,7 +447,9 @@ export default class UserProfile extends Vue{
         this.obtainTerms();
       }
       else {
-        this.$router.push({ name: 'home' });      
+        this.$router.push({ name: 'home' }).catch(error => {
+          console.log(error);
+        });      
       }      
     }
     else {
@@ -498,7 +509,7 @@ export default class UserProfile extends Vue{
     try {
       this.serverResponse = await userService.updatePreferredLanguage(this.userData.userID, {preferredLanguage: this.userData.preferredLanguage});
     } catch (error) {
-      console.log("An error ocurred. Language couldn't be set as default.");
+      console.log("An error ocurred. Language couldn't be set as default. ", error);
     }   
   } 
 
@@ -520,7 +531,6 @@ export default class UserProfile extends Vue{
   }
 
   fillBankAccountsArray(bankAccounts: any){
-    console.log("llenando bancos")
     bankAccounts.forEach((bankAccount: any) => {
       this.userBankAccounts.push({
         bankAccountID: bankAccount.bankAccountID,
@@ -540,14 +550,15 @@ export default class UserProfile extends Vue{
         this.fillBankAccountsArray(this.serverResponse);
       }
     } catch (error) {
-      console.log("error en perfil -- obtener bancos");
       console.log(error);
     }
     
   }
   
   gotoProfileSettings(){
-    this.$router.push({ name: 'userProfileSettings'});
+    this.$router.push({ name: 'userProfileSettings'}).catch(error => {
+      console.log(error);
+    });
   }
 
   seeDetails(bankAccount: any){
@@ -558,18 +569,20 @@ export default class UserProfile extends Vue{
       }
     }
     this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);
-    //this.$router.push({ name: 'userBankAccountStatus', params: { bankAccount: this.bankAccount } });
-    this.$router.push({ name: 'userBankAccountStatus', });
+    this.$router.push({ name: 'userBankAccountStatus', }).catch(error => {
+      console.log(error);
+    });
   }
 
   async updateUser(){    
     if(this.valid){      
-      console.log("information valid.");            
       if(this.valuesChanged()){
         this.transactionTittle = "Updating user information.";
         this.transactionDescription = "This could take some time. Please be patient."
         this.proccessingTransaction = true;
-        this.serverResponse = await userService.updateUserData(this.userData.userID, {
+
+        try {
+          this.serverResponse = await userService.updateUserData(this.userData.userID, {
           userID: this.userData.userID,
           stripeID: this.userData.stripe_id,
           stripeConnectID: this.userData.stripe_connect_id,
@@ -586,19 +599,22 @@ export default class UserProfile extends Vue{
           roleID: this.userData.roleID,
           type: this.userData.type, 
           blocked: this.userData.blocked
-        });
-        this.proccessingTransaction = false;
-        if(this.serverResponse.data === "User successfully updated."){
-          this.successfullTransactionTitle = "User data successfully updated!";
-          this.successfullTransactionDescription = "Data has been updated.";
-          this.successfullTransaction = true;
-          this.assignNewValuesToUserData();
-          this.resetValues();
-        }
-        else {
-          this.error = true;
-          this.errorTittle = "An error ocurred!";
-          this.errorDescription = "Data couldn't be updated. Please check you internet connection and try again.";
+          });
+          this.proccessingTransaction = false;
+          if(this.serverResponse.data === "User successfully updated."){
+            this.successfullTransactionTitle = this.texts.userUpdatedLabel;
+            this.successfullTransactionDescription = this.texts.dataUpdatedLabel;
+            this.successfullTransaction = true;
+            this.assignNewValuesToUserData();
+            this.resetValues();
+          }
+          else {
+            this.error = true;
+            this.errorTittle = this.texts.anErrorOcurredLabel;
+            this.errorDescription = this.texts.dataNotUpdatedLabel;
+          }
+        } catch (error) {
+          console.log("An error ocurred: ", error);
         }
       }
     }    
@@ -626,35 +642,42 @@ export default class UserProfile extends Vue{
   async uploadImage(event: any){
     if(event){
       this.proccessingTransaction = true;
-      this.transactionTittle = 'Uploading image.';
-      this.transactionDescription = 'This could take some time. Please be patient.';
+      this.transactionTittle = this.texts.uploadingImageLabel;
+      this.transactionDescription = this.texts.bePatientLabel;
       const newUserProfilePhoto = event || event.dataTransfer.files;
-      const imageURL = await userService.uploadProfileImage(this.userData.userID, newUserProfilePhoto);      
-      const serverResponse = await userService.updateUserProfileImage(this.userData.userID, imageURL);
-      if(serverResponse.data === 'An error ocurred.'){
-        this.proccessingTransaction = false;
-        this.error = true;
-        this.errorTittle = 'An error ocurred!';
-        this.errorDescription = "Image couldn't be uploaded. Please check you internet connection and try again.";
-      }
-      else {
-        this.successfullTransactionTitle = "User image successfully updated!";
-        this.successfullTransactionDescription = "Image has been updated.";
-        this.successfullTransaction = true;
-        this.userData.image = imageURL;
-        this.proccessingTransaction = false;
-      }      
+
+      try {
+        const imageURL = await userService.uploadProfileImage(this.userData.userID, newUserProfilePhoto);      
+        const serverResponse = await userService.updateUserProfileImage(this.userData.userID, imageURL);
+        if(serverResponse.data === 'An error ocurred.'){
+          this.proccessingTransaction = false;
+          this.error = true;
+          this.errorTittle = this.texts.anErrorOcurredLabel;
+          this.errorDescription = this.texts.imageNotUploadedLabel;
+        }
+        else {
+          this.successfullTransactionTitle = this.texts.imageUpdatedLabel;
+          this.successfullTransactionDescription = this.texts.updatedImageLabel;
+          this.successfullTransaction = true;
+          this.userData.image = imageURL;
+          this.proccessingTransaction = false;
+        } 
+      } catch (error) {
+        console.log("An error ocurred uploading image: ", error);
+      }     
     }
   }
 
   async getAllPlaces(){
-    this.serverResponse = await placeService.getAllPlaces();
-    this.places = this.serverResponse.data;
+    try {
+      this.serverResponse = await placeService.getAllPlaces();
+      this.places = this.serverResponse.data;
+    } catch (error) {
+      console.log("An error ocurred getting all places:", error);
+    }
   } 
 
   resetValues(){
-    console.log(this.userDataAux);
-    console.log(this.userData)
     this.userDataAux = this.userData;
     this.userDataAux = {
       name: this.userData.name,

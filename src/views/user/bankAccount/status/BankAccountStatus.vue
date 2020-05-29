@@ -51,7 +51,7 @@
                                       style="margin-bottom:10%"                                      
                                       @click="assignAsPrimary"
                                     >
-                                      Assign as primary account
+                                      {{texts.assignAsPrimaryLabel}}
                                     </v-btn>                           
                                   </v-card-text>                                
                                 </v-card>
@@ -212,6 +212,7 @@
                                           <v-list-item-title class="headline" v-if="transactionDescription === texts.updatingBankAccountLabel">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
                                           <v-list-item-title class="headline" v-if="transactionDescription === texts.settingPrimaryBankAccountLabel">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
                                           <v-list-item-title class="headline" v-if="transactionDescription === texts.errorUpdatingBankAccount">{{texts.errorUpdatingBankAccount}}</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription === texts.bankAccountNotDeletedLabel">{{texts.bankAccountNotDeletedLabel}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
 
@@ -224,6 +225,36 @@
                                       <v-btn
                                           color="success"
                                           @click="successfullTransaction = false"
+                                          style="margin-bottom: 2%"
+                                        >
+                                          Ok
+                                      </v-btn>
+                                       
+                                    </v-card>
+                                  
+                                </v-overlay>
+
+                                <v-overlay
+                                  
+                                  :value="bankAccountDeleted"
+                                >
+                                    <v-card
+                                      max-width="500"
+                                      class="mx-auto"
+                                    >
+                                      <v-list-item>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline">{{texts.bankAccountSuccessfullyDelete}}</v-list-item-title>                                          
+                                        </v-list-item-content>
+                                      </v-list-item>                                                                                                               
+
+                                      <v-card-text>
+                                        <span>{{texts.bankAccountDeletedLabel}}.</span>                                      
+                                      </v-card-text>                                                                          
+
+                                      <v-btn
+                                          color="success"
+                                          @click="gotoProfile"
                                           style="margin-bottom: 2%"
                                         >
                                           Ok
@@ -306,6 +337,7 @@ export default class BankAccountStatus extends Vue{
     processingTransaction = false;    
     successfullTransaction = false;
     editingBankAccount = false;
+    bankAccountDeleted = false;
 
     transactionDescription = '';
     
@@ -318,7 +350,7 @@ export default class BankAccountStatus extends Vue{
     newHolderName = '';
 
     rules = {
-        required: (value: any) => !!value || 'Required.',
+      required: (value: any) => !!value || 'Required.',
     }
 
     search = '';
@@ -376,7 +408,9 @@ export default class BankAccountStatus extends Vue{
       deletingBankAccountLabel: "Deleting bank account.",
       settingPrimaryBankAccountLabel: "Setting bank account as primary.",
       updatingBankAccountLabel: "Updating Bank Account.",
-      errorUpdatingBankAccount: "Error. bank account couldn't be updated!"
+      errorUpdatingBankAccount: "Error. bank account couldn't be updated!",
+      assignAsPrimaryLabel: "Assign as primary account",
+      bankAccountNotDeletedLabel: "Bank account couldn't be deleted."
     }
 
     mounted(){
@@ -407,13 +441,11 @@ export default class BankAccountStatus extends Vue{
       try {
         this.serverResponse = await bankAccountService.getBankAccountStatus(this.bankAccount.bankAccountID);
         this.movements = this.serverResponse.data.movements;
-        console.log("pays are: ", this.movements)
         this.movements.forEach((movement: any) => {
           movement.details = 'details';
         });
-        console.log("pays are: ", this.movements);
       } catch (error) {
-        console.log(error);
+        console.log("An error ocurred getting bank account status: ", error);
       }
     }
 
@@ -488,22 +520,29 @@ export default class BankAccountStatus extends Vue{
           this.transactionDescription = this.texts.errorUpdatingBankAccount;
         }
         this.successfullTransaction = true;
-        console.log(this.transactionDescription);
-        console.log("texts are: ", this.texts);
       } catch (error) {
-        console.log(error);
-      }
-
-      /*setTimeout(() => {
-          this.processingTransaction = false;
-          this.successfullTransaction = true;
-        }, 5000);*/
+        console.log("An error ocurred while updating bank account: ", error);
+      }      
     }
 
-    eliminateBankAccount(){
+    async eliminateBankAccount(){
         this.transactionDescription = this.texts.deletingBankAccountLabel;
         this.overlay = false;
         this.processingTransaction = true;
+        try {
+          this.serverResponse = await bankAccountService.deleteBankAccount(this.bankAccount.bankAccountID, this.bankAccount);
+          this.processingTransaction = false;
+          if(this.serverResponse.data === "Bank Account successfully deleted."){
+            this.bankAccountDeleted = true;
+          }
+          else {
+            this.transactionDescription = this.texts.bankAccountNotDeletedLabel;
+            this.successfullTransaction = true;
+          }          
+        } catch (error) {
+          console.log(error);
+        }
+
         setTimeout(() => {
           this.processingTransaction = false;
           this.successfullTransaction = true;
@@ -513,7 +552,9 @@ export default class BankAccountStatus extends Vue{
     closeWindow(){
       this.transactionDescription = '',
       this.successfullTransaction = false;
-      this.$router.push({name: 'registroCuentaBancaria'});
+      this.$router.push({name: 'registroCuentaBancaria'}).catch(error => {
+        console.log(error);
+      });
     }
 
     restrictNumbersAndSpecialCharacters(event: any){
@@ -523,7 +564,9 @@ export default class BankAccountStatus extends Vue{
     }
 
     verifyBankAccount(){
-      this.$router.push({ name: 'userBankAccountVerification' });
+      this.$router.push({ name: 'userBankAccountVerification' }).catch(error => {
+        console.log(error);
+      });
     }   
 
     async assignAsPrimary(){
@@ -540,8 +583,15 @@ export default class BankAccountStatus extends Vue{
         }
         this.successfullTransaction = true;
       } catch (error) {
-        console.log(error);
+        console.log("An error ocurred assigning bank account as primary: ", error);
       }
+    }
+
+    gotoProfile(){
+      this.bankAccountDeleted = false;
+      this.$router.push({ name: "userProfile" }).catch((error) => {
+        console.log(error);
+      })
     }
     
 }

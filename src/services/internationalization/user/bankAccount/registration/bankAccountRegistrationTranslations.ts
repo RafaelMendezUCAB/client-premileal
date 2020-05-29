@@ -32,6 +32,12 @@ export default {
                     case 'thanksLabel': viewTexts.thanksLabel = term.text; break;
                     case 'gotItLabel': viewTexts.gotItLabel = term.text; break;
                     case 'yesLabel': viewTexts.yesLabel = term.text; break;
+                    case 'routingNumberInvalidLabel': viewTexts.routingNumberInvalidLabel = term.text; break;
+                    case 'routingNumberDoesntMatchLabel': viewTexts.routingNumberDoesntMatchLabel = term.text; break;
+                    case 'bankAccountAlreadyExistsLabel': viewTexts.bankAccountAlreadyExistsLabel = term.text; break;
+                    case 'bankAccountAlreadyExistsDescriptionLabel': viewTexts.bankAccountAlreadyExistsDescriptionLabel = term.text; break;
+                    case 'networkErrorLabel': viewTexts.networkErrorLabel = term.text; break;
+                    case 'networkErrorDescriptionLabel': viewTexts.networkErrorDescriptionLabel = term.text; break;
                     default: break;
                 }
             });
@@ -68,7 +74,13 @@ export default {
             createdMessagePart4: "with the exact amount of both deposits. If the information provided corresponds with the ones we have, then the Bank Account will now have a status of \"Verified\" which means, now is able for being use for any transaction inside our platform",
             thanksLabel: "Thanks for trusting us!",
             gotItLabel: "Got it!",
-            yesLabel: "Yes"
+            yesLabel: "Yes",
+            routingNumberInvalidLabel: "Error. Routing number is invalid.",
+            routingNumberDoesntMatchLabel: "You've entered a routing number that doesn't belong to the bank selected. Please, change bank or routing number.",
+            bankAccountAlreadyExistsLabel: "Error. Bank account already exists.",
+            bankAccountAlreadyExistsDescriptionLabel: "You've entered a bank account that has already been registered before. If the problem persists, please contact us at: premileal@gmail.com",
+            networkErrorLabel: "Network Error!",
+            networkErrorDescriptionLabel: "There was a network error. Check your network connection and try again."
         }
     }
 

@@ -332,10 +332,15 @@ export default class WithdrawalHistory extends Vue{
     }
     
     gotoProfile(){
-      this.$router.push({name: 'userProfile'});
+      this.$router.push({name: 'userProfile'}).catch(error => {
+        console.log(error);
+      });
     }
+
     gotoPaymentHistory(){
-      this.$router.push({name: 'userPaymentHistory'});
+      this.$router.push({name: 'userPaymentHistory'}).catch(error => {
+        console.log(error);
+      });
     }
     
 }

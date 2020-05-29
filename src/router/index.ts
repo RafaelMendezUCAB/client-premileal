@@ -106,6 +106,12 @@ Vue.use(VueRouter)
     path: '/suscriptions',
     name: 'suscriptions',
     component: () => import('../views/suscriptions/Suscriptions.vue')
+  },
+
+  {
+    path: '/invoice',
+    name: 'invoice',
+    component: () => import('../components/pdfGenerator/pdfGenerator.vue'),
   }
   
 ]

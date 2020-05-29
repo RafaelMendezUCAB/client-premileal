@@ -45,14 +45,14 @@
                     :rules="[rules.required]"
                     />
                 </v-form>
-                  <div class="text-right">
+                  <!--<div class="text-right">
                       <router-link 
                         style="text-decoration: none;" 
                         to=""
                       >
                           {{texts.loginForgotPasswordLabel}}
                       </router-link>
-                  </div>                     
+                  </div>   -->                  
                   <v-card-actions>
                     <v-btn depressed 
                            width=100% 
@@ -202,7 +202,11 @@ import Footer from '@/components/footer/Footer.vue';
       loginDontHaveAccountLabel: "Don't have an account?",
       loginSignUpLabel: "Sign Up",
       LoadingDataLabel: "Loading data",
-      bePatientLabel: "This could take some time. Please, be patient."
+      bePatientLabel: "This could take some time. Please, be patient.",
+      errorLabel: "Error!",
+      loginWrongCredentialsLabel: "Email or password incorrect. Please, try again.",
+      networkErrorLabel: "Network Error!",
+      networkErrorDescriptionLabel: "There was a network error. Check your network connection and try again.",
     }
 
     showPassword = false;
@@ -243,8 +247,7 @@ import Footer from '@/components/footer/Footer.vue';
       const parsedTerms = JSON.stringify(this.textsTranslated.data);
       localStorage.setItem('termsTranslated', parsedTerms);
     } catch (error) {
-      console.log("error was: ",error);
-      console.log("revise su conexión a internet.");
+      console.log("An error ocurred: ",error);      
     }
     
   }
@@ -256,14 +259,16 @@ import Footer from '@/components/footer/Footer.vue';
           this.serverResponse = await userService.login(this.userData);      
           this.loadingUserData = false;
           if(this.serverResponse.data === "Users doesn't exists."){
-            this.errorTittle = 'Error!';
-            this.errorDescription = 'Email or password incorrect. Please, try again.';
+            this.errorTittle = this.texts.errorLabel;
+            this.errorDescription = this.texts.loginWrongCredentialsLabel;
             this.error = true;
           }
           else {
             this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
             this.$store.dispatch('user/setSessionStatus', true);
-            this.$router.push({ name: 'home' });
+            this.$router.push({ name: 'home' }).catch(error => {
+              console.log(error);
+            });
           }
         } catch (error) {
           console.log(error);
@@ -290,8 +295,8 @@ import Footer from '@/components/footer/Footer.vue';
       }).catch(error =>{
         console.log(error);
         if(error.code !== "auth/cancelled-popup-request" && error.code !== "auth/popup-closed-by-user"){
-          this.errorTittle = 'Network Error!';
-          this.errorDescription = 'There was a network error. Check your network connection and try again.';
+          this.errorTittle = this.texts.networkErrorLabel;
+          this.errorDescription = this.texts.networkErrorDescriptionLabel;
           this.error = true;
         }        
       })
@@ -310,7 +315,8 @@ import Footer from '@/components/footer/Footer.vue';
     }
 
     loginFacebook(){
-      fa.signInWithPopup(providerFacebook).then(result => {
+      try {
+        fa.signInWithPopup(providerFacebook).then(result => {
         this.loadingUserData = true;
         const token = result.credential
         const user = result.user
@@ -319,11 +325,14 @@ import Footer from '@/components/footer/Footer.vue';
       }).catch(error =>{
         console.log(error);
         if(error.code !== "auth/popup-closed-by-user" && error.code !== "auth/cancelled-popup-request"){
-          this.errorTittle = 'Network Error!';
-          this.errorDescription = 'There was a network error. Check your network connection and try again.';
+          this.errorTittle = this.texts.networkErrorLabel;
+          this.errorDescription = this.texts.networkErrorDescriptionLabel;
           this.error = true;
         }   
-      })
+      });
+      } catch (error) {
+        console.log(error);
+      }      
     }
 
   }

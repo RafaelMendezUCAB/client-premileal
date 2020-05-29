@@ -31,6 +31,14 @@ export default {
 
     getUserPayments(userID: any){
         return api.payment.getUserPayments(userID);
+    },
+
+    notifyAdministrator(data: any){
+        return api.payment.notifyAdministrator(data);
+    },
+
+    testPDF(data: any){
+        return api.payment.testPDF(data);
     }
 
 };

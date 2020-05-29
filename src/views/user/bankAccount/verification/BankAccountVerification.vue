@@ -46,8 +46,8 @@
                                             <p>{{texts.bankAccountNumberLabel}}: <b>{{bankAccount.accountNumber}}</b></p>  
                                             <p>{{texts.bankAccountRoutingNumberLabel}}: <b>{{bankAccount.routingNumber}}</b></p>  
                                             <p>{{texts.bankAccountCheckingNumberLabel}}: <b>{{bankAccount.checkNumber}}</b></p>  
-                                            <p v-if="bankAccount.status === 'unverified'">{{texts.bankAccountStatus}}: <b style="color: red;">Unverified</b></p>  
-                                            <p v-if="bankAccount.status === 'verified'">{{texts.bankAccountStatus}}: <b style="color: green;">Verified</b></p>                             
+                                            <p v-if="bankAccount.status === 'unverified'">{{texts.bankAccountStatus}}: <b style="color: red;">{{texts.unverifiedLabel}}</b></p>  
+                                            <p v-if="bankAccount.status === 'verified'">{{texts.bankAccountStatus}}: <b style="color: green;">{{texts.verifiedLabel}}</b></p>                             
                                           </v-card-text>                                
                                         </v-card>
                                     </v-col>
@@ -106,14 +106,14 @@
                                                 ></v-text-field>
                                             </v-col>                                                                                        
                                         </v-row>
-                                        <v-row
+                                        <!--<v-row
                                             align="center"
                                             justify="center"
                                         >
                                             <v-col cols="12" lg="10" class="d-flex justify-center">
                                                 <v-checkbox class="text-center"  style="margin-top: -6%;" :label="texts.didntReceiveMoney"  v-model="notCharged"></v-checkbox>                                                
                                             </v-col>
-                                        </v-row>
+                                        </v-row>-->
                                     </v-form>
                                   
                                     <v-btn
@@ -307,6 +307,7 @@ import bankAccountService from '@/services/bankAccount/bankAccountService';
 
 import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
+import paymentService from '../../../../services/payment/paymentService';
 
 @Component({
     components:{
@@ -379,7 +380,14 @@ export default class BankAccountVerification extends Vue{
       importantLabel: "Important!",
       exactAmountLabel: "Insert the exact amount including decimals. Ex: 0.75",
       depositsDelayLabel: "Remember deposits could take days to appear in your bank account balance. Be patient",
-      makeSureNoDepositsLabel: "If you mark that you didn't received money, then you could notify us and we will get it touch with you as soon as we can. Make sure the transaction didn't take place"
+      makeSureNoDepositsLabel: "If you mark that you didn't received money, then you could notify us and we will get it touch with you as soon as we can. Make sure the transaction didn't take place",
+      unverifiedLabel: "Unverified",      
+      networkErrorLabel: "Network Error!",
+      networkErrorDescriptionLabel: "There was a network error. Check your network connection and try again.",
+      errorInvalidAmountLabel: "Error. Invalid amounts!",
+      errorInvalidAmountDescriptionLabel: "The amounts you have entered didn't match with the ones we have. Please, try again.",
+
+      sendingNotificationLabel: "Sending notification."
     }
 
     mounted(){
@@ -436,7 +444,7 @@ export default class BankAccountVerification extends Vue{
             localStorage.setItem('termsTranslated', parsedTerms);
         } 
       } catch (error) {
-        console.log(error);
+        console.log("An error ocurred getting translations: ", error);
       }         
     }
 
@@ -467,53 +475,64 @@ export default class BankAccountVerification extends Vue{
     }
 
     restrictChars(event: any, value: string){
-        if(((event.charCode < 48 || event.charCode > 57) && event.charCode !== 46) || value.length > 8){
-            event.preventDefault();
-        }        
+      if(((event.charCode < 48 || event.charCode > 57) && event.charCode !== 46) || value.length > 8){
+          event.preventDefault();
+      }        
     }
 
     async verifyBankAccount(){
         if(this.bankAccount.status === 'unverified'){
-            if(this.notCharged){            
-            this.userWasntCharged = true;
-            }
-            else if(this.valid){
-                this.eventDescription = 'Validating bank account.';
-                this.proccessingRequest = true;
-                this.serverResponse = await bankAccountService.verifyBankAccount(this.bankAccount.bankAccountID, {
-                    bankAccount: this.bankAccount,
-                    user: this.userData,
-                    firstCharge: this.firstCharge,
-                    secondCharge: this.secondCharge
-                });
-                this.proccessingRequest = false;
-                if(this.serverResponse.data === 'Invalid amounts.'){
-                    this.errorTittle = 'Error. Invalid amounts!';
-                    this.errorDescription = "The amounts you have entered didn't match with the ones we have. Please, try again.";
-                    this.error = true;
-                }
-                else if(this.serverResponse.data === 'An error has ocurred.'){
-                    this.errorTittle = 'Network Error!';
-                    this.errorDescription = 'There was a network error. Check your network connection and try again.';
-                    this.error = true; 
-                }
-                else {
-                    console.log("Validating");
-                    this.bankAccount.status = 'verified';
-                    this.successfullValidation = true;   
-                    this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);      
-                }
-            }            
+          if(this.notCharged){            
+          this.userWasntCharged = true;
+          }
+          else if(this.valid){
+            this.eventDescription = 'Validating bank account.';
+            this.proccessingRequest = true;
+            try {
+              this.serverResponse = await bankAccountService.verifyBankAccount(this.bankAccount.bankAccountID, {
+                bankAccount: this.bankAccount,
+                user: this.userData,
+                firstCharge: this.firstCharge,
+                secondCharge: this.secondCharge
+              });
+              this.proccessingRequest = false;
+              if(this.serverResponse.data === 'Invalid amounts.'){
+                  this.errorTittle = this.texts.errorInvalidAmountLabel;
+                  this.errorDescription = this.texts.errorInvalidAmountDescriptionLabel;
+                  this.error = true;
+              }
+              else if(this.serverResponse.data === 'An error has ocurred.'){
+                  this.errorTittle = this.texts.networkErrorLabel;
+                  this.errorDescription = this.texts.networkErrorDescriptionLabel;
+                  this.error = true; 
+              }
+              else {
+                  this.bankAccount.status = 'verified';
+                  this.successfullValidation = true;   
+                  this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);      
+              }
+            } catch (error) {
+              console.log("An error ocurred verifying bank account: ", error);
+            }                
+          }            
         }
         else {
             this.alreadyVerifiedMessage = true;
         }
     }
 
-    notifyPremileal(){
+    async notifyPremileal(){
       this.userWasntCharged = false;
-      this.eventDescription = 'Sending notification.';
+      this.eventDescription = this.texts.sendingNotificationLabel;
       this.proccessingRequest = true;
+      try {
+        this.serverResponse = await paymentService.notifyAdministrator({
+          user: this.userData,
+          bankAccount: this.bankAccount
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     
