@@ -90,6 +90,10 @@ export default {
 
   updateUserData(userID: number, userData: any){
     return api.user.updateUserData(userID, userData);
+  },
+
+  updatePreferredLanguage(userID: number, language: any){
+    return api.user.updatePreferredLanguage(userID, language);
   }
   /* ------------------------------------------------------------------ */
 

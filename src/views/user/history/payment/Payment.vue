@@ -1,7 +1,7 @@
 <template>
     <v-app light>
         <div>
-          <Navbar></Navbar>
+          <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>
             <v-row
@@ -39,8 +39,8 @@
 
                                   <v-card-text>                                    
                                     <p>Name: <b>GABRIEL TOVAR</b></p>  
-                                    <p>E-mail: <b>GATOVAR.14@UCAB.EDU.VE</b></p>
-                                    <p>Plan Membership Level: <b style="color: amber;">Gold</b></p>                                      
+                                    <p>E-mail address: <b>GATOVAR.14@UCAB.EDU.VE</b></p>
+                                    <p>Membership Level: <b style="color: amber;">Gold</b></p>                                      
                                   </v-card-text>                                
                                 </v-card>
 
@@ -127,13 +127,7 @@ import Navbar from '@/components/navbar/Navbar.vue';
 export default class BankAccountStatus extends Vue{
 
     transactionDescription = '';
-    
-    icons = [
-        'facebook',
-        'twitter',        
-        'instagram',
-        'youtube',
-    ];
+    userData: any = null;   
 
     rules = {
         required: (value: any) => !!value || 'Required.',
@@ -322,6 +316,14 @@ export default class BankAccountStatus extends Vue{
             details: 'details'
         },
     ];
+
+    mounted(){
+        this.userData = this.getUserData;
+    }
+
+    get getUserData() {
+      return this.$store.getters["user/getUserData"];
+    }
 
     seeDetails(){
         console.log("see details");

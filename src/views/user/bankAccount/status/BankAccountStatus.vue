@@ -1,7 +1,7 @@
 <template>
     <v-app light>
         <div>
-          <Navbar></Navbar>
+          <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>
             <v-row
@@ -10,7 +10,7 @@
             >
                 <v-col cols="12">
                     <div class="text-center">
-                        <h1 class="mainTittle">BANK ACCOUNT DETAILS</h1>
+                        <h1 class="mainTittle">{{texts.bankAccountDetailsLabel}}</h1>
                     </div>
                 </v-col>
             </v-row>
@@ -24,7 +24,7 @@
                             class="rowBottomMargin"
                         >
                             <v-col cols="11" lg="12" v-if="bankAccount !== null">
-                                <h1 class="subtittle marginBottom">Bank Account Information</h1>
+                                <h1 class="subtittle marginBottom">{{texts.bankAccountInformation}}</h1>
 
                                 <v-card                                
                                   class="mx-auto my-12"
@@ -37,13 +37,13 @@
                                   ></v-img>                                  
 
                                   <v-card-text>                                    
-                                    <p>Bank: <b>{{bankAccount.bank}}</b></p>  
-                                    <p>Bank Account Holder Name: <b>{{bankAccount.holderName}}</b></p>
-                                    <p>Bank Account Number: <b>{{bankAccount.accountNumber}}</b></p>  
-                                    <p>Bank Account Routing Number: <b>{{bankAccount.routingNumber}}</b></p>  
-                                    <p>Bank Account Checking Number: <b>{{bankAccount.checkNumber}}</b></p>  
-                                    <p v-if="bankAccount.status === 'verified'">Bank Account Status: <b style="color: green;">{{bankAccount.status}}</b></p>                                      
-                                    <p v-if="bankAccount.status === 'unverified'">Bank Account Status: <b style="color: red;">{{bankAccount.status}}</b></p>                                      
+                                    <p>{{texts.bankLabel}}: <b>{{bankAccount.bank}}</b></p>  
+                                    <p>{{texts.accountHolderName}}: <b>{{bankAccount.holderName}}</b></p>
+                                    <p>{{texts.accountNumberLabel}}: <b>{{bankAccount.accountNumber}}</b></p>  
+                                    <p>{{texts.accountRoutingNumberLabel}}: <b>{{bankAccount.routingNumber}}</b></p>  
+                                    <p>{{texts.accountCheckNumberLabel}}: <b>{{bankAccount.checkNumber}}</b></p>  
+                                    <p v-if="bankAccount.status === 'verified'">{{texts.bankAccountStatus}}: <b style="color: green;">{{bankAccount.status}}</b></p>                                      
+                                    <p v-if="bankAccount.status === 'unverified'">{{texts.bankAccountStatus}}: <b style="color: red;">{{bankAccount.status}}</b></p>                                      
                                   </v-card-text>                                
                                 </v-card>
 
@@ -54,7 +54,7 @@
                                       class="topMargin"
                                       @click="editBankAccount"
                                     >
-                                      Edit Bank Account
+                                      {{texts.editBankAccontLabel}}
                                 </v-btn>
 
                                 <v-btn
@@ -64,7 +64,7 @@
                                       class="topMargin"
                                       @click="verifyBankAccount"
                                     >
-                                      Verify bank account
+                                      {{texts.verifyBankAccountLabel}}
                                 </v-btn>
 
                                 <v-btn
@@ -85,16 +85,16 @@
                                     >
                                       <v-list-item>
                                         <v-list-item-content>
-                                          <v-list-item-title class="headline">Bank account update</v-list-item-title>
+                                          <v-list-item-title class="headline">{{texts.bankAccountUpdateLabel}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>
 
                                       <v-card-text>
-                                        Enter new bank account holder name.
+                                        {{texts.newBankAccountHolderNameLabel}}.
                                       </v-card-text>
 
                                       <v-text-field                                                    
-                                        label="Account Holder Name"
+                                        :label="texts.accountHolderName"
                                         outlined
                                         style="padding-left: 2%; padding-right: 2%"   
                                         :rules="[rules.required]"
@@ -106,7 +106,7 @@
                                           @click="editingBankAccount = false"
                                           style="margin-bottom: 2%"                                          
                                         >
-                                          Cancel
+                                          {{texts.cancelLabel}}
                                       </v-btn>
                                       
                                       <v-btn
@@ -114,7 +114,7 @@
                                           @click="updateBankAccountHolderName"
                                           style="margin-bottom: 2%"
                                         >
-                                          Update
+                                          {{texts.updateLabel}}
                                       </v-btn>                                      
                                        
                                     </v-card>
@@ -131,12 +131,12 @@
                                     >
                                       <v-list-item>
                                         <v-list-item-content>
-                                          <v-list-item-title class="headline">Are you sure?</v-list-item-title>
+                                          <v-list-item-title class="headline">{{texts.areYouSureLabel}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                          
 
                                       <v-card-text>
-                                        By deleting a bank account, you won't be able to use it in our platform unless you register and validate it back again.
+                                        {{texts.deletingBankAccountDescriptionLabel}}.
                                       </v-card-text>
 
                                       
@@ -153,7 +153,7 @@
                                           @click="eliminateBankAccount"
                                           style="margin-bottom: 2%"
                                         >
-                                          Yes
+                                          {{texts.yesLabel}}
                                        </v-btn>
                                     </v-card>
                                   
@@ -181,7 +181,7 @@
                                       ></v-progress-circular>                                                                        
 
                                       <v-card-text>
-                                        This could take some time. Please, be patient.
+                                        {{texts.bePatientLabel}}
                                       </v-card-text>                                                                                                                
                                        
                                     </v-card>
@@ -198,14 +198,14 @@
                                     >
                                       <v-list-item>
                                         <v-list-item-content>
-                                          <v-list-item-title class="headline" v-if="transactionDescription == 'Deleting bank account'">Bank account successfully deleted!</v-list-item-title>
-                                          <v-list-item-title class="headline" v-if="transactionDescription == 'Updating Bank Account'">Bank account successfully updated!</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription == 'Deleting bank account'">{{texts.bankAccountSuccessfullyDelete}}</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription == 'Updating Bank Account'">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
 
                                       <v-card-text>
-                                        <span v-if="transactionDescription == 'Deleting bank account'">your bank account has been deleted.</span>
-                                        <span v-if="transactionDescription == 'Updating Bank Account'">your bank account has been updated.</span>
+                                        <span v-if="transactionDescription == 'Deleting bank account'">{{texts.bankAccountDeletedLabel}}.</span>
+                                        <span v-if="transactionDescription == 'Updating Bank Account'">{{texts.bankAccountUpdatedLabel}}.</span>
                                       </v-card-text>                                                                          
 
                                       <v-btn
@@ -231,16 +231,16 @@
                             justify="center"                            
                         >
                             <v-col cols="11" lg="12">
-                                <h1 style="margin-bottom: 4%" class="subtittle topMargin">Bank Account Movements</h1>
+                                <h1 style="margin-bottom: 4%" class="subtittle topMargin">{{texts.bankAccountMovements}}</h1>
 
                                 <v-card>
                                   <v-card-title>
-                                    Movements
+                                    {{texts.movementsLabel}}
                                     <v-spacer></v-spacer>
                                     <v-text-field
                                       v-model="search"
                                       append-icon="mdi-magnify"
-                                      label="Search"
+                                      :label="texts.searchLabel"
                                       single-line
                                       hide-details
                                     ></v-text-field>
@@ -277,6 +277,8 @@ import Component from "vue-class-component";
 import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
 
+import internationalizationService from '@/services/internationalization/internationalizationService';
+
 @Component({
     components:{
         Footer,
@@ -295,6 +297,8 @@ export default class BankAccountStatus extends Vue{
     bankAccount: any = null;
 
     bankLogo = '';
+
+    userData: any = null;
 
     rules = {
         required: (value: any) => !!value || 'Required.',
@@ -404,14 +408,100 @@ export default class BankAccountStatus extends Vue{
         },
     ];
 
+    textsTranslated: any = null;
+    texts = {
+      bankAccountDetailsLabel: "BANK ACCOUNT DETAILS",
+      bankAccountInformation: "Bank Account Information",
+      bankLabel: "Bank",
+      accountHolderName: "Bank Account Holder Name",
+      accountNumberLabel: "Bank Account Number",
+      accountRoutingNumberLabel: "Bank Account Routing Number",
+      accountCheckNumberLabel: "Bank Account Checking Number",
+      bankAccountStatus: "Bank Account Status",
+      editBankAccontLabel: "Edit Bank Account",
+      verifyBankAccountLabel: "Verify bank account",
+      bankAccountUpdateLabel: "Bank account update",
+      newBankAccountHolderNameLabel: "Enter new bank account holder name",
+      cancelLabel: "Cancel",
+      updateLabel: "Update",
+      areYouSureLabel: "Are you sure?",
+      deletingBankAccountDescriptionLabel: "By deleting a bank account, you won't be able to use it in our platform unless you register and validate it back again",
+      yesLabel: "Yes",
+      bePatientLabel: "This could take some time. Please, be patient.",
+      bankAccountSuccessfullyDelete: "Bank account successfully deleted!",
+      bankAccountSuccessfullyUpdated: "Bank account successfully updated!",
+      bankAccountDeletedLabel: "your bank account has been deleted",
+      bankAccountUpdatedLabel: "your bank account has been updated",
+      bankAccountMovements: "Bank Account Movements",
+      movementsLabel: "Movements",
+      searchLabel: "Search"
+    }
+
     mounted(){
-      //this.bankLogo = require("@/assets/banks/"+this.bankAccount.bank+".png");
-      this.bankAccount = this.getBankAccountData;
-      console.log("banco seria: ", this.bankAccount);
+      this.userData = this.getUserData;
+
+      if(this.userData.userID === undefined){
+        const user = localStorage.getItem('userData');
+        if(user){
+          this.userData = JSON.parse(user);
+          this.obtainTerms();
+        }
+        else {
+          this.$router.push({ name: 'home' }).catch((error) => {
+              console.log(error);
+          });      
+        }      
+      }
+      else {
+        this.bankAccount = this.getBankAccountData;
+        this.obtainTerms();
+      }
+      this.checkLanguage();                
+    }
+
+    obtainTerms(){
+      const terms = localStorage.getItem('termsTranslated');
+      if(terms){
+        try{
+            this.textsTranslated = JSON.parse(terms);
+        }catch(e){
+            localStorage.removeItem('terms');
+        }
+      }
+    }
+
+    checkLanguage(){
+      if(this.userData.preferredLanguage !== 'en-us'){
+        this.getTranslations(this.userData.preferredLanguage);
+        if(this.textsTranslated){
+            this.texts = internationalizationService.bankAccountStatus.translate(this.textsTranslated, this.texts);
+        }
+      }
+      else {
+        this.texts = internationalizationService.bankAccountStatus.assignDefaultLabels();
+      }      
+    }
+
+    async getTranslations(language: string){        
+      try {
+        const translations = await internationalizationService.getTermsTranslations(language);        
+        if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+            this.textsTranslated = translations.data;
+            this.texts = internationalizationService.bankAccountStatus.translate(this.textsTranslated, this.texts);
+            const parsedTerms = JSON.stringify(this.textsTranslated);
+            localStorage.setItem('termsTranslated', parsedTerms);
+        } 
+      } catch (error) {
+        console.log(error);
+      }         
     }
 
     get getBankAccountData() {
         return this.$store.getters["bankAccount/getBankAccountData"];
+    }
+
+    get getUserData() {
+      return this.$store.getters["user/getUserData"];
     }
 
     seeDetails(){

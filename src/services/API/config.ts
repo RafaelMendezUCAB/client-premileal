@@ -7,7 +7,7 @@ export const API_URL = axios.create({
     Accept: "application/json",
     "Content-Type": "application/json",
   },
-  timeout: 10000,
+  timeout: 15000,
 });
 
 export default API_URL;

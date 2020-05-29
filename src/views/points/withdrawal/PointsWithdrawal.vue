@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <div>
-          <Navbar></Navbar>
+          <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>
             <v-row
@@ -175,6 +175,8 @@ import Navbar from '@/components/navbar/Navbar.vue';
 })
 export default class PointsWithdrawal extends Vue{
 
+    userData: any = null;
+    
     items = [
         'Citibank',
         'Bank Of America',
@@ -203,6 +205,14 @@ export default class PointsWithdrawal extends Vue{
         points: (points: number) => points > 499 || 'Minimum points to retire must be 500.',
         pointsMax: (points: number) => points <= this.transactionInformation.pointsAvailable || "You don't have enough many points available."        
     }    
+
+    mounted(){
+        this.userData = this.getUserData;
+    }
+
+    get getUserData() {
+      return this.$store.getters["user/getUserData"];
+    }
 
     @Watch('transactionInformation.points')
     onPropertyChanged(value: any, oldValue: any){

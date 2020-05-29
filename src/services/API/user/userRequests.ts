@@ -27,6 +27,10 @@ export default {
 
     updateUserData(userID: number, userData: any){
       return API_URL.put(process.env.VUE_APP_USER_ROUTE+"/update/"+userID, userData);
+    },
+
+    updatePreferredLanguage(userID: number, language: any){
+      return API_URL.put(process.env.VUE_APP_USER_ROUTE+"/update/preferred/language/"+userID, language);
     }
   
     /* ---------------------- DELETE METHODS -------------------------- */

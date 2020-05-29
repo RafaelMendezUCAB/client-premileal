@@ -1,6 +1,6 @@
 <template>
   <v-app>
-      <Navbar></Navbar>
+      <Navbar :userData="userData"></Navbar>
       <v-content>
 
         <div class="text-center">
@@ -92,7 +92,7 @@
           >
               <v-col cols="12">
                   <div class="text-center">
-                      <h1 class="pageTitle">PROFILE SETTINGS</h1>
+                      <h1 class="pageTitle">{{texts.profileSettingsLabel}}</h1>
                   </div>
               </v-col>
           </v-row>
@@ -108,7 +108,7 @@
 
                     <div class="pt-8 " align="center" justify="center">
                       <v-icon class="iconSize" color="blue">mdi-account-circle</v-icon>
-                      <h1 class="mr-2 mainTitle titleSize">User Profile</h1>
+                      <h1 class="mr-2 mainTitle titleSize">{{texts.userProfileLabel}}</h1>
                     </div>
                     
                     <v-card                      
@@ -135,11 +135,11 @@
                           accept="image/*"
                           class="mx-5 uploadPhoto"
                           @change="uploadImage($event)"
-                          label="Click here to upload new photo" 
+                          :label="texts.clickHereToUploadPhotoLabel" 
                                                   
                         >
                           <v-btn>
-                            upload image
+                            {{texts.uploadImageLabel}}
                           </v-btn>
                         </v-file-input> 
                                                 
@@ -148,7 +148,7 @@
                             <v-text-field 
                               v-model="userDataAux.name"
                               class="fontSize"
-                              label="Name"
+                              :label="texts.signUpNameLabel"
                               prepend-icon= "mdi-account" 
                               :rules="[rules.required, rules.alphabet]"                       
                             >                                            
@@ -156,7 +156,7 @@
                             <v-text-field 
                               v-model="userDataAux.lastName"
                               class="fontSize"
-                              label="Last Name"
+                              :label="texts.signUpLastNameLabel"
                               prepend-icon= "mdi-ab-testing"   
                               :rules="[rules.required, rules.alphabet]"                     
                             >
@@ -164,7 +164,7 @@
                             <v-text-field 
                               v-model="userDataAux.password"
                               class="fontSize"
-                              label="Password"
+                              :label="texts.loginPasswordLabel"
                               :type= "showPassword1 ? 'text' : 'password'" 
                               :append-icon= "showPassword1 ? 'mdi-eye' : 'mdi-eye-off'"
                               prepend-icon= "mdi-lock"
@@ -176,7 +176,7 @@
                             <v-text-field 
                               v-model="userDataAux.email"
                               class="fontSize"
-                              label="E-Mail"
+                              :label="texts.loginEmailLabel"
                               prepend-icon= "mdi-at"
                               :disabled="userData.type !== 'No Federado'"  
                               :rules="[rules.required, rules.email]"                      
@@ -185,7 +185,7 @@
                             <v-text-field 
                               v-model="userDataAux.birthdate"
                               class="fontSize"
-                              label="Birth Date"
+                              :label="texts.signUpBirthDateLabel"
                               prepend-icon= "mdi-calendar-blank-outline"                        
                               type="date"
                             >
@@ -194,20 +194,32 @@
                                 v-model="userDataAux.placeID"
                                 item-value="p_id"
                                 prepend-icon= "mdi-map-marker"
-                                label="Country"                              
+                                :label="texts.signUpCountryLabel"                              
                                 :items="places"
                                 item-text="p_name">
-                            </v-autocomplete>  
+                            </v-autocomplete> 
+                            <v-select
+                                v-model="userData.preferredLanguage"
+                                outlined
+                                prepend-icon="mdi-translate"
+                                :items="languages"                                            
+                                item-text="name"
+                                item-value="acronym"
+                                :label="texts.selectPreferredLanguageLabel"
+                                style="margin-top: 8%"
+                                :rules="[rules.required]"                                    
+                            >                                    
+                            </v-select> 
                           </v-form>                           
-                          <p>Membership Level: <b>{{userData.levelName}}</b> </p>
-                          <p>Points available: <b style="color: green; font-size:20px">{{userData.points}}</b> </p>
+                          <p>{{texts.membershipLevelLabel}}: <b>{{userData.levelName}}</b> </p>
+                          <p>{{texts.pointsAvailableLabel}}: <b style="color: green; font-size:20px">{{userData.points}}</b> </p>
 
                           <v-btn
                             color="error"
                             @click="resetValues"
                             style="margin-bottom: 2%"                                          
                           >
-                            Reset values
+                            {{texts.resetValuesLabel}}
                           </v-btn>
 
                           <v-btn
@@ -215,7 +227,7 @@
                             @click="updateUser"
                             style="margin-bottom: 2%"                                          
                           >
-                            Update user
+                            {{texts.updateUserLabel}}
                           </v-btn>
 
                         </span>
@@ -233,11 +245,11 @@
                     <v-col cols="11" lg="12">
                       <div class="pt-10">
                         <v-icon class="iconSize" color="blue">mdi-bank</v-icon>
-                        <h1 class="mainTitle titleSize">Bank Accounts</h1>
+                        <h1 class="mainTitle titleSize">{{texts.bankAccountsLabel}}</h1>
                       </div> 
                       <v-card>
                         <v-card-title class="subtittle">
-                          Registered Banks
+                          {{texts.registeredBanksLabel}}
                         </v-card-title>
                         <v-data-table 
                           class="fontSize"
@@ -253,10 +265,10 @@
                           </template>  
                           <template v-slot:item.accountStatus="{ item }">
                             <span v-if="item.accountStatus === 'verified'">
-                              <span style="color: green">Verified</span>
+                              <span style="color: green">{{texts.verifiedLabel}}</span>
                             </span>
                             <span v-if="item.accountStatus === 'unverified'">
-                              <span style="color: red">Unverified</span> 
+                              <span style="color: red">{{texts.unverifiedLabel}}</span> 
                             </span>
                           </template>                    
                         </v-data-table>
@@ -274,7 +286,7 @@
 </template>
 
 <script lang="ts">
-import {Vue} from 'vue-property-decorator'
+import {Vue, Watch} from 'vue-property-decorator'
 import Component from "vue-class-component";
 
 import Footer from '@/components/footer/Footer.vue';
@@ -283,6 +295,7 @@ import Navbar from '@/components/navbar/Navbar.vue';
 import userService from '../../../services/user/userService';
 import bankAccountService from '@/services/bankAccount/bankAccountService';
 import placeService from '@/services/place/placeService';
+import internationalizationService from '@/services/internationalization/internationalizationService';
 
 @Component({
   components: {
@@ -324,7 +337,49 @@ export default class UserProfile extends Vue{
   successfullTransactionTitle = "";
   successfullTransactionDescription = "";
 
-  places: any = [];
+  places: any = []; 
+
+  showPassword1 = false;
+
+  textsTranslated: any = null;
+  texts = {
+    profileSettingsLabel: "PROFILE SETTINGS",
+    userProfileLabel: "User Profile",
+    clickHereToUploadPhotoLabel: "Click here to upload new photo",
+    uploadImageLabel: "upload image",
+    signUpNameLabel: "Name",
+    signUpLastNameLabel: "Last Name",
+    loginPasswordLabel: "Password",
+    loginEmailLabel: "E-mail",
+    signUpBirthDateLabel: "Birth Date",
+    signUpCountryLabel: "Country",
+    membershipLevelLabel: "Membership Level",
+    pointsAvailableLabel: "Points available",
+    updateUserLabel: "Update user",
+    bankAccountsLabel: "Bank Accounts",
+    registeredBanksLabel: "Registered Banks",
+    verifiedLabel: "Verified",
+    unverifiedLabel: "Unverified",
+    bankLabel: "Bank",
+    accountNumberLabel: "Account Number",
+    statusLabel: "Status",
+    detailsLabel: "Details",
+    resetValuesLabel: "Reset values",
+    englishLabel: "English",
+    spanishLabel: "Spanish",
+    selectPreferredLanguageLabel: "Select preferred language"
+  };
+
+  languages = [
+      {
+          acronym: 'en-us',
+          name: this.texts.englishLabel
+      },
+      {
+          acronym: 'es',
+          name: this.texts.spanishLabel
+      }
+  ];
 
   headers = [
     {
@@ -334,24 +389,22 @@ export default class UserProfile extends Vue{
         value: 'bankAccountID'
     },
     {
-        text: 'Bank',        
+        text: this.texts.bankLabel,        
         value: 'bankName'
     },
     {
-        text:'Account Number',
+        text: this.texts.accountNumberLabel,
         value:'accountNumber',
     },        
     {
-        text:'Status',
+        text: this.texts.statusLabel,
         value: 'accountStatus',
     },
     {
-        text:'Details',
+        text: this.texts.detailsLabel,
         value: 'details',
     }    
-  ];  
-
-  showPassword1 = false;
+  ]; 
 
   rules = {
     required: (value: string[]) => !!value || 'Required.',
@@ -376,16 +429,90 @@ export default class UserProfile extends Vue{
   }
   
   mounted(){
-    this.userData = this.getUserData;
-    console.log("user retrieved: ", this.userData);
-    if(this.userData.birthdate !== null && this.userData.birthdate !== undefined){
-    this.userData.birthdate = userService.getOnlyBirthDate(this.userData.birthdate);
+    this.userData = this.getUserData;  
+    console.log("en perfil es: ", this.userData.userID);  
+    if(this.userData.userID === undefined){
+      const user = localStorage.getItem('userData');
+      if(user){
+        this.userData = JSON.parse(user);
+        this.obtainTerms();
+      }
+      else {
+        this.$router.push({ name: 'home' });      
+      }      
     }
-    if(this.userData.userID !== undefined){
+    else {
+      if(this.userData.birthdate !== null){
+      this.userData.birthdate = userService.getOnlyBirthDate(this.userData.birthdate);
+      }
       this.getUserBankAccounts();
       this.getAllPlaces();
+      this.obtainTerms();
     }
-    this.resetValues();
+    this.checkLanguage();    
+    this.resetValues();        
+
+  }
+
+  obtainTerms(){
+    const terms = localStorage.getItem('termsTranslated');
+    if(terms){
+      try{
+          this.textsTranslated = JSON.parse(terms);
+      }catch(e){
+          localStorage.removeItem('terms');
+      }
+    }
+  }
+
+  async getTranslations(language: string){        
+    try {
+      const translations = await internationalizationService.getTermsTranslations(language);        
+      if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+          this.textsTranslated = translations.data;
+          this.texts = internationalizationService.userProfile.translate(this.textsTranslated, this.texts);
+          const parsedTerms = JSON.stringify(this.textsTranslated);
+          localStorage.setItem('termsTranslated', parsedTerms);
+      } 
+    } catch (error) {
+      console.log(error);
+    }         
+  }
+  
+  checkLanguage(){
+    if(this.userData.preferredLanguage !== 'en-us'){
+      this.getTranslations(this.userData.preferredLanguage);
+      if(this.textsTranslated){
+          this.texts = internationalizationService.userProfile.translate(this.textsTranslated, this.texts);
+      }
+    }
+    else {
+      this.texts = internationalizationService.userProfile.assignDefaultLabels();
+    }
+    this.assignLanguage();
+  }
+
+  @Watch('userData.preferredLanguage')
+  async preferredLanguageChange(){
+    this.checkLanguage();   
+    try {
+      this.serverResponse = await userService.updatePreferredLanguage(this.userData.userID, {preferredLanguage: this.userData.preferredLanguage});
+    } catch (error) {
+      console.log("An error ocurred. Language couldn't be set as default.");
+    }   
+  } 
+
+  assignLanguage(){
+    this.languages = [
+      {
+          acronym: 'en-us',
+          name: this.texts.englishLabel
+      },
+      {
+          acronym: 'es',
+          name: this.texts.spanishLabel
+      }
+    ];
   }
 
   get getUserData() {
@@ -393,6 +520,7 @@ export default class UserProfile extends Vue{
   }
 
   fillBankAccountsArray(bankAccounts: any){
+    console.log("llenando bancos")
     bankAccounts.forEach((bankAccount: any) => {
       this.userBankAccounts.push({
         bankAccountID: bankAccount.bankAccountID,
@@ -405,11 +533,17 @@ export default class UserProfile extends Vue{
   }
 
   async getUserBankAccounts(){
-    this.serverResponse = await bankAccountService.getUserBankAccounts(this.userData.userID);
-    if(this.serverResponse !== []){
-      this.bankAccountsData = this.serverResponse;
-      this.fillBankAccountsArray(this.serverResponse);
+    try {
+      this.serverResponse = await bankAccountService.getUserBankAccounts(this.userData.userID);
+      if(this.serverResponse !== []){
+        this.bankAccountsData = this.serverResponse;
+        this.fillBankAccountsArray(this.serverResponse);
+      }
+    } catch (error) {
+      console.log("error en perfil -- obtener bancos");
+      console.log(error);
     }
+    
   }
   
   gotoProfileSettings(){

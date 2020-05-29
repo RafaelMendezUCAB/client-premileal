@@ -1,6 +1,6 @@
 <template>
   <v-app>
-  <Navbar></Navbar>
+  <Navbar :userData="userData"></Navbar>
     <v-content>
       <v-row row class="rowSeparation" align="center"
              justify="center">
@@ -168,7 +168,7 @@ export default class UserSettings extends Vue{
     places: any = [];
 
     
-    userData = 
+    userData: any = 
     {
         name : '',
         lastName : '',
@@ -205,10 +205,13 @@ export default class UserSettings extends Vue{
       }
         
     mounted(){
-       this.getAllPlaces();
+      this.userData = this.getUserData;
+      this.getAllPlaces();
     }
         
-     
+    get getUserData() {
+      return this.$store.getters["user/getUserData"];
+    }
 
     async getAllPlaces(){
         this.serverResponse = await placeService.getAllPlaces();

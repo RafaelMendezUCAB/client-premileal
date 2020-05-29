@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <div>
-          <Navbar></Navbar>
+          <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>          
             <v-row

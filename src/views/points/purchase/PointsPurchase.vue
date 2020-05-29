@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <div>
-            <Navbar></Navbar>
+            <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>            
             <v-row
@@ -10,7 +10,7 @@
             >
                 <v-col cols="12">
                     <div class="text-center">
-                        <h1 class="mainTittle">Points Acquisition</h1>                                                                      
+                        <h1 class="mainTittle">{{texts.pointsAcquisitionLabel}}</h1>                                                                      
                     </div>
                 </v-col>
             </v-row>      
@@ -23,7 +23,7 @@
                             justify="center"
                         >
                             <v-col>                                
-                                <h1 class="subtittle">Add points</h1> 
+                                <h1 class="subtittle">{{texts.addPointsLabel}}</h1> 
                                 <v-form v-model="valid">
                                     <v-row
                                         align="center"
@@ -31,13 +31,13 @@
                                     >
                                         <v-col cols="9" sm="6" md="6" lg="6">
                                             <v-text-field
-                                                    v-model.number="transactionInformation.points"
-                                                    label="Points"
-                                                    outlined
-                                                    style="margin-top:10%"
-                                                    class="formBottomMargin"
-                                                    :rules="[rules.required, rules.minimumPoints]"
-                                                    v-on:keypress="restrictChars($event)"
+                                                v-model.number="transactionInformation.points"
+                                                :label="texts.pointsLabel"
+                                                outlined
+                                                style="margin-top:10%"
+                                                class="formBottomMargin"
+                                                :rules="[rules.required, rules.minimumPoints]"
+                                                v-on:keypress="restrictChars($event)"
                                             ></v-text-field>
                                         </v-col>
                                     </v-row>     
@@ -53,7 +53,7 @@
                                                 :items="userRegisteredBanks"                                            
                                                 item-text="bank"
                                                 item-value="item"
-                                                label="Bank Account"
+                                                :label="texts.bankAccountLabel"
                                                 class="formBottomMargin"
                                                 :rules="[rules.required]"
                                             ></v-select>
@@ -70,7 +70,7 @@
                                           @click="gotoBackHome"
                                           style="margin-bottom:10%,"
                                         >                                            
-                                            <span style="color:white">Cancel</span>
+                                            <span style="color:white">{{texts.cancelLabel}}</span>
                                         </v-btn>
                                     </v-col>
                                     <v-col cols="4" sm="2" md="4" lg="2">
@@ -79,7 +79,7 @@
                                           @click="buyPoints"
                                           style="margin-bottom:10%,"
                                         >
-                                            <span style="color:white">Pay</span>
+                                            <span style="color:white">{{texts.payLabel}}</span>
                                         </v-btn>
                                     </v-col>
                                 </v-row>                                                                                                                                                                                                              
@@ -94,7 +94,7 @@
                             justify="center"
                         >
                             <v-col cols="11" lg="12" class="rightSeparationForTransactionInformation">
-                                <h1 class="text-center subtittle">Transaction information</h1>  
+                                <h1 class="text-center subtittle">{{texts.transactionInformationLabel}}</h1>  
                                 <v-card
                                   class="mx-auto"
                                   max-width="344"
@@ -105,18 +105,18 @@
                                     <v-divider></v-divider>
                                     <br/>
                                     <div class="text--primary">
-                                      <p>Transaction type: <b>Payment</b></p>
-                                      <p>Description: <b>Points acquisition</b></p>
-                                      <p>Points to acquire: <b>{{transactionInformation.points}}</b></p>
-                                      <p>Bank account information:</p>
+                                      <p>{{texts.transactionTypeLabel}}: <b>{{texts.paymentLabel}}</b></p>
+                                      <p>{{texts.descriptionLabel}}: <b>{{texts.acquisitionPoinsLabel}}</b></p>
+                                      <p>{{texts.pointsToAcquireLabel}}: <b>{{transactionInformation.points}}</b></p>
+                                      <p>{{texts.bankAccountInformation}}:</p>
                                       <ul style="margin-top: -4%; margin-bottom: 4%">
-                                          <li>Bank: <b>{{transactionInformation.bankAccount.bank}}</b></li>
-                                          <li>Holder name: <b>{{transactionInformation.bankAccount.holderName}}</b></li>
-                                          <li>Account number: <b>{{transactionInformation.bankAccount.accountNumber}}</b></li>
+                                          <li>{{texts.bankLabel}}: <b>{{transactionInformation.bankAccount.bank}}</b></li>
+                                          <li>{{texts.accountHolderName}}: <b>{{transactionInformation.bankAccount.holderName}}</b></li>
+                                          <li>{{texts.accountNumberLabel}}: <b>{{transactionInformation.bankAccount.accountNumber}}</b></li>
                                       </ul>
-                                      <p>Amount: <b>${{transactionInformation.amount}}</b></p>
-                                      <p>Service commission: <b>${{transactionInformation.totalCommision}}</b></p>                                      
-                                      <h2>Total: <b style="color: green">${{transactionInformation.total}}</b></h2>
+                                      <p>{{texts.amountLabel}}: <b>${{transactionInformation.amount}}</b></p>
+                                      <p>{{texts.serviceCommissionLabel}}: <b>${{transactionInformation.totalCommision}}</b></p>                                      
+                                      <h2>{{texts.totalCostLabel}}: <b style="color: green">${{transactionInformation.total}}</b></h2>
                                     </div>
                                   </v-card-text>
                                   
@@ -133,17 +133,17 @@
                         >
                             
                             <v-col cols="10" lg="12" class="bordered rightSeparationForGuide">
-                                <h1 class="text-center subtittle" style="margin-bottom: 5%">How it works?</h1>
-                                <p>The following applies when buying points: </p>
+                                <h1 class="text-center subtittle" style="margin-bottom: 5%">{{texts.howItWorksLabel}}</h1>
+                                <p>{{texts.whatAppliesWhenBuyingPointsLabel}}: </p>
                                 <ul>
-                                    <li>When buying points, a service commission is aggregated to the total amount.</li>
-                                    <li>Points won't appear instantly in your account.</li>
-                                    <li>Points take from 1 to 2 days to appear in your account.</li>
-                                    <li>You'll receive an email with the payments specifications.</li>
-                                    <li>You'll receive an email when the transaction has been successfully processed.</li>
+                                    <li>{{texts.serviceCommissionAggLabel}}.</li>
+                                    <li>{{texts.pointsWontAppearInstantlyLabel}}.</li>
+                                    <li>{{texts.pointsPurchaseDelayLabel}}.</li>
+                                    <li>{{texts.purchaseEmailLabel}}.</li>
+                                    <li>{{texts.proccessedPurchaseEmailLabel}}.</li>
                                 </ul>  
                                 <br/>
-                                <h3>For any issues, please contact us by sending an email to: <span style="color: blue">premileal@gmail.com</span></h3>                              
+                                <h3>{{texts.contactUsForIssuesLabel}}: <span style="color: blue">premileal@gmail.com</span></h3>                              
 
                             </v-col>
                         </v-row>
@@ -168,7 +168,7 @@
                             >
                               <v-list-item>
                                 <v-list-item-content>
-                                  <v-list-item-title class="headline">Processing payment.</v-list-item-title>
+                                  <v-list-item-title class="headline">{{texts.proccessingPaymentLabel}}.</v-list-item-title>
                                 </v-list-item-content>
                               </v-list-item>  
                               <v-progress-circular
@@ -178,7 +178,7 @@
                                 indeterminate
                               ></v-progress-circular>                                                                        
                               <v-card-text>
-                                This could take some time. Please, be patient.
+                                {{texts.bePatientLabel}}.
                               </v-card-text>                                                                                                                
                             </v-card>                                  
                         </v-overlay>
@@ -224,6 +224,7 @@ import bankAccountService from "@/services/bankAccount/bankAccountService";
 import settingsService from "@/services/settings/settingsService";
 import paymentService from "@/services/payment/paymentService";
 import keyInputService from "@/services/keyInput/keyInputService";
+import internationalizationService from '@/services/internationalization/internationalizationService';
 
 import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
@@ -250,6 +251,7 @@ export default class PointsPurchase extends Vue{
     ];    
 
     userData: any = null;
+    
     settings: any = {
         serviceCommision: 0,
         gatewayCommision: 0,
@@ -284,6 +286,39 @@ export default class PointsPurchase extends Vue{
 
     serverResponse: any = null;
 
+    textsTranslated: any = null;
+    texts = {
+        pointsAcquisitionLabel: "Points Acquisition",
+        addPointsLabel: "Add points",
+        pointsLabel: "Points",
+        bankAccountLabel: "Bank Account",
+        cancelLabel: "Cancel",
+        payLabel: "Pay",
+        transactionInformationLabel: "Transaction information",
+        transactionTypeLabel: "Transaction type",
+        paymentLabel: "Payment",
+        descriptionLabel: "Description",
+        acquisitionPoinsLabel: "Points acquisition",
+        pointsToAcquireLabel: "Points to acquire",
+        bankAccountInformation: "Bank account information",
+        bankLabel: "Bank",
+        accountHolderName: "Holder name",
+        accountNumberLabel: "Account number",
+        amountLabel: "Amount",
+        serviceCommissionLabel: "Service commission",
+        totalCostLabel: "Total",
+        howItWorksLabel: "How it works?",
+        whatAppliesWhenBuyingPointsLabel: "The following applies when buying points",
+        serviceCommissionAggLabel: "When buying points, a service commission is aggregated to the total amount",
+        pointsWontAppearInstantlyLabel: "Points won't appear instantly in your account",
+        pointsPurchaseDelayLabel: "Points take from 1 to 2 days to appear in your account",
+        purchaseEmailLabel: "You'll receive an email with the payments specifications",
+        proccessedPurchaseEmailLabel: "You'll receive an email when the transaction has been successfully processed",
+        contactUsForIssuesLabel: "For any issues, please contact us by sending an email to",
+        proccessingPaymentLabel: "Processing payment",
+        bePatientLabel: "This could take some time. Please, be patient"
+    }
+
     rules = {
         required: (value: any) => !!value || 'Required.',
         minimumPoints: (value: number) => value > 4 || 'You can minimum adquire 5 points.'
@@ -291,12 +326,67 @@ export default class PointsPurchase extends Vue{
 
     mounted(){
         this.userData = this.getUserData;
-        this.transactionInformation.userID = this.userData.userID;
-        this.transactionInformation.userEmail = this.userData.email;
-        this.transactionInformation.userName = this.userData.name;
-        this.transactionInformation.customer = this.userData.stripe_id;
-        this.getUserbankAccounts();
-        this.getSettings();
+
+        if(this.userData.userID === undefined){
+          const user = localStorage.getItem('userData');
+          if(user){
+            this.userData = JSON.parse(user);
+            this.obtainTerms();
+          }
+          else {
+            this.$router.push({ name: 'home' }).catch((error) => {
+                console.log(error);
+            });      
+          }      
+        }
+        else {
+            this.transactionInformation.userID = this.userData.userID;
+            this.transactionInformation.userEmail = this.userData.email;
+            this.transactionInformation.userName = this.userData.name;
+            this.transactionInformation.customer = this.userData.stripe_id;
+            this.getUserbankAccounts();
+            this.getSettings();
+            this.obtainTerms();
+        }
+        this.checkLanguage(); 
+              
+    }
+
+    obtainTerms(){
+      const terms = localStorage.getItem('termsTranslated');
+      if(terms){
+        try{
+            this.textsTranslated = JSON.parse(terms);
+        }catch(e){
+            localStorage.removeItem('terms');
+        }
+      }
+    }
+
+    checkLanguage(){
+      if(this.userData.preferredLanguage !== 'en-us'){
+        this.getTranslations(this.userData.preferredLanguage);
+        if(this.textsTranslated){
+            this.texts = internationalizationService.pointsPurchase.translate(this.textsTranslated, this.texts);
+        }
+      }
+      else {
+        this.texts = internationalizationService.pointsPurchase.assignDefaultLabels();
+      }      
+    }
+
+    async getTranslations(language: string){        
+      try {
+        const translations = await internationalizationService.getTermsTranslations(language);        
+        if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+            this.textsTranslated = translations.data;
+            this.texts = internationalizationService.pointsPurchase.translate(this.textsTranslated, this.texts);
+            const parsedTerms = JSON.stringify(this.textsTranslated);
+            localStorage.setItem('termsTranslated', parsedTerms);
+        } 
+      } catch (error) {
+        console.log(error);
+      }         
     }
 
     get getUserData() {

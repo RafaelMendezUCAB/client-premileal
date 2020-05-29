@@ -1,7 +1,7 @@
 <template>
     <v-app light>
         <div>
-          <Navbar></Navbar>
+          <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>
             <v-row
@@ -77,7 +77,7 @@
 
                                 <v-card>
                                   <v-card-title>
-                                    Withdraws
+                                    Withdrawals
                                     <v-spacer></v-spacer>
                                     <v-text-field
                                       v-model="search"
@@ -128,13 +128,8 @@ import Navbar from '@/components/navbar/Navbar.vue';
 export default class WithdrawalHistory extends Vue{
 
     transactionDescription = '';
+    userData: any = null;
     
-    icons = [
-        'facebook',
-        'twitter',        
-        'instagram',
-        'youtube',
-    ];
 
     rules = {
         required: (value: any) => !!value || 'Required.',
@@ -323,6 +318,14 @@ export default class WithdrawalHistory extends Vue{
             details: 'details'
         },
     ];
+
+    mounted(){
+        this.userData = this.getUserData;
+    }
+
+    get getUserData() {
+      return this.$store.getters["user/getUserData"];
+    }
 
     seeDetails(){
         console.log("see details");

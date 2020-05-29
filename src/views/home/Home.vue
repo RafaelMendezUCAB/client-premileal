@@ -2,7 +2,8 @@
   <v-app light>
       <v-content>
         <div>
-        <Navbar></Navbar>
+        <Navbar :userData="userData"></Navbar>
+        <!--<Navbar v-if="userData !== null" :userData="userData" :userName="userData.name"></Navbar>-->
         </div>
         <section>
           <div>
@@ -13,19 +14,19 @@
                 <v-layout mx-8 column align-center justify-center >
                   <div class="  ">
                     <h1 class="welcomeTittle">
-                      Join Premileal Rewards
+                      {{texts.joinPremilealLabel}}
                     </h1>
                   </div>
                   <div class="subheading text-xs-center">
                     <h2 class="WelcomeSubtittle"> 
-                      Start Earning Points
+                      {{texts.startEarningPointsLabel}}
                     </h2>
                   </div>
                   <v-btn class="button white--text" color="blue" rounded dark x-large href="/signup" v-if="!userLoggedIn">
-                    Become a Member Now
+                    {{texts.becomeMemberLabel}}
                   </v-btn> 
                   <v-btn class="button white--text"  color="blue" rounded dark x-large @click="gotoBuyPoints" v-if="userLoggedIn">
-                    Acquire points now!
+                    {{texts.AcquirePointsLabel}}!
                   </v-btn>                   
                 </v-layout>
               </v-col>            
@@ -44,9 +45,7 @@
                     <v-card tile flat outlined class=" mx-1" height="100%">
                       <v-card-text>
                         <p class="miniCard1" >
-                          Welcome to Premileal, an exclusive loyalty program. The journey of this rewarding program begins 
-                          after the purchase of Premileal points from our web application. It entitles you to a lifetime of premium 
-                          privileges, benefits and services. Plus if you earn more points you can get better rewards!
+                          {{texts.premilealDescriptionLabel}}
                         </p>                      
                       </v-card-text>
                     </v-card>
@@ -54,14 +53,14 @@
               <v-flex xs6 order-md2 order-xs1>
                     <v-card  flat outlined dark color="blue darken-1" class="pt-4 mr-1" height="100%">
                       <v-card-text>
-                        <h1 class=" miniCard2  ">JOIN OUR LOYALTY PROGRAM</h1>                  
+                        <h1 class=" miniCard2">{{texts.joinLoyaltyProgramLabel}}</h1>                  
                       </v-card-text>
                     </v-card>
                   </v-flex>
               <v-flex xs6 order-md2 order-xs1>
                     <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mx-1" height="100%">
                       <v-card-text>
-                        <h1 class="miniCard2 thin white--text">GET EXCLUSIVE REWARDS</h1>                     
+                        <h1 class="miniCard2 thin white--text">{{texts.getExclusiveRewardsLabel}}</h1>                     
                       </v-card-text>
                     </v-card>
                   </v-flex>                  
@@ -69,10 +68,7 @@
                     <v-card tile flat outlined class=" mr-1" height="100%">
                       <v-card-text>
                         <h3 class="miniCard1  pt-3" style="font-weight: 450;">
-                          The objective of our platform is for you, our dear client, to be able to benefit from the purchase 
-                          of points, special offers that you will receive only for being a member of our rewards program, and 
-                          the possibility of exchanging the points that you have obtained for other products or money among other 
-                          promotions that will arrive soon.
+                          {{texts.premilealObjectiveLabel}}
                         </h3>                      
                       </v-card-text>
                     </v-card>
@@ -82,7 +78,7 @@
         </v-container>
         <v-container fluid>
           <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text" style="text-align:center">
-            <h3 class="Title">About our Membership Plans</h3>
+            <h3 class="Title">{{texts.aboutMembershipPlansLabel}}</h3>
           </div>
           <div style="max-width: 80%; margin: auto;">
             <v-flex xs-center>
@@ -91,19 +87,18 @@
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th class="  titleTable wrap blue--text" width= "30%" >Plan Level</th>
-                        <th class=" titleTable wrap black--text" width=""  >Description</th>
+                        <th class="  titleTable wrap blue--text" width= "30%" >{{texts.levelPlanLabel}}</th>
+                        <th class=" titleTable wrap black--text" width=""  >{{texts.descriptionLabel}}</th>
                       </tr>            
                     </thead>
                     <tbody>
                       <tr>
                         <td class="subtitleTable" style="color: rgb(205, 127, 50);">
                           <v-icon left class=" iconTable font-weight-bold py-3 pt-1" style="color: rgb(205, 127, 50);">mdi-triangle</v-icon>
-                          Basic
+                          {{texts.basicPlanLabel}}
                         </td>
                         <td class="sizeDescriptionTable">
-                          Once your Premileal account is created, you become a Basic level user for free, at this level you can 
-                          buy the number of points you want, after registering a bank account on our platform.
+                          {{texts.onceMemberLabel}}
                         </td>
                       </tr>
                       <tr>
@@ -112,8 +107,7 @@
                           Premium
                         </td>
                         <td class="sizeDescriptionTable">
-                          When you purchase a lifetime Premium subscription to your account 
-                          for the price of $25.00, you will be able to get 20% more points every time you make a new purchase.
+                          {{texts.oncePremiumLabel}}
                         </td>
                       </tr>               
                       <tr>
@@ -122,9 +116,7 @@
                           Gold
                         </td>
                         <td class="sizeDescriptionTable">
-                          The maximun membership level that an user can reach after the purchase of a lifetime Premiun 
-                          account and being constantly participating on promotions and purchase of products. In addition, 
-                          users who reach this level will receive 2500 points for each purchase.
+                          {{texts.onceGoldLabel}}
                         </td>   
                       </tr>
                     </tbody>
@@ -133,23 +125,23 @@
               </v-card>
                 <div style="text-align:center">
                   <v-btn class="mt-5 white--text" column align-center color="blue" rounded  dark x-large @click="gotoSuscriptions">
-                    Learn More
+                    {{texts.learnMoreLabel}}
                   </v-btn>    
                 </div>
             </v-flex>
           </div>
           <div>
             <center>
-              <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text"><h3 class="Title">What are you waiting for?</h3></div>
+              <div class="flex display-2 font-weight-medium pb-6 pt-12 blue--text"><h3 class="Title">{{texts.waitingForLabel}}</h3></div>
               <div class="text-wrap">
                 <v-layout row pb-8>
                   <v-flex xs6 order-md2 order-xs1>
                     <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mx-1" height="100%">
                       <div class="mx-2"> <v-icon large left> mdi-cart </v-icon></div>
                       <v-card-text>
-                        <h1 class="white--text ml-n2">Purchase</h1>
+                        <h1 class="white--text ml-n2">{{texts.purchaseLabel}}</h1>
                         <p class="body-1 white--text pt-3" style="font-weight: 450;">
-                          Buy points and you will be closer to becoming a premium member!
+                          {{texts.buyToBecomePremiumLabel}}
                         </p>                      
                       </v-card-text>
                     </v-card>
@@ -158,9 +150,9 @@
                     <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mr-1">
                       <div class="mx-2"> <v-icon large left> mdi-barcode-scan </v-icon></div>          
                       <v-card-text>
-                        <h1 class="white--text ml-n2" >Redeem</h1>
+                        <h1 class="white--text ml-n2" >{{texts.redeemLabel}}</h1>
                         <p class="body-1 white--text pt-3" style="font-weight: 450;">
-                          Use coupons with your next purchases and get benefits in our products
+                          {{texts.useCouponsLabel}}
                         </p>            
                       </v-card-text>
                     </v-card>
@@ -169,9 +161,9 @@
                     <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mx-1 mt-1">
                       <div class="mx-2"> <v-icon large left> mdi-chevron-triple-up </v-icon></div>          
                       <v-card-text>
-                        <h1 class="white--text">Update</h1>
+                        <h1 class="white--text">{{texts.updateLabel}}</h1>
                         <p class="body-1 white--text pt-3" style="font-weight: 450;">
-                          Become a Premiun Loyalty Member to get better prizes and earn more points
+                          {{texts.becomePremiumLabel}}
                         </p>          
                       </v-card-text>
                     </v-card>
@@ -180,9 +172,9 @@
                     <v-card tile flat outlined dark color="blue darken-1" class="pt-4 mr-1 mt-1">
                       <div class="mx-2"> <v-icon large left> mdi-wifi </v-icon></div>                    
                       <v-card-text>
-                        <h1 class="white--text">Stay with us</h1>
+                        <h1 class="white--text">{{texts.stayLabel}}</h1>
                         <p class="body-1 white--text pt-3" style="font-weight: 450;">
-                          Keep an eye on our website to discover new products, and promotions!
+                          {{texts.keepAnEyeLabel}}
                         </p>
                       </v-card-text>
                     </v-card>
@@ -209,6 +201,7 @@ import Navbar from '@/components/navbar/Navbar.vue';
 
 /* --- Services --- */
 import userService  from '../../services/user/userService';
+import internationalizationService from '@/services/internationalization/internationalizationService';
 
 /* --- Types --- */
 import User from '../../types/user/User';
@@ -219,8 +212,9 @@ import User from '../../types/user/User';
     Navbar
   }
 })
-export default class Logout extends Vue{  
+export default class Logout extends Vue{    
   
+  userData: any = null;
   email = "";
   subscribed = false;
   
@@ -229,11 +223,39 @@ export default class Logout extends Vue{
 
   userLoggedIn = this.$store.state.user.loggedIn; 
 
-  logout(){
+  textsTranslated: any = null;
 
+  texts = {
+    joinPremilealLabel: "",
+    startEarningPointsLabel: "",
+    becomeMemberLabel: "",
+    AcquirePointsLabel: "",
+    premilealDescriptionLabel: "",
+    joinLoyaltyProgramLabel: "",
+    getExclusiveRewardsLabel: "",
+    premilealObjectiveLabel: "",
+    aboutMembershipPlansLabel: "",
+    waitingForLabel: "",
+    levelPlanLabel: "",
+    descriptionLabel: "",
+    basicPlanLabel: "",
+    onceMemberLabel: "",
+    oncePremiumLabel: "",
+    onceGoldLabel: "",
+    learnMoreLabel: "",
+    purchaseLabel: "",
+    buyToBecomePremiumLabel: "",
+    redeemLabel: "",
+    useCouponsLabel: "",
+    updateLabel: "",
+    becomePremiumLabel: "",
+    stayLabel: "",
+    keepAnEyeLabel: ""
+  }
+
+  logout(){
     this.$store.dispatch('user/setSessionStatus', false);
     this.userLoggedIn = false;
-
     fa.signOut().then(function() {
       console.log('Signout successful!');
     }).catch(function(error) {
@@ -241,9 +263,62 @@ export default class Logout extends Vue{
     });
   }
 
-  mounted(){
-    //console.log("getter es: ", this.$store.state.user.sessionStatus);
+  mounted(){    
+    this.userData = this.getUserData;
+    console.log("en home es: ", this.userData);
+    if(this.userData.userID === undefined){
+      const user = localStorage.getItem('userData');
+      if(user){
+        this.userData = JSON.parse(user);
+        this.obtainTerms();
+      }
+      else {
+        this.userData.preferredLanguage = 'en-us';        
+      }      
+    }
+    else {
+      this.obtainTerms();
+    }
+    this.checkLanguage();    
   }
+
+  get getUserData() {
+    return this.$store.getters["user/getUserData"];
+  }
+
+  obtainTerms(){
+    const terms = localStorage.getItem('termsTranslated');
+    if(terms){
+      try{
+          this.textsTranslated = JSON.parse(terms);
+      }catch(e){
+          localStorage.removeItem('terms');
+      }
+    }
+  }
+
+  async getTranslations(language: string){        
+    const translations = await internationalizationService.getTermsTranslations(language);        
+    if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+        this.textsTranslated = translations.data;
+        this.texts = internationalizationService.home.translate(this.textsTranslated, this.texts);
+        const parsedTerms = JSON.stringify(this.textsTranslated);
+        localStorage.setItem('termsTranslated', parsedTerms);
+    }      
+  }
+
+  checkLanguage(){
+    if(this.userData.preferredLanguage !== 'en-us'){
+      this.getTranslations(this.userData.preferredLanguage);
+      console.log("Antes de traducir ", this.textsTranslated);
+      if(this.textsTranslated){
+          this.texts = internationalizationService.home.translate(this.textsTranslated, this.texts);
+      }
+    }
+    else {
+      this.texts = internationalizationService.home.assignDefaultLabels();
+    }
+  }  
 
   profile(){
     this.$router.push({ name: 'profile'});
