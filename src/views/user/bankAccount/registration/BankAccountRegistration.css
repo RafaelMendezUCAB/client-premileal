@@ -1,0 +1,159 @@
+.imgCentered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: .5%;
+}
+
+.noMarginTop{
+    margin-top: -1%;
+}
+
+.bottomSeparation{
+    margin-bottom: 2%;
+}
+
+.noBoxShadow{
+    box-shadow: none;
+}
+
+.pageTitle{
+    color: #119FF5;
+}
+
+.custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+}
+
+.elevated{
+    box-shadow: 1px !important;
+}
+.mainTittle{
+    color:#119FF5;
+
+}
+
+.subtittle{
+    color: gray;
+}
+
+.bordered{
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 1%     
+}
+
+.marginFirstChargeForm{
+    margin-top:10%;
+}
+
+@media only screen and (max-width: 1263px) {
+    .mainTittle{
+        font-size: 35px;
+    }
+    .subtittle{
+        font-size: 33px;
+    }
+    .bottomMargin{
+        margin-bottom: -5%;
+    }
+    .bankIcon{
+      font-size: 70px;
+    }
+}
+
+@media only screen and (max-width: 959px) {
+    .mainTittle{
+        font-size: 30px;
+    }
+    .subtittle{
+        font-size: 28px;
+    }
+    .bottomMargin{
+        margin-bottom: -5%;
+    }
+    .rowBottomMargin{
+        margin-bottom: -7%;
+    }
+    .bankIcon{
+      font-size: 60px;
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .mainTittle{
+        font-size: 23px;
+    }
+    .subtittle{
+        font-size: 21px;
+    }
+    .bottomMargin{
+        margin-bottom: -10%;
+    }
+    .rowBottomMargin{
+        margin-bottom: -15%;
+    }
+    .marginFirstChargeForm{
+        margin-bottom: -15%;
+    }
+    .bankIcon{
+      font-size: 50px;
+    }
+    .bottomSeparation{
+      margin-bottom: 5%;
+    }
+}
+
+@media only screen and (min-width: 1264px) {
+    .rightSeparationForGuide{
+        margin-right: 10%;
+    }
+
+    .rightSeparationForTransactionInformation{
+        margin-right: 25%;
+    }
+
+    .mainTittle{
+        margin-right: 8%;
+    }
+    .bankIcon{
+      font-size: 70px;
+    }
+    .bottomSeparation{
+      margin-bottom: 1%;
+    }
+}
+
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }    
+}

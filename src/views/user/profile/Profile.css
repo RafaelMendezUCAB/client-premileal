@@ -1,0 +1,53 @@
+.pageTitle{
+    color:#119FF5;
+}
+
+.mainTitle{
+    color: gray;
+}
+
+.uploadPhoto:hover{
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1263px) {    
+    .iconSize{
+        font-size: 53px;
+    }
+    .titleSize{
+        font-size: 33px;
+        margin-bottom: 1%;
+    }
+}
+
+@media only screen and (max-width: 959px) {
+    .iconSize{
+        font-size: 50px;
+    }
+    .titleSize{
+        font-size: 30px;
+        margin-bottom: 2%;
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .iconSize{
+        font-size: 45px;
+    }
+    .titleSize{
+        font-size: 25px;
+        margin-bottom: 6%;
+    }
+}
+
+@media only screen and (min-width: 1264px) {
+    .cardForm{
+        margin-top: 2%;
+    }
+    .iconSize{
+        font-size: 55px;
+    }
+    .titleSize{
+        font-size: 35px;
+    }
+}

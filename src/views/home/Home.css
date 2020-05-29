@@ -1,0 +1,237 @@
+.Title{
+  font-size: 50px;
+}
+
+.welcomeTittle{
+   color: #EEEEEE;
+   font-weight: medium;
+   font-size: 70px;
+}
+
+.WelcomeSubtittle{
+  color: #EEEEEE;
+  font-weight: medium;
+  font-size: 40px;
+}
+  
+.button {
+  color: #2196F3;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.premilealTitle{
+  font-weight: bold;
+  font-weight: medium;
+  font-size: 60px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+  color: #2196F3;
+}
+
+.parallaxHeight{
+  height: 500;
+}
+
+.miniCard1{
+  font-weight: 450;
+  padding-top: 12px;
+  color: black;
+}
+
+.miniCard2{
+  font-weight: 450;
+  padding-top: 18px;  
+  color: white ;
+  background-color:#1E88E5 ;
+  font-size: 40px;
+}
+
+.titleTable{
+  font-size: 35px;
+  font-weight: medium;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  text-align: center;
+}
+
+.subtitleTable{
+  font-size: 30px;
+  font-weight: bold;
+  text-align: start;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.iconTable{
+  font-size: 30px;
+}
+
+@media only screen and (max-width: 1500px) {
+  .miniCard2{
+    padding-top: 25px;
+    font-size: 42px;
+  }
+}
+@media only screen and (max-width: 1263px) {
+  .welcomeTittle{
+      font-size: 60px;
+  }
+
+  .WelcomeSubtittle{
+    font-size: 40px;
+  }
+  .button{
+    font-size: 20px;
+  }
+  .premilealTitle{
+    font-size: 55px;
+  }
+  .miniCard2{
+    padding-top: 40px;
+    font-size: 30px;
+  }
+}
+
+@media only screen and (max-width: 959px) {
+  .Title{
+    font-size: 40px;
+  }
+  .welcomeTittle{
+      font-size: 55px;
+  }
+  .WelcomeSubtittle{
+    font-size: 35px;
+  }
+  .button{
+    font-size: 20px;
+  }
+  .premilealTitle{
+    font-size: 50px;
+  }
+  .miniCard2{
+    padding-top: 50px;
+    font-size: 28px;
+  }
+}
+
+@media only screen and (max-width: 779px) {
+  .welcomeTittle{
+      font-size: 50px;
+  }
+  .WelcomeSubtittle{
+    font-size: 30px;
+  }
+  .button{
+    font-size: 18px;
+  }
+  .premilealTitle{
+    font-size: 45px;
+  }
+  .miniCard2{
+    padding-top: 55px;
+    font-size: 28px;
+  }
+}
+
+@media only screen and (max-width: 626px) {
+  .welcomeTittle{
+      font-size: 38px;
+  }
+  .WelcomeSubtittle{
+    font-size: 25px;
+  }
+  .button{
+    font-size: 15px;
+  }
+  .premilealTitle{
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .welcomeTittle{
+      font-size: 29px;
+  }
+  .WelcomeSubtittle{
+    font-size: 20px;
+  }
+  .button{
+    font-size: 15px;
+  }
+  .premilealTitle{
+    font-size: 35px;
+  }
+  .miniCard1{
+    font-size: 16px;
+  }
+  .miniCard2{
+    padding-top: 100px;
+    font-size: 26px;
+  }
+  .Title{
+    font-size: 32px;
+  }
+  .titleTable{
+    font-size: 22px;
+  }
+  .subtitleTable{
+    font-size: 20px;
+  }
+  .sizeDescriptionTable{
+    font-size: 14px;
+    font-weight: 450;
+    color: black;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+@media only screen and (max-width: 405px) {
+  .welcomeTittle{
+      font-size: 21px;
+  }
+  .WelcomeSubtittle{
+    font-size: 18px;
+  }
+  .button{
+    font-size: 15px;
+  }
+  .premilealTitle{
+    font-size: 30px;
+  }
+  .miniCard1{
+    font-size: 12px;
+  }
+  .miniCard2{
+    padding-top: 100px;
+    font-size: 22px;
+  }
+
+}
+@media only screen and (max-width: 370px) {
+  .sizeDescriptionTable{
+    font-size: 12px;
+  }
+  .subtitleTable{
+    font-size: 12px;
+  }
+  .iconTable{
+    font-size: 15px;
+  }
+}
+
+
+@media only screen and (min-width: 1264px) {
+  .rightSeparationForGuide{
+      margin-right: 10%;
+  }
+
+  .rightSeparationForTransactionInformation{
+      margin-right: 25%;
+  }
+
+  .joinLabel{
+    padding-bottom: 1%;
+  }
+  
+}
