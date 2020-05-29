@@ -13,6 +13,10 @@ export default {
     return serverResponse.data;
   },
 
+  getBankAccountStatus(bankAccountID: number){
+    return api.bankAccount.getBankAccountStatus(bankAccountID);
+  },
+
   /* ---------------------- POST METHODS -------------------------- */
   saveBankAccount(bankAccountData: any){
     return api.bankAccount.saveBankAccount(bankAccountData);
@@ -25,6 +29,10 @@ export default {
 
   setBankAccountAsPrimary(bankAccountID: number, userID: number){
     return api.bankAccount.setBankAccountAsPrimary(bankAccountID, userID);
+  },
+
+  updateBankAccount(bankAccountID: number, data: any){
+    return api.bankAccount.updateBankAccount(bankAccountID, data);
   }
 
   /* ---------------------- DELETE METHODS -------------------------- */

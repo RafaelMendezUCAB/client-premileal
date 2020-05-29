@@ -30,17 +30,24 @@
                                   class="mx-auto my-12"
                                   max-width="374"
                                 >
-                                  <v-avatar color="transparent" size="100" tile>
-                                    <!-- AQUI IRIA DONDE SE ALMACENA LA IMAGEN DEL USUARIO EN CASO DE TENERLA --> 
-                                      <img src="@/assets/icons/profile/no-image.png" 
-                                           alt="Avatar">
-                                  </v-avatar>
+                                    <v-avatar color="blue" size="100" v-if="userData !== null">                                                                   
+                                      <img 
+                                        :src="userData.image" 
+                                        alt="Avatar" 
+                                        v-if="userData.image !== undefined && userData.image !== ''"                                                         
+                                      >
+                                      <img 
+                                        src="@/assets/icons/profile/no-image.png" 
+                                        alt="Avatar"   
+                                        v-else                          
+                                      >
+                                    </v-avatar>
 
 
-                                  <v-card-text>                                    
-                                    <p>Name: <b>GABRIEL TOVAR</b></p>  
-                                    <p>E-mail address: <b>GATOVAR.14@UCAB.EDU.VE</b></p>
-                                    <p>Membership Level: <b style="color: amber;">Gold</b></p>                                      
+                                  <v-card-text v-if="userData !== null">                                    
+                                    <p>Name: <b>{{userData.name}}  {{userData.lastName}}</b></p>  
+                                    <p>E-mail address: <b>{{userData.email}}</b></p>
+                                    <p>Membership Level: <b style="color: amber;">{{userData.levelName}}</b></p>                                      
                                   </v-card-text>                                
                                 </v-card>
 
@@ -52,14 +59,14 @@
                                     >
                                       See Profile
                                 </v-btn>
-                                <v-btn
+                                <!--<v-btn
                                       color="primary"                                      
                                       style="margin-bottom:10%"
                                       class="topMargin"
                                       @click="gotoWithdrawalHistory"
                                     >
                                       Withdrawal History
-                                </v-btn>                                
+                                </v-btn>        -->                        
 
                             </v-col>
                         </v-row>
@@ -118,6 +125,8 @@ import Component from "vue-class-component";
 import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
 
+import paymentService from '@/services/payment/paymentService';
+
 @Component({
     components:{
         Footer,
@@ -129,200 +138,55 @@ export default class BankAccountStatus extends Vue{
     transactionDescription = '';
     userData: any = null;   
 
+    serverResponse: any = null;
+
     rules = {
         required: (value: any) => !!value || 'Required.',
     }
 
     search = '';
 
-    headers = [
- 
-        {
-            text: 'ID',
-            value: 'id'
-        },                      
-        {
-            text: 'Plan Level',
-            value: 'planLevel'
-        },  
+    headers = [                                       
         {
             text: 'Bank',
-            value: 'bank'
+            value: 'bankname'
         },         
         {
             text: 'Amount',
-            value: 'amountMoney'
-        },                       
+            value: 'amount'
+        },  
         {
-            text: 'Points',
-            value: 'amountPoints'
-        },                 
-        {
-            text: 'Time',
-            value: 'time'
-        },        
-        {
-            text: 'Date',
-            value: 'date'
-        },
+            text: 'Description',
+            value: 'description'
+        },                                                                      
         {
             text: 'Details',
             value: 'details'
         }
     ];
 
-    movements = [
-        {
-            type: 'Payment',
-            id:'0001',
-            planLevel:'Basic',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'CitiBank',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0002',
-            planLevel:'Basic',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'JP MORGAN',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0003',
-            planLevel:'Basic',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'Bank Of America',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0004',
-            planLevel:'Basic',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'CitiBank',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0005',
-            planLevel:'Basic',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'CitiBank',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0006',
-            planLevel:'Premium',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'CitiBank',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0007',
-            planLevel:'Premium',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'CitiBank',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0008',
-            planLevel:'Premium',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'CitiBank',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0009',
-            planLevel:'Premium',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'Wells Fargo',            
-            time:'13:50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0010',
-            planLevel:'Gold',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'USBank',            
-            time:'11:43',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0011',
-            planLevel:'Gold',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'Goldman Sachs',            
-            time:'16:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0012',
-            planLevel:'Gold',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'CitiBank',            
-            time:'18:30',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            id:'0013',
-            planLevel:'Gold',
-            amountPoints: '75',
-            amountMoney: '$74.25',
-            bank:'CitiBank',            
-            time:'15:00',
-            date: '05/14/2020',
-            details: 'details'
-        },
-    ];
+    movements: any = [];
 
     mounted(){
         this.userData = this.getUserData;
+        this.getPaymentHistory();
     }
 
     get getUserData() {
       return this.$store.getters["user/getUserData"];
+    }
+
+    async getPaymentHistory(){
+        try {
+            this.serverResponse = await paymentService.getUserPayments(this.userData.userID);
+            this.movements = this.serverResponse.data;
+            this.movements.forEach((movement: any) => {
+                movement.details = 'details';
+            });
+            console.log("movements: ", this.movements);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     seeDetails(){

@@ -27,6 +27,10 @@ export default {
   /* --------------------- API CALLS ------------------------------- */
     buyPoints(payment: any){
         return api.payment.pointsPurchase(payment);
+    },
+
+    getUserPayments(userID: any){
+        return api.payment.getUserPayments(userID);
     }
 
 };

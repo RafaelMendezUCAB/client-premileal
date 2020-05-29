@@ -102,7 +102,8 @@
                                         {{texts.newBankAccountHolderNameLabel}}.
                                       </v-card-text>
 
-                                      <v-text-field                                                    
+                                      <v-text-field   
+                                        v-model="newHolderName"                                                 
                                         :label="texts.accountHolderName"
                                         outlined
                                         style="padding-left: 2%; padding-right: 2%"   
@@ -207,16 +208,17 @@
                                     >
                                       <v-list-item>
                                         <v-list-item-content>
-                                          <v-list-item-title class="headline" v-if="transactionDescription == 'Deleting bank account'">{{texts.bankAccountSuccessfullyDelete}}</v-list-item-title>
-                                          <v-list-item-title class="headline" v-if="transactionDescription == 'Updating Bank Account'">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
-                                          <v-list-item-title class="headline" v-if="transactionDescription == 'Setting bank account as primary.'">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription === texts.deletingBankAccountLabel">{{texts.bankAccountSuccessfullyDelete}}</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription === texts.updatingBankAccountLabel">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription === texts.settingPrimaryBankAccountLabel">{{texts.bankAccountSuccessfullyUpdated}}</v-list-item-title>
+                                          <v-list-item-title class="headline" v-if="transactionDescription === texts.errorUpdatingBankAccount">{{texts.errorUpdatingBankAccount}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
 
                                       <v-card-text>
-                                        <span v-if="transactionDescription == 'Deleting bank account'">{{texts.bankAccountDeletedLabel}}.</span>
-                                        <span v-if="transactionDescription == 'Updating Bank Account'">{{texts.bankAccountUpdatedLabel}}.</span>
-                                        <span v-if="transactionDescription == 'Setting bank account as primary.'">{{texts.bankAccountUpdatedLabel}}.</span>
+                                        <span v-if="transactionDescription == texts.deletingBankAccountLabel">{{texts.bankAccountDeletedLabel}}.</span>
+                                        <span v-if="transactionDescription == texts.updatingBankAccountLabel || transactionDescription == texts.settingPrimaryBankAccountLabel">{{texts.bankAccountUpdatedLabel}}.</span>
+                                        <!--<span v-if="transactionDescription == texts.settingPrimaryBankAccountLabel">{{texts.bankAccountUpdatedLabel}}.</span>-->                                        
                                       </v-card-text>                                                                          
 
                                       <v-btn
@@ -313,6 +315,7 @@ export default class BankAccountStatus extends Vue{
 
     userData: any = null;
     serverResponse: any = null;
+    newHolderName = '';
 
     rules = {
         required: (value: any) => !!value || 'Required.',
@@ -322,18 +325,18 @@ export default class BankAccountStatus extends Vue{
 
     headers = [
         {
-            text: 'Type',
+            text: 'Amount',
             align: 'start',
             sortable: false,
-            value: 'type'
+            value: 'pay_amount'
         },
         {
-            text: 'Amount',
-            value: 'amount'
+            text: 'Description',
+            value: 'pay_description'
         },
         {
             text: 'Date',
-            value: 'date'
+            value: 'hs_date'
         },
         {
             text: 'Details',
@@ -341,86 +344,7 @@ export default class BankAccountStatus extends Vue{
         }
     ];
 
-    movements = [
-        {
-            type: 'Payment',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$80.00',
-            date: '05/04/2020',
-            details: 'details'
-        },
-        {
-            type: 'Withdraw',
-            amount: '$260.00',
-            date: '04/28/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$25.50',
-            date: '03/03/2020',
-            details: 'details'
-        },
-        {
-            type: 'Withdraw',
-            amount: '$175.50',
-            date: '02/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Withdraw',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-        {
-            type: 'Payment',
-            amount: '$75.50',
-            date: '05/14/2020',
-            details: 'details'
-        },
-    ];
+    movements: any = [];
 
     textsTranslated: any = null;
     texts = {
@@ -451,7 +375,8 @@ export default class BankAccountStatus extends Vue{
       searchLabel: "Search",      
       deletingBankAccountLabel: "Deleting bank account.",
       settingPrimaryBankAccountLabel: "Setting bank account as primary.",
-      updatingBankAccountLabel: "Updating Bank Account."
+      updatingBankAccountLabel: "Updating Bank Account.",
+      errorUpdatingBankAccount: "Error. bank account couldn't be updated!"
     }
 
     mounted(){
@@ -471,10 +396,25 @@ export default class BankAccountStatus extends Vue{
       }
       else {
         this.bankAccount = this.getBankAccountData;
+        this.getBankAccountStatus();
         console.log(this.bankAccount);
         this.obtainTerms();
       }
       this.checkLanguage();                
+    }
+
+    async getBankAccountStatus(){
+      try {
+        this.serverResponse = await bankAccountService.getBankAccountStatus(this.bankAccount.bankAccountID);
+        this.movements = this.serverResponse.data.movements;
+        console.log("pays are: ", this.movements)
+        this.movements.forEach((movement: any) => {
+          movement.details = 'details';
+        });
+        console.log("pays are: ", this.movements);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     obtainTerms(){
@@ -531,13 +471,33 @@ export default class BankAccountStatus extends Vue{
       this.editingBankAccount = true;
     }
 
-    updateBankAccountHolderName(){
+    async updateBankAccountHolderName(){
       this.editingBankAccount = false;
       this.processingTransaction = true;
-      setTimeout(() => {
+      this.bankAccount.holderName = this.newHolderName;
+      try {
+        this.serverResponse = await bankAccountService.updateBankAccount(this.bankAccount.bankAccountID, {
+          bankAccount: this.bankAccount,
+          userData: this.userData
+        });
+        this.processingTransaction = false;
+        if(this.serverResponse.data === 'Bank Account successfully updated.'){
+          this.bankAccount.holderName = this.newHolderName;
+        }
+        else {
+          this.transactionDescription = this.texts.errorUpdatingBankAccount;
+        }
+        this.successfullTransaction = true;
+        console.log(this.transactionDescription);
+        console.log("texts are: ", this.texts);
+      } catch (error) {
+        console.log(error);
+      }
+
+      /*setTimeout(() => {
           this.processingTransaction = false;
           this.successfullTransaction = true;
-        }, 5000);
+        }, 5000);*/
     }
 
     eliminateBankAccount(){
@@ -571,14 +531,14 @@ export default class BankAccountStatus extends Vue{
         this.transactionDescription = this.texts.settingPrimaryBankAccountLabel;
         this.processingTransaction= true;
         this.serverResponse = await bankAccountService.setBankAccountAsPrimary(this.bankAccount.bankAccountID, this.userData.userID);
+        this.processingTransaction = false;
         if(this.serverResponse.data === "Bank Account now is primary."){
-          this.bankAccount.isPrimary = true;
-          this.processingTransaction = false;
-          this.successfullTransaction = true;
+          this.bankAccount.isPrimary = true;                    
         }
         else {
-          console.log("error");
+          this.transactionDescription = this.texts.errorUpdatingBankAccount;
         }
+        this.successfullTransaction = true;
       } catch (error) {
         console.log(error);
       }

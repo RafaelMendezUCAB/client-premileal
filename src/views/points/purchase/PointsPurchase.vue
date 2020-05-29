@@ -279,7 +279,8 @@ export default class PointsPurchase extends Vue{
         totalCommision: 0.00,
         serviceCommision: 0,
         stripeCommision: 0,
-        total: 0.00
+        total: 0.00,
+        preferredLanguage: ''
     }
 
     userRegisteredBanks: any = [];
@@ -344,6 +345,7 @@ export default class PointsPurchase extends Vue{
             this.transactionInformation.userEmail = this.userData.email;
             this.transactionInformation.userName = this.userData.name;
             this.transactionInformation.customer = this.userData.stripe_id;
+            this.transactionInformation.preferredLanguage = this.userData.preferredLanguage;
             this.getUserbankAccounts();
             this.getSettings();
             this.obtainTerms();
@@ -426,10 +428,10 @@ export default class PointsPurchase extends Vue{
             this.serverResponse = await paymentService.buyPoints(this.transactionInformation);
             this.sendingPayment = false;
             if(this.serverResponse.data === "Points payment successfully proccessed."){
-                this.userData.points = this.userData.points + this.transactionInformation.points;
-                this.$store.dispatch('user/addPoints', this.userData.points);  
+                /*this.userData.points = this.userData.points + this.transactionInformation.points;
+                this.$store.dispatch('user/addPoints', this.userData.points);  */
                 this.transactionTitle = 'Payment successfully processed!'
-                this.transactionDescription = 'Now you have '+ this.userData.points+ ' available for use.';                
+                this.transactionDescription = "You'll be notified when payment has been approved";                
             }
             else if(this.serverResponse.data === "Bank account is not verified."){
                 this.transactionTitle = 'Error! Payment rejected.';

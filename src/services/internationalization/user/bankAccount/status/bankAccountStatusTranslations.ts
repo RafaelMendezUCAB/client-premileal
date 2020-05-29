@@ -67,7 +67,7 @@ export default {
             bankAccountMovements: "Bank Account Movements",
             movementsLabel: "Movements",
             searchLabel: "Search",
-            deletingBankAccountLabel: "Updating Bank Account.",
+            deletingBankAccountLabel: "Deleting bank account.",
             settingPrimaryBankAccountLabel: "Setting bank account as primary.",
             updatingBankAccountLabel: "Updating Bank Account.",
             errorUpdatingBankAccount: "Error. bank account couldn't be updated!"

@@ -101,7 +101,7 @@
                   </label>
               </v-list-item>
               
-              <v-list-item @click="gotoWithdrawalHistory">
+              <!--<v-list-item @click="gotoWithdrawalHistory">
                   <v-list-item-icon>
                       <v-icon class="blue--text">mdi-account-cash</v-icon>
                   </v-list-item-icon>
@@ -111,7 +111,7 @@
                       >
                       <v-list-item-title class="blue--text">{{texts.withdrawalHistoryLabel}}</v-list-item-title>
                       </label>
-              </v-list-item>              
+              </v-list-item> -->             
 
               <v-list-item @click="gotoBuyPoints">
                   <v-list-item-icon>
