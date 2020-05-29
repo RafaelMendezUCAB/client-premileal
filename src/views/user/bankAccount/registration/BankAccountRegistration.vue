@@ -493,7 +493,9 @@ export default class BankAccountRegistration extends Vue{
     }
 
     gotoValidationForm(){
-      this.$router.push({name: 'userBankAccountVerification'});
+      this.$router.push({name: 'userBankAccountVerification'}).catch(error => {
+        console.log(error);
+      });
     }
 
     backToForm(){
@@ -502,7 +504,9 @@ export default class BankAccountRegistration extends Vue{
     }
 
     gotoHome(){
-        this.$router.push({ name: 'home' });
+      this.$router.push({ name: 'home' }).catch(error => {
+        console.log(error);
+      });
     }
     
 }

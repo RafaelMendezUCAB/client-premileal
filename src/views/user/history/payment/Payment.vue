@@ -194,11 +194,15 @@ export default class BankAccountStatus extends Vue{
     }
     
     gotoProfile(){
-      this.$router.push({name: 'userProfile'});
+      this.$router.push({name: 'userProfile'}).catch(error => {
+        console.log(error);
+      });
     }
 
     gotoWithdrawalHistory(){
-      this.$router.push({name: 'userWithdrawalHistory'});
+      this.$router.push({name: 'userWithdrawalHistory'}).catch(error => {
+        console.log(error);
+      });
     }
     
 }

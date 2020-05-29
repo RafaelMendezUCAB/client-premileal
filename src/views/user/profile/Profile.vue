@@ -438,7 +438,9 @@ export default class UserProfile extends Vue{
         this.obtainTerms();
       }
       else {
-        this.$router.push({ name: 'home' });      
+        this.$router.push({ name: 'home' }).catch(error => {
+          console.log(error);
+        });      
       }      
     }
     else {
@@ -547,7 +549,9 @@ export default class UserProfile extends Vue{
   }
   
   gotoProfileSettings(){
-    this.$router.push({ name: 'userProfileSettings'});
+    this.$router.push({ name: 'userProfileSettings'}).catch(error => {
+      console.log(error);
+    });
   }
 
   seeDetails(bankAccount: any){
@@ -559,7 +563,9 @@ export default class UserProfile extends Vue{
     }
     this.$store.dispatch('bankAccount/setBankAccount', this.bankAccount);
     //this.$router.push({ name: 'userBankAccountStatus', params: { bankAccount: this.bankAccount } });
-    this.$router.push({ name: 'userBankAccountStatus', });
+    this.$router.push({ name: 'userBankAccountStatus', }).catch(error => {
+      console.log(error);
+    });
   }
 
   async updateUser(){    

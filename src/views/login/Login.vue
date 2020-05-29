@@ -263,7 +263,9 @@ import Footer from '@/components/footer/Footer.vue';
           else {
             this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
             this.$store.dispatch('user/setSessionStatus', true);
-            this.$router.push({ name: 'home' });
+            this.$router.push({ name: 'home' }).catch(error => {
+              console.log(error);
+            });
           }
         } catch (error) {
           console.log(error);

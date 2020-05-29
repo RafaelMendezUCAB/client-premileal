@@ -396,7 +396,9 @@ export default class Signup extends Vue{
                 const user = JSON.stringify(this.serverResponse.data[0]);
                 localStorage.setItem('userData', user);
                 localStorage.setItem('userLoggedIn', "true");
-                this.$router.push({ name: 'home' });
+                this.$router.push({ name: 'home' }).catch(error => {
+                  console.log(error);
+                });
             }
         }        
     }                

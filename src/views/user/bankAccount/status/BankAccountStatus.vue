@@ -513,7 +513,9 @@ export default class BankAccountStatus extends Vue{
     closeWindow(){
       this.transactionDescription = '',
       this.successfullTransaction = false;
-      this.$router.push({name: 'registroCuentaBancaria'});
+      this.$router.push({name: 'registroCuentaBancaria'}).catch(error => {
+        console.log(error);
+      });
     }
 
     restrictNumbersAndSpecialCharacters(event: any){
@@ -523,7 +525,9 @@ export default class BankAccountStatus extends Vue{
     }
 
     verifyBankAccount(){
-      this.$router.push({ name: 'userBankAccountVerification' });
+      this.$router.push({ name: 'userBankAccountVerification' }).catch(error => {
+        console.log(error);
+      });
     }   
 
     async assignAsPrimary(){

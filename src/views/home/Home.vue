@@ -321,19 +321,27 @@ export default class Logout extends Vue{
   }  
 
   profile(){
-    this.$router.push({ name: 'profile'});
+    this.$router.push({ name: 'profile'}).catch(error => {
+      console.log(error);
+    });
   }
 
   login(){
-    this.$router.push({ name: 'login'});
+    this.$router.push({ name: 'login'}).catch(error => {
+      console.log(error);
+    });
   }  
 
   gotoSuscriptions(){
-    this.$router.push({ name: 'suscriptions'});
+    this.$router.push({ name: 'suscriptions'}).catch(error => {
+      console.log(error);
+    });
   }
 
   gotoBuyPoints(){
-    this.$router.push({ name: 'pointsPurchase' });
+    this.$router.push({ name: 'pointsPurchase' }).catch(error => {
+      console.log(error);
+    });
   }
 
 }
