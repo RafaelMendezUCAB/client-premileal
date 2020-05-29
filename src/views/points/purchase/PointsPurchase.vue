@@ -244,11 +244,7 @@ export default class PointsPurchase extends Vue{
     transactionTitle = '';
     transactionDescription = '';
     
-    items = [
-        'Citibank',
-        'Bank Of America',
-        'CAF'
-    ];    
+    items: any = [];    
 
     userData: any = null;
     
@@ -317,7 +313,13 @@ export default class PointsPurchase extends Vue{
         proccessedPurchaseEmailLabel: "You'll receive an email when the transaction has been successfully processed",
         contactUsForIssuesLabel: "For any issues, please contact us by sending an email to",
         proccessingPaymentLabel: "Processing payment",
-        bePatientLabel: "This could take some time. Please, be patient"
+        bePatientLabel: "This could take some time. Please, be patient",
+        
+        paymentSuccessfullyProcessed: "Payment successfully processed!",
+        paymentNotifiedLabel: "You'll be notified when payment has been approved",
+        paymentRejectedLabel: "Error! Payment rejected.",
+        usingBankAccountNotVerifiedLabel: "You are trying to use a bank account that has not been verified.",
+        paymentRejectedDescriptionLabel: "An error ocurred. Your payment has been rejected."
     }
 
     rules = {
@@ -403,8 +405,6 @@ export default class PointsPurchase extends Vue{
 
     async getUserbankAccounts(){
         this.userRegisteredBanks = await bankAccountService.getUserBankAccounts(this.userData.userID);
-        //this.userRegisteredBanks = await bankAccountService.getUserBankAccounts(26);
-        console.log("banks: ", this.userRegisteredBanks);
     }    
 
     @Watch('transactionInformation.points')
@@ -427,26 +427,30 @@ export default class PointsPurchase extends Vue{
     async buyPoints(){
         if(this.valid){            
             this.sendingPayment = true;
-            this.serverResponse = await paymentService.buyPoints(this.transactionInformation);
-            this.sendingPayment = false;
-            if(this.serverResponse.data === "Points payment successfully proccessed."){
-                /*this.userData.points = this.userData.points + this.transactionInformation.points;
-                this.$store.dispatch('user/addPoints', this.userData.points);  */
-                this.transactionTitle = 'Payment successfully processed!'
-                this.transactionDescription = "You'll be notified when payment has been approved";                
-            }
-            else if(this.serverResponse.data === "Bank account is not verified."){
-                this.transactionTitle = 'Error! Payment rejected.';
-                this.transactionDescription = 'You are trying to use a bank account that has not been verified.';
-            }
-            else {
-                this.transactionTitle = 'Error! Payment rejected.';
-                this.transactionDescription = 'An error ocurred. Your payment has been rejected.';
-            }
-            this.transactionFinished = true;
+            try {
+                this.serverResponse = await paymentService.buyPoints(this.transactionInformation);
+                this.sendingPayment = false;
+                if(this.serverResponse.data === "Points payment successfully proccessed."){
+                    /*this.userData.points = this.userData.points + this.transactionInformation.points;
+                    this.$store.dispatch('user/addPoints', this.userData.points);  */
+                    this.transactionTitle = this.texts.paymentSuccessfullyProcessed
+                    this.transactionDescription = this.texts.paymentNotifiedLabel;                
+                }
+                else if(this.serverResponse.data === "Bank account is not verified."){
+                    this.transactionTitle = this.texts.paymentRejectedLabel;
+                    this.transactionDescription = this.texts.usingBankAccountNotVerifiedLabel;
+                }
+                else {
+                    this.transactionTitle = this.texts.paymentRejectedLabel;
+                    this.transactionDescription = this.texts.paymentRejectedDescriptionLabel;
+                }
+                this.transactionFinished = true;
+            } catch (error) {
+                console.log("An error ocurred buying point: ", error);
+            }            
         }
         else {
-            console.log("fill everything");
+            console.log("Information is not complete.");
         }    
     }
 

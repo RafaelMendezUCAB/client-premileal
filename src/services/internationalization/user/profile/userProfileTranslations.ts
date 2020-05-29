@@ -29,6 +29,15 @@ export default {
                     case 'englishLabel': viewTexts.englishLabel = term.text; break;
                     case 'spanishLabel': viewTexts.spanishLabel = term.text; break;
                     case 'selectPreferredLanguageLabel': viewTexts.selectPreferredLanguageLabel = term.text; break;
+                    case 'userUpdatedLabel': viewTexts.userUpdatedLabel = term.text; break;
+                    case 'dataUpdatedLabel': viewTexts.dataUpdatedLabel = term.text; break;
+                    case 'anErrorOcurredLabel': viewTexts.anErrorOcurredLabel = term.text; break;
+                    case 'dataNotUpdatedLabel': viewTexts.dataNotUpdatedLabel = term.text; break;
+                    case 'uploadingImageLabel': viewTexts.uploadingImageLabel = term.text; break;
+                    case 'bePatientLabel': viewTexts.bePatientLabel = term.text; break;
+                    case 'imageNotUploadedLabel': viewTexts.imageNotUploadedLabel = term.text; break;
+                    case 'imageUpdatedLabel': viewTexts.imageUpdatedLabel = term.text; break;
+                    case 'updatedImageLabel': viewTexts.updatedImageLabel = term.text; break;
                     default: break;
                 }
             });
@@ -62,7 +71,16 @@ export default {
             resetValuesLabel: "Reset values",
             englishLabel: "English",
             spanishLabel: "Spanish",
-            selectPreferredLanguageLabel: "Select preferred language"
+            selectPreferredLanguageLabel: "Select preferred language",
+            userUpdatedLabel: "User data successfully updated!",
+            dataUpdatedLabel: "Data has been updated.",
+            anErrorOcurredLabel: "An error ocurred!",
+            dataNotUpdatedLabel: "Data couldn't be updated. Please check you internet connection and try again.",
+            uploadingImageLabel: "Uploading image.",
+            bePatientLabel: "This could take some time. Please be patient.",
+            imageNotUploadedLabel: "Image couldn't be uploaded. Please check you internet connection and try again.",
+            imageUpdatedLabel: "User image successfully updated!",
+            updatedImageLabel: "Image has been updated."
         }
     }
 

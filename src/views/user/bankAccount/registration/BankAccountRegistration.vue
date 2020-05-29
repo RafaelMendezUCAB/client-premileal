@@ -339,7 +339,13 @@ export default class BankAccountRegistration extends Vue{
         createdMessagePart4: "with the exact amount of both deposits. If the information provided corresponds with the ones we have, then the Bank Account will now have a status of \"Verified\" which means, now is able for being use for any transaction inside our platform",
         thanksLabel: "Thanks for trusting us!",
         gotItLabel: "Got it!",
-        yesLabel: "Yes"
+        yesLabel: "Yes",        
+        routingNumberInvalidLabel: "Error. Routing number is invalid.",
+        routingNumberDoesntMatchLabel: "You've entered a routing number that doesn't belong to the bank selected. Please, change bank or routing number.",
+        bankAccountAlreadyExistsLabel: "Error. Bank account already exists.",
+        bankAccountAlreadyExistsDescriptionLabel: "You've entered a bank account that has already been registered before. If the problem persists, please contact us at: premileal@gmail.com",
+        networkErrorLabel: "Network Error!",
+        networkErrorDescriptionLabel: "There was a network error. Check your network connection and try again."
     }
 
     rules = {
@@ -465,8 +471,8 @@ export default class BankAccountRegistration extends Vue{
       this.loading = true;
       if(!this.routingNumberIsValid()){
           this.loading = false;
-          this.errorTittle = 'Error. Routing number is invalid.';
-          this.errorDescription = "You've entered a routing number that doesn't belong to the bank selected. Please, change bank or routing number.";
+          this.errorTittle = this.texts.routingNumberInvalidLabel;
+          this.errorDescription = this.texts.routingNumberDoesntMatchLabel;
           this.error = true;
       }
       else {
@@ -474,16 +480,16 @@ export default class BankAccountRegistration extends Vue{
           this.serverResponse = await bankAccountService.saveBankAccount(this.bankAccountData);
           this.loading = false;
           if(this.serverResponse.data === 'Bank account already exists.'){               
-              this.errorTittle = 'Error. Bank account already exists.';
-              this.errorDescription = "You've entered a bank account that has already been registered before. If the problem persists, please contact us at: premileal@gmail.com";
+              this.errorTittle = this.texts.bankAccountAlreadyExistsLabel;
+              this.errorDescription = this.texts.bankAccountAlreadyExistsDescriptionLabel;
               this.error = true; 
           }
           else if(this.serverResponse.data === 'Bank account created.'){
               this.step = "3";
           }
           else {
-              this.errorTittle = 'Network Error!';
-              this.errorDescription = 'There was a network error. Check your network connection and try again.';
+              this.errorTittle = this.texts.networkErrorLabel;
+              this.errorDescription = this.texts.networkErrorDescriptionLabel;
               this.error = true;
           }
         } catch (error) {

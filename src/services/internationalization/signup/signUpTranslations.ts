@@ -25,10 +25,10 @@ export default {
                     case 'englishLabel': viewTexts.englishLabel = term.text; break;
                     case 'spanishLabel': viewTexts.spanishLabel = term.text; break;
                     case 'selectPreferredLanguageLabel': viewTexts.selectPreferredLanguageLabel = term.text; break;
-                    /*case '': viewTexts.becomePremiumLabel = term.text; break;
-                    case '': viewTexts.stayLabel = term.text; break;
-                    case '': viewTexts.keepAnEyeLabel = term.text; break;
-                    case '': viewTexts.waitingForLabel = term.text; break;*/
+                    case 'errorLabel': viewTexts.errorLabel = term.text; break;
+                    case 'emailInUseLabel': viewTexts.emailInUseLabel = term.text; break;
+                    case 'networkErrorLabel': viewTexts.networkErrorLabel = term.text; break;
+                    case 'networkErrorDescriptionLabel': viewTexts.networkErrorDescriptionLabel = term.text; break;
                     default: break;
                 }
             });
@@ -58,7 +58,11 @@ export default {
             invalidEmailLabel: "Invalid e-mail.",
             englishLabel: "English",
             spanishLabel: "Spanish",
-            selectPreferredLanguageLabel: "Select preferred language"
+            selectPreferredLanguageLabel: "Select preferred language",
+            errorLabel: "Error!",
+            emailInUseLabel: "The email address is already registered. Please, use another or login.",
+            networkErrorLabel: "Network Error!",
+            networkErrorDescriptionLabel: "There was a network error. Check your network connection and try again."
         }
     },    
 

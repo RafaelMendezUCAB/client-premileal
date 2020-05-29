@@ -33,12 +33,11 @@ export default {
                     case 'contactUsForIssuesLabel': viewTexts.contactUsForIssuesLabel = term.text; break;
                     case 'proccessingPaymentLabel': viewTexts.proccessingPaymentLabel = term.text; break;
                     case 'bePatientLabel': viewTexts.bePatientLabel = term.text; break;
-                    /*case '': viewTexts.useCouponsLabel = term.text; break;
-                    case '': viewTexts.updateLabel = term.text; break;
-                    case '': viewTexts.becomePremiumLabel = term.text; break;
-                    case '': viewTexts.stayLabel = term.text; break;
-                    case '': viewTexts.keepAnEyeLabel = term.text; break;
-                    case '': viewTexts.waitingForLabel = term.text; break;*/
+                    case 'paymentSuccessfullyProcessed': viewTexts.paymentSuccessfullyProcessed = term.text; break;
+                    case 'paymentNotifiedLabel': viewTexts.paymentNotifiedLabel = term.text; break;
+                    case 'paymentRejectedLabel': viewTexts.paymentRejectedLabel = term.text; break;
+                    case 'usingBankAccountNotVerifiedLabel': viewTexts.usingBankAccountNotVerifiedLabel = term.text; break;
+                    case 'paymentRejectedDescriptionLabel': viewTexts.paymentRejectedDescriptionLabel = term.text; break;
                     default: break;
                 }
             });
@@ -76,7 +75,12 @@ export default {
             proccessedPurchaseEmailLabel: "You'll receive an email when the transaction has been successfully processed",
             contactUsForIssuesLabel: "For any issues, please contact us by sending an email to",
             proccessingPaymentLabel: "Processing payment",
-            bePatientLabel: "This could take some time. Please, be patient"
+            bePatientLabel: "This could take some time. Please, be patient",
+            paymentSuccessfullyProcessed: "Payment successfully processed!",
+            paymentNotifiedLabel: "You'll be notified when payment has been approved",
+            paymentRejectedLabel: "Error! Payment rejected.",
+            usingBankAccountNotVerifiedLabel: "You are trying to use a bank account that has not been verified.",
+            paymentRejectedDescriptionLabel: "An error ocurred. Your payment has been rejected."
         }
     }
 

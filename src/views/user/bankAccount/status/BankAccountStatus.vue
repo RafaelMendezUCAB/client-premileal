@@ -51,7 +51,7 @@
                                       style="margin-bottom:10%"                                      
                                       @click="assignAsPrimary"
                                     >
-                                      Assign as primary account
+                                      {{texts.assignAsPrimaryLabel}}
                                     </v-btn>                           
                                   </v-card-text>                                
                                 </v-card>
@@ -318,7 +318,7 @@ export default class BankAccountStatus extends Vue{
     newHolderName = '';
 
     rules = {
-        required: (value: any) => !!value || 'Required.',
+      required: (value: any) => !!value || 'Required.',
     }
 
     search = '';
@@ -376,7 +376,8 @@ export default class BankAccountStatus extends Vue{
       deletingBankAccountLabel: "Deleting bank account.",
       settingPrimaryBankAccountLabel: "Setting bank account as primary.",
       updatingBankAccountLabel: "Updating Bank Account.",
-      errorUpdatingBankAccount: "Error. bank account couldn't be updated!"
+      errorUpdatingBankAccount: "Error. bank account couldn't be updated!",
+      assignAsPrimaryLabel: "Assign as primary account"
     }
 
     mounted(){

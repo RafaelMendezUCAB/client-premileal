@@ -368,7 +368,16 @@ export default class UserProfile extends Vue{
     resetValuesLabel: "Reset values",
     englishLabel: "English",
     spanishLabel: "Spanish",
-    selectPreferredLanguageLabel: "Select preferred language"
+    selectPreferredLanguageLabel: "Select preferred language",
+    userUpdatedLabel: "User data successfully updated!",
+    dataUpdatedLabel: "Data has been updated.",
+    anErrorOcurredLabel: "An error ocurred!",
+    dataNotUpdatedLabel: "Data couldn't be updated. Please check you internet connection and try again.",
+    uploadingImageLabel: "Uploading image.",
+    bePatientLabel: "This could take some time. Please be patient.",
+    imageNotUploadedLabel: "Image couldn't be uploaded. Please check you internet connection and try again.",
+    imageUpdatedLabel: "User image successfully updated!",
+    updatedImageLabel: "Image has been updated."
   };
 
   languages = [
@@ -593,16 +602,16 @@ export default class UserProfile extends Vue{
           });
           this.proccessingTransaction = false;
           if(this.serverResponse.data === "User successfully updated."){
-            this.successfullTransactionTitle = "User data successfully updated!";
-            this.successfullTransactionDescription = "Data has been updated.";
+            this.successfullTransactionTitle = this.texts.userUpdatedLabel;
+            this.successfullTransactionDescription = this.texts.dataUpdatedLabel;
             this.successfullTransaction = true;
             this.assignNewValuesToUserData();
             this.resetValues();
           }
           else {
             this.error = true;
-            this.errorTittle = "An error ocurred!";
-            this.errorDescription = "Data couldn't be updated. Please check you internet connection and try again.";
+            this.errorTittle = this.texts.anErrorOcurredLabel;
+            this.errorDescription = this.texts.dataNotUpdatedLabel;
           }
         } catch (error) {
           console.log("An error ocurred: ", error);
@@ -633,8 +642,8 @@ export default class UserProfile extends Vue{
   async uploadImage(event: any){
     if(event){
       this.proccessingTransaction = true;
-      this.transactionTittle = 'Uploading image.';
-      this.transactionDescription = 'This could take some time. Please be patient.';
+      this.transactionTittle = this.texts.uploadingImageLabel;
+      this.transactionDescription = this.texts.bePatientLabel;
       const newUserProfilePhoto = event || event.dataTransfer.files;
 
       try {
@@ -643,12 +652,12 @@ export default class UserProfile extends Vue{
         if(serverResponse.data === 'An error ocurred.'){
           this.proccessingTransaction = false;
           this.error = true;
-          this.errorTittle = 'An error ocurred!';
-          this.errorDescription = "Image couldn't be uploaded. Please check you internet connection and try again.";
+          this.errorTittle = this.texts.anErrorOcurredLabel;
+          this.errorDescription = this.texts.imageNotUploadedLabel;
         }
         else {
-          this.successfullTransactionTitle = "User image successfully updated!";
-          this.successfullTransactionDescription = "Image has been updated.";
+          this.successfullTransactionTitle = this.texts.imageUpdatedLabel;
+          this.successfullTransactionDescription = this.texts.updatedImageLabel;
           this.successfullTransaction = true;
           this.userData.image = imageURL;
           this.proccessingTransaction = false;

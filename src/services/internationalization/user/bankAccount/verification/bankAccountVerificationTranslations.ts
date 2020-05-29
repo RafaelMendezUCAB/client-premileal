@@ -40,8 +40,12 @@ export default {
                     case 'exactAmountLabel': viewTexts.exactAmountLabel = term.text; break;
                     case 'depositsDelayLabel': viewTexts.depositsDelayLabel = term.text; break;
                     case 'makeSureNoDepositsLabel': viewTexts.makeSureNoDepositsLabel = term.text; break;
-                    /*case '': viewTexts.keepAnEyeLabel = term.text; break;
-                    case '': viewTexts.waitingForLabel = term.text; break;*/
+                    case 'unverifiedLabel': viewTexts.unverifiedLabel = term.text; break;
+                    case 'networkErrorLabel': viewTexts.networkErrorLabel = term.text; break;
+                    case 'networkErrorDescriptionLabel': viewTexts.networkErrorDescriptionLabel = term.text; break;
+                    case 'errorInvalidAmountLabel': viewTexts.errorInvalidAmountLabel = term.text; break;
+                    case 'errorInvalidAmountDescriptionLabel': viewTexts.errorInvalidAmountDescriptionLabel = term.text; break;
+                    case 'sendingNotificationLabel': viewTexts.sendingNotificationLabel = term.text; break;
                     default: break;
                 }
             });
@@ -86,7 +90,13 @@ export default {
             importantLabel: "Important!",
             exactAmountLabel: "Insert the exact amount including decimals. Ex: 0.75",
             depositsDelayLabel: "Remember deposits could take days to appear in your bank account balance. Be patient",
-            makeSureNoDepositsLabel: "If you mark that you didn't received money, then you could notify us and we will get it touch with you as soon as we can. Make sure the transaction didn't take place"  
+            makeSureNoDepositsLabel: "If you mark that you didn't received money, then you could notify us and we will get it touch with you as soon as we can. Make sure the transaction didn't take place"  ,
+            unverifiedLabel: "Unverified",      
+            networkErrorLabel: "Network Error!",
+            networkErrorDescriptionLabel: "There was a network error. Check your network connection and try again.",
+            errorInvalidAmountLabel: "Error. Invalid amounts!",
+            errorInvalidAmountDescriptionLabel: "The amounts you have entered didn't match with the ones we have. Please, try again.",
+            sendingNotificationLabel: "Sending notification."
         }
     }
 

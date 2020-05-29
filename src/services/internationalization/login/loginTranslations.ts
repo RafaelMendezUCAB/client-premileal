@@ -15,11 +15,11 @@ export default {
                     case 'loginSignUpLabel': viewTexts.loginSignUpLabel = term.text; break;
                     case 'LoadingDataLabel': viewTexts.LoadingDataLabel = term.text; break;
                     case 'bePatientLabel': viewTexts.bePatientLabel = term.text; break;
-                    /*case '': viewTexts.basicPlanLabel = term.text; break;
-                    case '': viewTexts.onceMemberLabel = term.text; break;
-                    case '': viewTexts.oncePremiumLabel = term.text; break;
-                    case '': viewTexts.onceGoldLabel = term.text; break;
-                    case '': viewTexts.learnMoreLabel = term.text; break;
+                    case 'errorLabel': viewTexts.errorLabel = term.text; break;
+                    case 'loginWrongCredentialsLabel': viewTexts.loginWrongCredentialsLabel = term.text; break;
+                    case 'networkErrorLabel': viewTexts.networkErrorLabel = term.text; break;
+                    case 'networkErrorDescriptionLabel': viewTexts.networkErrorDescriptionLabel = term.text; break;
+                    /*case '': viewTexts.learnMoreLabel = term.text; break;
                     case '': viewTexts.purchaseLabel = term.text; break;
                     case '': viewTexts.buyToBecomePremiumLabel = term.text; break;
                     case '': viewTexts.redeemLabel = term.text; break;
@@ -48,7 +48,11 @@ export default {
             loginDontHaveAccountLabel: "Don't have an account?",
             loginSignUpLabel: "Sign Up",
             LoadingDataLabel: "Loading data",
-            bePatientLabel: "This could take some time. Please, be patient."
+            bePatientLabel: "This could take some time. Please, be patient.",
+            errorLabel: "Error!",
+            loginWrongCredentialsLabel: "Email or password incorrect. Please, try again.",
+            networkErrorLabel: "Network Error!",
+            networkErrorDescriptionLabel: "There was a network error. Check your network connection and try again.",
         }
     }
 
