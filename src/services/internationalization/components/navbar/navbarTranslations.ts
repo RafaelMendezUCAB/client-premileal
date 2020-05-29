@@ -1,18 +1,18 @@
 export default {
 
-    /*translate(terms: any, viewTexts: any){
+    translate(terms: any, viewTexts: any){
         if(terms.length > 0){
             terms.forEach((term: any) => {
                 switch(term.name){
-                    case '': viewTexts.joinPremilealLabel = term.text; break;
-                    case '': viewTexts.startEarningPointsLabel = term.text; break;
-                    case '': viewTexts.becomeMemberLabel = term.text; break;
-                    case '': viewTexts.AcquirePointsLabel = term.text; break;
-                    case '': viewTexts.premilealDescriptionLabel = term.text; break;
-                    case '': viewTexts.joinLoyaltyProgramLabel = term.text; break;
-                    case '': viewTexts.getExclusiveRewardsLabel = term.text; break;
-                    case '': viewTexts.premilealObjectiveLabel = term.text; break;
-                    case '': viewTexts.aboutMembershipPlansLabel = term.text; break;
+                    case 'buyPointsLabel': viewTexts.buyPointsLabel = term.text; break;
+                    case 'navBarLoginLabel': viewTexts.navBarLoginLabel = term.text; break;
+                    case 'menuHomeLabel': viewTexts.menuHomeLabel = term.text; break;
+                    case 'profileLabel': viewTexts.profileLabel = term.text; break;
+                    case 'menuAddBankAccountLabel': viewTexts.menuAddBankAccountLabel = term.text; break;
+                    case 'paymentHistoryLabel': viewTexts.paymentHistoryLabel = term.text; break;
+                    case 'withdrawalHistoryLabel': viewTexts.withdrawalHistoryLabel = term.text; break;
+                    case 'menuLogOutLabel': viewTexts.menuLogOutLabel = term.text; break;
+                    /*case '': viewTexts.aboutMembershipPlansLabel = term.text; break;
                     case '': viewTexts.levelPlanLabel = term.text; break;
                     case '': viewTexts.descriptionLabel = term.text; break;
                     case '': viewTexts.basicPlanLabel = term.text; break;
@@ -28,7 +28,7 @@ export default {
                     case '': viewTexts.becomePremiumLabel = term.text; break;
                     case '': viewTexts.stayLabel = term.text; break;
                     case '': viewTexts.keepAnEyeLabel = term.text; break;
-                    case '': viewTexts.waitingForLabel = term.text; break;
+                    case '': viewTexts.waitingForLabel = term.text; break;*/
                     default: break;
                 }
             });
@@ -38,8 +38,15 @@ export default {
 
     assignDefaultLabels(){
         return {
-            
+            buyPointsLabel: "Buy Points!",
+            navBarLoginLabel: "Log In",
+            menuHomeLabel: "Home",
+            profileLabel: "Profile",
+            menuAddBankAccountLabel: "Add Bank Account",
+            paymentHistoryLabel: "Payment History",
+            withdrawalHistoryLabel: "Withdrawal History",
+            menuLogOutLabel: "Log out"
         }
-    }*/
+    }
 
 }

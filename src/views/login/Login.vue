@@ -30,7 +30,7 @@
                   <v-text-field 
                     color:red
                     v-model="userData.email"
-                    label= "E-mail address"
+                    :label= "texts.loginEmailLabel"
                     prepend-icon= "mdi-at"
                     :rules="[rules.required, rules.email]"                    
                     />
@@ -38,7 +38,7 @@
                     v-model="userData.password"
                    :type= "showPassword ? 'text' : 'password'" 
                     persistent-hint
-                    label= "Password"
+                    :label= "texts.loginPasswordLabel"
                     prepend-icon= "mdi-lock"
                    :append-icon= "showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="showPassword = !showPassword"
@@ -50,45 +50,45 @@
                         style="text-decoration: none;" 
                         to=""
                       >
-                          Forgot Password?
+                          {{texts.loginForgotPasswordLabel}}
                       </router-link>
                   </div>                     
                   <v-card-actions>
                     <v-btn depressed 
                            width=100% 
                            color="#0095ff" 
-                           class="white--text py-3 pb-7" 
+                           class="white--text py-3" 
                            @click="login"               
-                           >Log In</v-btn>
+                           >{{texts.navBarLoginLabel}}</v-btn>
                   </v-card-actions>
     
-                  <div class="mx-auto text-center" >OR</div>
+                  <div class="mx-auto text-center" >{{texts.loginOptionLabel}}</div>
     
                   <span></span>
     
                   <v-divider></v-divider>
     
                   <v-card-actions>
-                    <v-btn depressed @click="loginGoogle" width=100% color="#F4511E" class="white--text py-6 pb-10">
+                    <v-btn depressed @click="loginGoogle" width=100% color="#F4511E" class="white--text py-6 ">
                       <div class="pr-4 ml-n7 pl-4"><v-icon large left> mdi-google </v-icon></div>
-                      <div class=""> Log In with GOOGLE</div>
+                      <div class=""> {{texts.loginGoogleLabel}}</div>
                     </v-btn>
                   </v-card-actions>
     
                   <v-card-actions>
-                    <v-btn depressed @click="loginFacebook" width=100% color="#3B5998" class="white--text py-6 pb-10">
+                    <v-btn depressed @click="loginFacebook" width=100% color="#3B5998" class="white--text py-6 ">
                     <div class="pr-4 ml-n3 pl-4"> <v-icon large left> mdi-facebook </v-icon></div>
-                    <div class="ml-n1"> Log In with FACEBOOK</div>  
+                    <div class="ml-n1"> {{texts.loginFacebookLabel}}</div>  
                     </v-btn>
                   </v-card-actions>
                 
               </v-card-text>
             </v-card>
            <div class=" text-center pt-4">
-             Don't have an account?
+             {{texts.loginDontHaveAccountLabel}}
                <router-link style="text-decoration: none;" 
                             to="/Signup">
-                  Sign Up
+                  {{texts.loginSignUpLabel}}
                </router-link>
            </div>
 
@@ -101,7 +101,7 @@
                 >
                   <v-list-item>
                     <v-list-item-content>
-                      <v-list-item-title class="headline">Loading data</v-list-item-title>
+                      <v-list-item-title class="headline">{{texts.LoadingDataLabel}}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>  
                   <v-progress-circular
@@ -111,7 +111,7 @@
                     indeterminate
                   ></v-progress-circular>                                                                        
                   <v-card-text>
-                    This could take some time. Please, be patient.
+                    {{texts.bePatientLabel}}
                   </v-card-text>                                                                                                                
                 </v-card>                                  
             </v-overlay>
@@ -157,6 +157,7 @@ import { fa, providerGoogle, providerFacebook } from '../../firebase';
 
 // Services
 import userService from '../../services/user/userService';
+import internationalizationService from '@/services/internationalization/internationalizationService';
 
 // Components
 import Footer from '@/components/footer/Footer.vue';
@@ -189,6 +190,21 @@ import Footer from '@/components/footer/Footer.vue';
 
     serverResponse: any = null;
 
+    textsTranslated: any = null;
+    texts = {
+      loginEmailLabel: "E-mail address",
+      loginPasswordLabel: "Password",
+      loginForgotPasswordLabel: "Forgot Password?",
+      navBarLoginLabel: "Log In",
+      loginOptionLabel: "OR",
+      loginGoogleLabel: "Log In with GOOGLE",
+      loginFacebookLabel: "Log In with FACEBOOK",
+      loginDontHaveAccountLabel: "Don't have an account?",
+      loginSignUpLabel: "Sign Up",
+      LoadingDataLabel: "Loading data",
+      bePatientLabel: "This could take some time. Please, be patient."
+    }
+
     showPassword = false;
     rules = {
       required: (value: any) => !!value || 'Required.',
@@ -197,22 +213,61 @@ import Footer from '@/components/footer/Footer.vue';
         return pattern.test(value) || 'Invalid e-mail.'
       }
     }    
+
+  mounted(){    
+    this.obtainTerms();
+    if(this.textsTranslated !== null){
+      this.getTranslations(); 
+      this.texts = internationalizationService.login.translate(this.textsTranslated, this.texts);
+    }
+    else {
+      this.texts = internationalizationService.login.assignDefaultLabels();
+    }     
+  }
+
+  obtainTerms(){
+    const terms = localStorage.getItem('termsTranslated');
+    if(terms){
+      try{
+          this.textsTranslated = JSON.parse(terms);
+      }catch(e){
+          localStorage.removeItem('terms');
+      }
+    }
+  }
+
+  async getTranslations(){
+    try {
+      this.textsTranslated = await internationalizationService.getTermsTranslations('es');
+      this.texts = internationalizationService.login.translate(this.textsTranslated.data, this.texts);
+      const parsedTerms = JSON.stringify(this.textsTranslated.data);
+      localStorage.setItem('termsTranslated', parsedTerms);
+    } catch (error) {
+      console.log("error was: ",error);
+      console.log("revise su conexión a internet.");
+    }
+    
+  }
             
     async login(){
       if(this.valid || this.userData.type !== 'No Federado'){  
         this.loadingUserData = true;
-        this.serverResponse = await userService.login(this.userData);      
-        this.loadingUserData = false;
-        if(this.serverResponse.data === "Users doesn't exists."){
-          this.errorTittle = 'Error!';
-          this.errorDescription = 'Email or password incorrect. Please, try again.';
-          this.error = true;
-        }
-        else {
-          this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
-          this.$store.dispatch('user/setSessionStatus', true);
-          this.$router.push({ name: 'home' });
-        }
+        try {
+          this.serverResponse = await userService.login(this.userData);      
+          this.loadingUserData = false;
+          if(this.serverResponse.data === "Users doesn't exists."){
+            this.errorTittle = 'Error!';
+            this.errorDescription = 'Email or password incorrect. Please, try again.';
+            this.error = true;
+          }
+          else {
+            this.$store.dispatch('user/setUserData', this.serverResponse.data[0]);
+            this.$store.dispatch('user/setSessionStatus', true);
+            this.$router.push({ name: 'home' });
+          }
+        } catch (error) {
+          console.log(error);
+        }        
       }      
     }    
 
@@ -225,7 +280,8 @@ import Footer from '@/components/footer/Footer.vue';
     }
 
     loginGoogle(){
-      fa.signInWithPopup(providerGoogle).then(result =>{
+      try {
+        fa.signInWithPopup(providerGoogle).then(result =>{
         this.loadingUserData = true;
         const token = result.credential
         const user = result.user        
@@ -239,6 +295,10 @@ import Footer from '@/components/footer/Footer.vue';
           this.error = true;
         }        
       })
+      } catch (error) {
+        console.log(error);
+      }
+      
     }
 
     assignFacebookCredentials(user: any) {

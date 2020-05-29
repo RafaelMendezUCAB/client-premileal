@@ -20,5 +20,5 @@ export default interface User {
     stripe_id: string,
     stripe_connect_id: string,
     blocked: boolean,
-    preferred_language: string
+    preferredLanguage: string
 }

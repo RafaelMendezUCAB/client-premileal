@@ -1,7 +1,7 @@
 <template>
     <v-app light>
         <div>
-          <Navbar></Navbar>
+          <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>  
 
@@ -47,15 +47,15 @@
                 >
                     <v-col cols="10" lg="8">
                         <v-stepper-header>
-                        <v-stepper-step :complete="step > 1" step="1">Enter information</v-stepper-step>
+                        <v-stepper-step :complete="step > 1" step="1">{{texts.enterInformationLabel}}</v-stepper-step>
 
                         <v-divider></v-divider>
 
-                        <v-stepper-step :complete="step > 2" step="2">Confirm data</v-stepper-step>
+                        <v-stepper-step :complete="step > 2" step="2">{{texts.confirmDataLabel}}</v-stepper-step>
 
                         <v-divider></v-divider>
 
-                        <v-stepper-step step="3">Verify Bank Account</v-stepper-step>
+                        <v-stepper-step step="3">{{texts.verifyBankAccountLabel}}</v-stepper-step>
                     </v-stepper-header>
                     </v-col>
                     
@@ -66,7 +66,7 @@
                 <v-stepper-content step="1">
                   <div class="text-center">
                     <v-icon color="#119FF5" class="bankIcon">mdi-bank</v-icon>
-                    <h1 class="bottomSeparation subtittle">Bank Account Registration</h1>
+                    <h1 class="bottomSeparation subtittle">{{texts.bankAccountRegistrationLabel}}</h1>
                     
                     <v-form v-model="valid">
                       <v-row
@@ -77,7 +77,7 @@
                               <v-autocomplete
                                   v-model="bankAccountData.bank"
                                   :items="banks"
-                                  label="Bank*"
+                                  :label="texts.bankLabel"
                                   item-text="bank"                                  
                                   outlined
                                   :disabled="loading"
@@ -93,7 +93,7 @@
                           <v-col cols="10" sm="8" lg="4">
                               <v-text-field   
                                   v-model="bankAccountData.holderName"                      
-                                  label="Account holder name*"
+                                  :label="texts.accountHolderName"
                                   outlined                        
                                   :disabled="loading"
                                   :rules="[rules.required]"
@@ -110,7 +110,7 @@
                           <v-col cols="10" sm="8" lg="4">
                               <v-text-field   
                                   v-model="bankAccountData.accountNumber"                      
-                                  label="Account number*"
+                                  :label="texts.accountNumberLabel"
                                   outlined                        
                                   :disabled="loading"
                                   :rules="[rules.required, rules.minAccountNumberLength, rules.maxAccountNumberLength]"
@@ -127,7 +127,7 @@
                           <v-col cols="10" sm="8" lg="4">
                               <v-text-field  
                                   v-model="bankAccountData.routingNumber"                      
-                                  label="Account Routing Number*"
+                                  :label="texts.accountRoutingNumberLabel"
                                   outlined                        
                                   :disabled="loading"
                                   :rules="[rules.required, rules.minRoutingNumberLength, rules.maxRoutingNumberLength]"
@@ -143,7 +143,7 @@
                           <v-col cols="10" sm="8" lg="4">
                               <v-text-field       
                                   v-model="bankAccountData.checkNumber"                 
-                                  label="Account checking number*"
+                                  :label="texts.accountCheckNumberLabel"
                                   outlined                        
                                   :disabled="loading"
                                   :rules="[rules.required, rules.minCheckNumberLength, rules.maxCheckNumberLength]"
@@ -156,20 +156,20 @@
                     <v-row
                         align="center"
                         justify="center">
-                        <v-checkbox v-model="bankAccountData.isPrimary" class="mx-2 noMarginTop" label="Set account as primary"></v-checkbox>
+                        <v-checkbox v-model="bankAccountData.isPrimary" class="mx-2 noMarginTop" :label="texts.setAccountPrimayLabel"></v-checkbox>
                     </v-row>
                     <v-btn
                       color="primary"
                       @click="checkData"
                     >
-                      Save Bank Account
+                      {{texts.saveBankAccountLabel}}
                     </v-btn>
 
                     <v-btn 
                         text
                         @click="gotoHome"
                     >
-                        Cancel
+                        {{texts.cancelLabel}}
                     </v-btn>
                   </div>
                 </v-stepper-content>
@@ -177,7 +177,7 @@
                 <v-stepper-content step="2">
                   <div class="text-center">
                     <v-icon color="#119FF5" class="bankIcon">mdi-shield-check-outline</v-icon>
-                    <h1 class="bottomSeparation subtittle">You've entered</h1>
+                    <h1 class="bottomSeparation subtittle">{{texts.youEnteredLabel}}</h1>
                     <v-card
                       class="mx-auto bottomSeparation"
                       max-width="500"
@@ -186,31 +186,31 @@
                         <v-list-item-group>
                             <v-list-item>                            
                                 <v-list-item-content>
-                                    <v-list-item-title>Bank: <b>{{bankAccountData.bank}}</b></v-list-item-title>
+                                    <v-list-item-title>{{texts.bankLabel}}: <b>{{bankAccountData.bank}}</b></v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
 
                             <v-list-item>                            
                                 <v-list-item-content>
-                                    <v-list-item-title>Account Number: <b>{{bankAccountData.accountNumber}}</b></v-list-item-title>
+                                    <v-list-item-title>{{texts.accountNumberLabel}}: <b>{{bankAccountData.accountNumber}}</b></v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
 
                             <v-list-item>                            
                                 <v-list-item-content>
-                                    <v-list-item-title>Routing Number: <b>{{bankAccountData.routingNumber}}</b></v-list-item-title>
+                                    <v-list-item-title>{{texts.routingNumberLabel}}: <b>{{bankAccountData.routingNumber}}</b></v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
 
                             <v-list-item>                            
                                 <v-list-item-content>
-                                    <v-list-item-title>Check Number: <b>{{bankAccountData.checkNumber}}</b></v-list-item-title>
+                                    <v-list-item-title>{{texts.checkNumberLabel}}: <b>{{bankAccountData.checkNumber}}</b></v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
 
                             <v-list-item>                            
                                 <v-list-item-content>
-                                    <v-list-item-title>Set as primary: <b>{{bankAccountData.isPrimary}}</b></v-list-item-title>
+                                    <v-list-item-title>{{texts.setAsPrimaryLabel}}: <b>{{bankAccountData.isPrimary}}</b></v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>                  
                         </v-list-item-group>
@@ -223,28 +223,26 @@
                       :disabled="loading"
                       :loading="loading"
                     >
-                      Confirm
+                      {{texts.confirmLabel}}
                     </v-btn>
 
                     <v-btn 
                       text
                       @click="step = 1"
                       :disabled="loading"
-                    >Back</v-btn>
+                    >{{texts.backLabel}}</v-btn>
                   </div>
                 </v-stepper-content>
 
                 <v-stepper-content step="3">                                    
                   <div class="text-center">
                     <v-icon color="#119FF5" class="bankIcon">mdi-thought-bubble</v-icon>
-                    <h1 class="bottomSeparation subtittle">How can I verify my Bank Account?</h1>
+                    <h1 class="bottomSeparation subtittle">{{texts.howIVerifyBankAccountLabel}}</h1>
                   
-                    <p>Your bank account has been successfully registered, but it currently has a status of "<span style="color: red">Unverified</span>", which means, you can't use it for any transaction inside our platform.</p>
-                    <p>In order to change the bank account status to "Verified", we've made 2 small deposits to that bank account so you can do the account validation. To validate the account, you must fill the
-                        corresponding <a @click="gotoValidationForm">form</a> with the exact amount of both deposits. If the information provided corresponds with the ones we have, then the Bank Account will
-                        now have a status of "Verified" which means, now is able for being use for any transaction inside our platform.
+                    <p>{{texts.createdMessagePart1}} "<span style="color: red">{{texts.unverifiedLabel}}</span>", {{texts.createdMessagePart2}}.</p>
+                    <p>{{texts.createdMessagePart3}}<a @click="gotoValidationForm">{{texts.formLabel}}</a> {{texts.createdMessagePart4}}.
                     </p>
-                    <p>Thanks for trusting us!</p>
+                    <p>{{texts.thanksLabel}}</p>
                     <v-btn
                       color="primary"
                       @click="gotoHome"
@@ -274,6 +272,7 @@ import Navbar from '@/components/navbar/Navbar.vue';
 // Services
 import bankService from '@/services/bank/bankService';
 import bankAccountService from '@/services/bankAccount/bankAccountService';
+import internationalizationService from '@/services/internationalization/internationalizationService';
 
 @Component({
     components: {
@@ -308,7 +307,38 @@ export default class BankAccountRegistration extends Vue{
         routingNumber: '',
         checkNumber: '',
         isPrimary: false
-    }        
+    }     
+    
+    textsTranslated: any = null;
+    texts = {
+        enterInformationLabel: "Enter information",
+        confirmDataLabel: "Confirm data",
+        verifyBankAccountLabel: "Verify Bank Account",
+        bankAccountRegistrationLabel: "Bank Account Registration",
+        bankLabel: "Bank",
+        accountHolderName: "Account holder name",
+        accountNumberLabel: "Account Number",
+        accountRoutingNumberLabel: "Account Routing Number",
+        accountCheckNumberLabel: "Account checking number",
+        setAccountPrimayLabel: "Set account as primary",
+        saveBankAccountLabel: "Save Bank Account",
+        cancelLabel: "Cancel",
+        youEnteredLabel: "You've entered",
+        routingNumberLabel: "Routing Number",
+        checkNumberLabel: "Check Number",
+        setAsPrimaryLabel: "Set as primary",
+        confirmLabel: "Confirm",
+        backLabel: "Back",
+        howIVerifyBankAccountLabel: "How can I verify my Bank Account?",
+        createdMessagePart1: "Your bank account has been successfully registered, but it currently has a status of",
+        unverifiedLabel: "Unverified",
+        createdMessagePart2: "which means, you can't use it for any transaction inside our platform",
+        createdMessagePart3: "In order to change the bank account status to \"Verified\", we've made 2 small deposits to that bank account so you can do the account validation. To validate the account, you must fill the corresponding ",
+        formLabel: "form",
+        createdMessagePart4: "with the exact amount of both deposits. If the information provided corresponds with the ones we have, then the Bank Account will now have a status of \"Verified\" which means, now is able for being use for any transaction inside our platform",
+        thanksLabel: "Thanks for trusting us!",
+        gotItLabel: "Got it!"
+    }
 
     rules = {
         required: (value: any) => !!value || 'Required.',
@@ -320,13 +350,66 @@ export default class BankAccountRegistration extends Vue{
         maxCheckNumberLength: (value: string) => value.length < 5 || 'Check number must be at maximum 4 char length.'
     }
 
-    mounted(){
+    mounted(){        
         this.userData = this.getUserData;
-        console.log("user data is: ", this.userData);
-        this.bankAccountData.userID = this.userData.userID;
-        this.bankAccountData.customer = this.userData.stripe_id;
-        this.bankAccountData.customerConnectAccount = this.userData.stripe_connect_id;
-        this.getAllBanks();
+
+        if(this.userData.userID === undefined){
+          const user = localStorage.getItem('userData');
+          if(user){
+            this.userData = JSON.parse(user);
+            this.obtainTerms();
+          }
+          else {
+            this.$router.push({ name: 'home' }).catch((error) => {
+                console.log(error);
+            });      
+          }      
+        }
+        else {
+            this.bankAccountData.userID = this.userData.userID;
+            this.bankAccountData.customer = this.userData.stripe_id;
+            this.bankAccountData.customerConnectAccount = this.userData.stripe_connect_id;
+            this.getAllBanks();
+            this.obtainTerms();
+        }
+        this.checkLanguage();                
+    }
+
+    obtainTerms(){
+      const terms = localStorage.getItem('termsTranslated');
+      if(terms){
+        try{
+            this.textsTranslated = JSON.parse(terms);
+        }catch(e){
+            localStorage.removeItem('terms');
+        }
+      }
+    }
+
+    checkLanguage(){
+      if(this.userData.preferredLanguage !== 'en-us'){
+        this.getTranslations(this.userData.preferredLanguage);
+        if(this.textsTranslated){
+            this.texts = internationalizationService.bankAccountRegistration.translate(this.textsTranslated, this.texts);
+        }
+      }
+      else {
+        this.texts = internationalizationService.bankAccountRegistration.assignDefaultLabels();
+      }      
+    }
+
+    async getTranslations(language: string){        
+      try {
+        const translations = await internationalizationService.getTermsTranslations(language);        
+        if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+            this.textsTranslated = translations.data;
+            this.texts = internationalizationService.bankAccountRegistration.translate(this.textsTranslated, this.texts);
+            const parsedTerms = JSON.stringify(this.textsTranslated);
+            localStorage.setItem('termsTranslated', parsedTerms);
+        } 
+      } catch (error) {
+        console.log(error);
+      }         
     }
 
     get getUserData() {

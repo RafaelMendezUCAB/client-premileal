@@ -1,7 +1,7 @@
 <template>
     <v-app light>
         <div>
-          <Navbar></Navbar>
+          <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>
             <v-row
@@ -10,7 +10,7 @@
             >
                 <v-col cols="12">
                     <div class="text-center">
-                        <h1 class="mainTittle">BANK ACCOUNT VERIFICATION</h1>
+                        <h1 class="mainTittle">{{texts.bankAccountVerificationLabel}}</h1>
                     </div>
                 </v-col>
             </v-row>
@@ -24,7 +24,7 @@
                             class="rowBottomMargin"
                         >
                             <v-col>
-                                <h1 class="subtittle bottomMargin">Bank Account Information</h1>
+                                <h1 class="subtittle bottomMargin">{{texts.bankAccountInformation}}</h1>
 
                                 <v-row
                                     align="center"
@@ -41,13 +41,13 @@
                                           ></v-img>                                  
 
                                           <v-card-text>                                    
-                                            <p>Bank: <b>{{bankAccount.bank}}</b></p>  
-                                            <p>Holder Name: <b>{{bankAccount.holderName}}</b></p>
-                                            <p>Bank Account Number: <b>{{bankAccount.accountNumber}}</b></p>  
-                                            <p>Bank Account Routing Number: <b>{{bankAccount.routingNumber}}</b></p>  
-                                            <p>Bank Account Checking Number: <b>{{bankAccount.checkNumber}}</b></p>  
-                                            <p v-if="bankAccount.status === 'unverified'">Bank Account Status: <b style="color: red;">Unverified</b></p>  
-                                            <p v-if="bankAccount.status === 'verified'">Bank Account Status: <b style="color: green;">Verified</b></p>                             
+                                            <p>{{texts.bankLabel}}: <b>{{bankAccount.bank}}</b></p>  
+                                            <p>{{texts.accountHolderName}}: <b>{{bankAccount.holderName}}</b></p>
+                                            <p>{{texts.bankAccountNumberLabel}}: <b>{{bankAccount.accountNumber}}</b></p>  
+                                            <p>{{texts.bankAccountRoutingNumberLabel}}: <b>{{bankAccount.routingNumber}}</b></p>  
+                                            <p>{{texts.bankAccountCheckingNumberLabel}}: <b>{{bankAccount.checkNumber}}</b></p>  
+                                            <p v-if="bankAccount.status === 'unverified'">{{texts.bankAccountStatus}}: <b style="color: red;">Unverified</b></p>  
+                                            <p v-if="bankAccount.status === 'verified'">{{texts.bankAccountStatus}}: <b style="color: green;">Verified</b></p>                             
                                           </v-card-text>                                
                                         </v-card>
                                     </v-col>
@@ -66,7 +66,7 @@
                         >
                             
                             <v-col cols="11" lg="12" class="rightSeparationForTransactionInformation">
-                                <h1 class="subtittle bottomMargin">Insert Amounts Here</h1>
+                                <h1 class="subtittle bottomMargin">{{texts.insertAmountHere}}</h1>
                                 <v-card                                                                  
                                   class="mx-auto my-12"
                                   max-width="374"
@@ -80,7 +80,7 @@
                                             <v-col cols="6" lg="8">
                                                 <v-text-field
                                                     v-model="firstCharge"
-                                                    label="First Deposit"
+                                                    :label="texts.firstDepositLabel"
                                                     outlined
                                                     type="number"
                                                     class="marginFirstChargeForm"
@@ -98,7 +98,7 @@
                                             <v-col cols="6" lg="8">
                                                 <v-text-field
                                                     v-model="secondCharge"
-                                                    label="Second Deposit"
+                                                    :label="texts.secondDepositLabel"
                                                     outlined
                                                     :rules="[rules.required, rules.validNumber]"
                                                     v-on:keypress="restrictChars($event, secondCharge)"
@@ -111,7 +111,7 @@
                                             justify="center"
                                         >
                                             <v-col cols="12" lg="10" class="d-flex justify-center">
-                                                <v-checkbox class="text-center"  style="margin-top: -6%;" label="I didn't received any money"  v-model="notCharged"></v-checkbox>                                                
+                                                <v-checkbox class="text-center"  style="margin-top: -6%;" :label="texts.didntReceiveMoney"  v-model="notCharged"></v-checkbox>                                                
                                             </v-col>
                                         </v-row>
                                     </v-form>
@@ -121,7 +121,7 @@
                                       @click="verifyBankAccount"
                                       style="margin-bottom:10%"
                                     >
-                                      Verify Bank Account
+                                      {{texts.verifyBankAccountLabel}}
                                     </v-btn>
                                   
                                 </v-card>  
@@ -148,7 +148,7 @@
                                       ></v-progress-circular>                                                                        
 
                                       <v-card-text>
-                                        This could take some time. Please, be patient.
+                                        {{texts.bePatientLabel}}
                                       </v-card-text>                                       
                                     </v-card>
                                   
@@ -163,15 +163,15 @@
                                     >
                                       <v-list-item>
                                         <v-list-item-content>
-                                          <v-list-item-title class="headline">What now?</v-list-item-title>
+                                          <v-list-item-title class="headline">{{texts.whatNowLabel}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
 
                                       <v-card-text>
-                                        As you didn't received money, you have 2 options:
+                                        {{texts.youHaveTwoOptionsLabel}}:
                                         <ol>
-                                            <br/><li>You can notify us about the issue, so we get it touch with you ass soon as we can.</li><br/>
-                                            <li>Wait more time just to make sure money will never get to you bank account.</li>
+                                            <br/><li>{{texts.notifyUsOptionLabel}}.</li><br/>
+                                            <li>{{texts.waitMoreTimeLabel}}.</li>
                                         </ol>
                                       </v-card-text>   
 
@@ -180,7 +180,7 @@
                                           @click="userWasntCharged = false"
                                           style="margin-bottom: 2%; margin-right: 1%"
                                         >
-                                          Cancel
+                                          {{texts.cancelLabel}}
                                       </v-btn> 
 
                                       <v-btn
@@ -188,7 +188,7 @@
                                           @click="notifyPremileal"
                                           style="margin-bottom: 2%"
                                         >
-                                          Notify us
+                                          {{texts.notifyUsLabel}}
                                       </v-btn>                                                                                                                                                   
                                     </v-card>                                  
                                 </v-overlay>
@@ -227,11 +227,11 @@
                                     >
                                       <v-list-item>
                                         <v-list-item-content>
-                                          <v-list-item-title class="headline">Bank Account already verified!</v-list-item-title>
+                                          <v-list-item-title class="headline">{{texts.bankAccountAlreadyVerified}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
                                       <v-card-text>
-                                        <span>There's no need to verify the bank account if it's already verified.</span>
+                                        <span>{{texts.noNeedToVerifyLabel}}.</span>
                                       </v-card-text>                                                                          
                                       <v-btn
                                           color="success"
@@ -252,11 +252,11 @@
                                     >
                                       <v-list-item>
                                         <v-list-item-content>
-                                          <v-list-item-title class="headline">Bank Account successfully verified!</v-list-item-title>
+                                          <v-list-item-title class="headline">{{texts.bankAccountSuccessfullyVerifiedLabel}}</v-list-item-title>
                                         </v-list-item-content>
                                       </v-list-item>                                                                                                               
                                       <v-card-text>
-                                        <span>Now you can use you bank account to buy points and retire money.</span>
+                                        <span>{{texts.bankAccountVerifiedBenefits}}.</span>
                                       </v-card-text>                                                                          
                                       <v-btn
                                           color="success"
@@ -281,13 +281,13 @@
                         >
                             <v-col cols="10" lg="12" class="bordered rightSeparationForGuide">
                                 <h1 style="margin-bottom:5%" class="subtittle">Instructions</h1>
-                                <h3>Step 1</h3><p>You must go to you bank account and see your balance. Two deposits made from Premileal must appear, you must take note of both amounts.</p>
-                                <h3>Step 2</h3><p>Insert each deposit on each input and then click on verify. If amounts appear not to be correct, switch both and try again. You will only have 3 tries.</p>
-                                <h3>Step 3</h3><p>If both amounts are correct, then, the bank account status will change to <span style="color:green">"Verified"</span> and you'll also be able to see it change on the left card shown.</p>
-                                <h3 style="margin-top: 8%; margin-bottom: 2%;">Important!</h3>                                
-                                <p>Insert the exact amount including decimals. Ex: 0.75</p>
-                                <p>Remember deposits could take days to appear in your bank account balance. Be patient.</p>
-                                <p>If you mark that you didn't received money, then you could notify us and we will get it touch with you as soon as we can. Make sure the transaction didn't take place.</p>
+                                <h3>{{texts.step1Label}}</h3><p>{{texts.step1DescriptionLabel}}.</p>
+                                <h3>{{texts.step2Label}}</h3><p>{{texts.step2DescriptionLabel}}.</p>
+                                <h3>{{texts.step3Label}}</h3><p>{{texts.step3DescriptionLabelPar1}} <span style="color:green">"{{texts.verifiedLabel}}"</span> {{texts.step3DescriptionLabelPar2}}.</p>
+                                <h3 style="margin-top: 8%; margin-bottom: 2%;">{{texts.importantLabel}}</h3>                                
+                                <p>{{texts.exactAmountLabel}}</p>
+                                <p>{{texts.depositsDelayLabel}}.</p>
+                                <p>{{texts.makeSureNoDepositsLabel}}.</p>
                             </v-col>
                         </v-row>
                     </div>
@@ -303,6 +303,7 @@ import { Prop, Vue } from 'vue-property-decorator'
 import Component from "vue-class-component";
 
 import bankAccountService from '@/services/bankAccount/bankAccountService';
+    import internationalizationService from '@/services/internationalization/internationalizationService';
 
 import Footer from '@/components/footer/Footer.vue';
 import Navbar from '@/components/navbar/Navbar.vue';
@@ -335,18 +336,108 @@ export default class BankAccountVerification extends Vue{
     errorDescription = '';
     error = false;
 
-    userData: any = null;
-    /*bankAccount: any = {
-        status: 'Verified'
-    };*/
+    userData: any = null;    
 
     serverResponse: any = null;
 
-    bankAccount: any = null
+    bankAccount: any = null;
+
+    textsTranslated: any = null;
+    texts = {
+      bankAccountVerificationLabel: "BANK ACCOUNT VERIFICATION",
+      bankAccountInformation: "Bank Account Information",
+      bankLabel: "Bank",
+      accountHolderName: "Holder Name",
+      bankAccountNumberLabel: "Bank Account Number",
+      bankAccountRoutingNumberLabel: "Bank Account Routing Number",
+      bankAccountCheckingNumberLabel: "Bank Account Checking Number",
+      bankAccountStatus: "Bank Account Status",
+      insertAmountHere: "Insert Amounts Here",
+      firstDepositLabel: "First Deposit",
+      secondDepositLabel: "Second Deposit",
+      didntReceiveMoney: "I didn't received any money",
+      verifyBankAccountLabel: "Verify Bank Account",
+      bePatientLabel: "This could take some time. Please, be patient.",
+      whatNowLabel: "What now?",
+      youHaveTwoOptionsLabel: "As you didn't received money, you have 2 options",
+      notifyUsOptionLabel: "You can notify us about the issue, so we get it touch with you ass soon as we can",
+      waitMoreTimeLabel: "Wait more time just to make sure money will never get to you bank account",
+      cancelLabel: "Cancel",
+      notifyUsLabel: "Notify us",
+      bankAccountAlreadyVerified: "Bank Account already verified!",
+      noNeedToVerifyLabel: "There's no need to verify the bank account if it's already verified",
+      bankAccountSuccessfullyVerifiedLabel: "Bank Account successfully verified!",
+      bankAccountVerifiedBenefits: "Now you can use you bank account to buy points and retire money",
+      step1Label: "Step 1",
+      step1DescriptionLabel: "You must go to you bank account and see your balance. Two deposits made from Premileal must appear, you must take note of both amounts",
+      step2Label: "Step 2",
+      step2DescriptionLabel: "Insert each deposit on each input and then click on verify. If amounts appear not to be correct, switch both and try again. You will only have 3 tries",
+      step3Label: "Step 3",
+      step3DescriptionLabelPar1: "If both amounts are correct, then, the bank account status will change to",
+      verifiedLabel: "Verified",
+      step3DescriptionLabelPar2: "and you'll also be able to see it change on the left card shown",
+      importantLabel: "Important!",
+      exactAmountLabel: "Insert the exact amount including decimals. Ex: 0.75",
+      depositsDelayLabel: "Remember deposits could take days to appear in your bank account balance. Be patient",
+      makeSureNoDepositsLabel: "If you mark that you didn't received money, then you could notify us and we will get it touch with you as soon as we can. Make sure the transaction didn't take place"
+    }
 
     mounted(){
         this.userData = this.getUserData;
-        this.bankAccount = this.getBankAccountData;
+        if(this.userData.userID === undefined){
+          const user = localStorage.getItem('userData');
+          if(user){
+            this.userData = JSON.parse(user);
+            this.obtainTerms();
+          }
+          else {
+            this.$router.push({ name: 'home' }).catch((error) => {
+                console.log(error);
+            });      
+          }      
+        }
+        else {
+            this.bankAccount = this.getBankAccountData;
+            this.obtainTerms();
+        }
+        this.checkLanguage();        
+    }
+
+    obtainTerms(){
+      const terms = localStorage.getItem('termsTranslated');
+      if(terms){
+        try{
+            this.textsTranslated = JSON.parse(terms);
+        }catch(e){
+            localStorage.removeItem('terms');
+        }
+      }
+    }
+
+    checkLanguage(){
+      if(this.userData.preferredLanguage !== 'en-us'){
+        this.getTranslations(this.userData.preferredLanguage);
+        if(this.textsTranslated){
+            this.texts = internationalizationService.bankAccountVerification.translate(this.textsTranslated, this.texts);
+        }
+      }
+      else {
+        this.texts = internationalizationService.bankAccountVerification.assignDefaultLabels();
+      }      
+    }
+
+    async getTranslations(language: string){        
+      try {
+        const translations = await internationalizationService.getTermsTranslations(language);        
+        if(internationalizationService.newTerms(this.textsTranslated, translations.data)){
+            this.textsTranslated = translations.data;
+            this.texts = internationalizationService.bankAccountVerification.translate(this.textsTranslated, this.texts);
+            const parsedTerms = JSON.stringify(this.textsTranslated);
+            localStorage.setItem('termsTranslated', parsedTerms);
+        } 
+      } catch (error) {
+        console.log(error);
+      }         
     }
 
     get getBankAccountData() {
@@ -354,7 +445,7 @@ export default class BankAccountVerification extends Vue{
     }
 
     get getUserData() {
-        return this.$store.getters["user/getUserData"];
+      return this.$store.getters["user/getUserData"];
     }
 
     rules = {

@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <div>
-          <Navbar></Navbar>
+          <Navbar :userData="userData"></Navbar>
         </div>
         <v-content>
             <v-row
@@ -10,7 +10,7 @@
             >
                 <v-col cols="12">
                     <div class="text-center">
-                        <h1 class="mainTittle">Suscription payment</h1>                                                                      
+                        <h1 class="mainTittle">Subscription payment</h1>                                                                      
                     </div>
                 </v-col>
             </v-row>      
@@ -146,11 +146,11 @@
                             
                             <v-col cols="10" lg="12" class="bordered rightSeparationForGuide">
                                 <h1 class="text-center subtittle" style="margin-bottom: 5%">How it works?</h1>
-                                <p>The following applies when buying products: </p>
+                                <p>The following applies when acquiring a Premium subscription: </p>
                                 <ul>
                                     <li>When acquiring a suscription, a service commission is aggregated to the cost.</li>
-                                    <li>Suscripton won't be active instantly in your account.</li>
-                                    <li>Suscriptions courld take from 1 to 2 days to be active in your account.</li>
+                                    <li>Subscription won't be active instantly in your account.</li>
+                                    <li>Subscriptions could take from 1 to 2 days to be active in your account.</li>
                                     <li>You'll receive an email with the payments especifications.</li>
                                     <li>You'll receive an email when the transaction has been successfully proccessed.</li>
                                 </ul>  
@@ -182,12 +182,7 @@ import Navbar from '@/components/navbar/Navbar.vue';
 })
 export default class PremiumSuscriptionPurchase extends Vue{
     
-    icons = [
-        'facebook',
-        'twitter',        
-        'instagram',
-        'youtube',
-    ];
+    userData: any = null;    
 
     items = [
         'Citibank',
@@ -216,8 +211,13 @@ export default class PremiumSuscriptionPurchase extends Vue{
     }
 
     mounted(){
+        this.userData = this.getUserData;
         this.transactionInformation.totalCommision = Math.round(((this.transactionInformation.amount * this.transactionInformation.serviceCommision / 100) + this.transactionInformation.stripeCommision) * 100.0) / 100.0
         this.transactionInformation.total = Math.round((this.transactionInformation.amount + (this.transactionInformation.amount * this.transactionInformation.serviceCommision / 100) + this.transactionInformation.stripeCommision) * 100.0) /100.0;
+    }
+
+    get getUserData() {
+      return this.$store.getters["user/getUserData"];
     }
 
     @Watch('transactionInformation.points')

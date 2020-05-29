@@ -14,6 +14,8 @@ import paymentHistory from './user/history/payment/paymentHistoryTranslations';
 import withdrawalHistory from './user/history/withdrawal/withdrawalHistoryTranslations';
 import userProfile from './user/profile/userProfileTranslations';
 import userProfileSettings from './user/profile/settings/userProfileSettingsTranslations';
+import navBar from './components/navbar/navbarTranslations';
+import footer from './components/footer/footerTranslations';
 
 export default {
 
@@ -31,10 +33,24 @@ export default {
   withdrawalHistory,
   userProfile,
   userProfileSettings,
+  navBar,
+  footer,
 
   /* ---------------------- METHODS -------------------------- */
   getTermsTranslations(lang: string) {
       return api.internationalization.getTermsTranslations(lang);
   },
+
+  newTerms(currentsTerms: any, allTerms: any){
+    if(!currentsTerms){
+      return true;
+    }
+    allTerms.forEach((term: any) => {
+        if(!currentsTerms.indexOf(term)){
+            return true;
+        }
+    });
+    return false;
+  }
   
 };

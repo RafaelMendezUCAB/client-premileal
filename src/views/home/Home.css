@@ -41,11 +41,10 @@
 
 .miniCard2{
   font-weight: 450;
-  padding-top: 18px;
-  /* margin-top: 4px; */
+  padding-top: 18px;  
   color: white ;
   background-color:#1E88E5 ;
-  font-size: 48px;
+  font-size: 40px;
 }
 
 .titleTable{
@@ -229,6 +228,10 @@
 
   .rightSeparationForTransactionInformation{
       margin-right: 25%;
+  }
+
+  .joinLabel{
+    padding-bottom: 1%;
   }
   
 }
